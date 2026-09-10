@@ -7,4 +7,4 @@ windows:
     focus: true
   - window_name: "shell-prompt"
   - window_name: "coding-agent"
-    shell_command_before: pi
+    shell_command_before: opencode
