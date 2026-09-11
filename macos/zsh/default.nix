@@ -3,5 +3,6 @@
   programs.zsh.shellAliases = {
     nix_switch = "sudo darwin-rebuild switch --flake ~/PDE#macbook";
     nh_switch = "nh darwin switch";
+    refresh_wifi = "networksetup -setairportpower en0 off && networksetup -setairportpower en0 on";
   };
 }
