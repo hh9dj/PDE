@@ -10,6 +10,7 @@
 
     };
   };
+  home.file.".agents/skills/rtfm".source = ../../.agents/skills/rtfm;
   programs.opencode = {
     enable = true;
   };

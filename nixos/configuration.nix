@@ -21,6 +21,7 @@
 
   programs = {
     hyprland.enable = true;
+    nix-ld.enable = true;
     localsend.enable = true;
     zsh.enable = true;
   };
