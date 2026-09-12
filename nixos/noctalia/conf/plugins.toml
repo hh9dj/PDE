@@ -4,7 +4,6 @@ enabled = [
   "k4n4t4/hypr-submap",
   "thepunkoff/pomodoro",
 ]
-auto_update = false
 
 
 [plugin_settings."thepunkoff/pomodoro"]

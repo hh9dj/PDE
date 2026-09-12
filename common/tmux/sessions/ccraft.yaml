@@ -9,3 +9,5 @@ windows:
   - window_name: "shell"
   - window_name: "AI"
     shell_command_before: opencode
+  - window_name: "docs"
+    shell_command_before: just docs
