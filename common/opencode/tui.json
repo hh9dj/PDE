@@ -5,7 +5,7 @@
     "keybinds": {
         "leader": "ctrl+s",
         "app_exit": "ctrl+c,ctrl+d,<leader>q",
-        "command_list": "ctrl+p",
+        "command_list": "<leader>d",
         "editor_open": "<leader>e",
         "sidebar_toggle": "<leader>b",
         "scrollbar_toggle": "none",
@@ -19,6 +19,7 @@
         "messages_page_up": "pageup,ctrl+alt+b",
         "messages_page_down": "pagedown,ctrl+alt+f",
         "messages_copy": "<leader>y",
+        "session_copy": "<leader>s",
         "input_newline": "shift+return"
     }
 }
