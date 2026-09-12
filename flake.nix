@@ -43,6 +43,7 @@
           default = pkgs.mkShell {
             packages = with pkgs; [
               yq-go
+              bun
             ];
             shellHook = ''
               export PATH="$PWD/common/git:$PATH"
