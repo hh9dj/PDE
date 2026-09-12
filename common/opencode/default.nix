@@ -7,10 +7,9 @@
       "opencode/tui.json".source = ./tui.json;
       "opencode/opencode.json".source = ./opencode.json;
       "opencode/plugins".source = ./plugins;
-
+      "opencode/skills".source = ./skills;
     };
   };
-  home.file.".agents/skills/rtfm".source = ../../.agents/skills/rtfm;
   programs.opencode = {
     enable = true;
   };
