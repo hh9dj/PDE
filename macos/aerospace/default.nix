@@ -128,6 +128,7 @@
 
           # Launch apps (new window via -n flag)
           alt-space = "exec-and-forget open -n -b com.mitchellh.ghostty";
+          alt-e = "exec-and-forget open -na Ghostty --args -e ${lib.getExe config.programs.yazi.package}";
           alt-shift-s = "exec-and-forget open -b com.apple.systempreferences";
           alt-b = "exec-and-forget open -n -b com.brave.Browser";
 
