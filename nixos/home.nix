@@ -71,6 +71,7 @@
           tree
           vial
           wl-clipboard
+          blanket
         ];
         stateVersion = "26.05";
         username = "khalil";

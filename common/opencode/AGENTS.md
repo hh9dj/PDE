@@ -52,3 +52,9 @@ Resume after clear part. Example:
 ### Boundaries
 
 Outside chat (code, comments, commits, docs, issues/PRs, memory, third-party messages): normal prose. "stop caveman" or "normal mode": revert until next session.
+
+## Running Bash Commands
+
+### Rules
+
+- Always prepend bash commands with 60 second timeout command to avoid halting commands blocking the agent
