@@ -1,6 +1,5 @@
 # Agent rules
 
-- Manual steps should be documented in the readme files
 - Prefer light weight, free, open source and simple tools.
 - Eye candy is to be avoided, only add it if requested
 - Stability+reproducibility is king
