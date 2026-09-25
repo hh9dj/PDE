@@ -19,6 +19,11 @@ in
       deno
       gcc
       gnumake
+      go
+      gofumpt
+      golines
+      gopls
+      gotools
       marksman
       harper
       typescript-go
