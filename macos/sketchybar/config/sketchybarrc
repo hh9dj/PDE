@@ -65,7 +65,6 @@ sketchybar --add item front_app left \
     label.color=$BLACK \
     label.padding_left=9 \
     label.padding_right=9 \
-    update_freq=3 \
     script="$PLUGIN_DIR/front_app.sh" \
     --subscribe front_app front_app_switched
 
@@ -216,13 +215,13 @@ sketchybar --add bracket right.bubble cpu right.sep.4 settings mem battery right
     background.padding_right=9
 
 sketchybar --update
-INFO=$(osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true') NAME=front_app $PLUGIN_DIR/front_app.sh
 sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="$(aerospace list-workspaces --focused 2>/dev/null)"
 NAME=clock $PLUGIN_DIR/clock.sh
 NAME=cpu $PLUGIN_DIR/cpu.sh
 NAME=mem $PLUGIN_DIR/mem.sh
 NAME=battery $PLUGIN_DIR/battery.sh
 NAME=bluetooth $PLUGIN_DIR/bluetooth.sh
-INFO="" NAME=wifi $PLUGIN_DIR/wifi.sh
+NAME=wifi $PLUGIN_DIR/wifi.sh
 NAME=volume $PLUGIN_DIR/volume.sh
 NAME=mic $PLUGIN_DIR/mic.sh
+NAME=front_app $PLUGIN_DIR/front_app.sh
