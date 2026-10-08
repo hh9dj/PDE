@@ -2,7 +2,7 @@
 {
   imports = [ ./hardware-configuration.nix ];
   # audio recording specialisation: nh_switch --specialisation=audio
-  specialisation.audio.configuration.imports = [ ./audio-station.nix ];
+  # specialisation.audio.configuration.imports = [ ./audio-station.nix ];
 
   nix = {
     settings = {

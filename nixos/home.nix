@@ -72,6 +72,7 @@
           vial
           wl-clipboard
           blanket
+          teleprompter
         ];
         stateVersion = "26.05";
         username = "khalil";
