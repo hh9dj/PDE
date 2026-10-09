@@ -1,6 +1,7 @@
 session_name: zmk
 suppress_history: true
 start_directory: ~/projects/zmk-config/
+before_script: ~/.config/tmux/scripts/direnv_prewarm
 repo: hh9dj:zmk-config
 windows:
   - window_name: "src"

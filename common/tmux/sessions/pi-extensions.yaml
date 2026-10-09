@@ -1,6 +1,7 @@
 session_name: Pi Extensions
 suppress_history: true
 start_directory: ~/projects/pi-agent-extensions/
+before_script: ~/.config/tmux/scripts/direnv_prewarm
 repo: hh9dj:pi-agent-extensions
 windows:
   - window_name: "editor"

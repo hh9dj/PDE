@@ -1,6 +1,7 @@
 session_name: Exercism
 suppress_history: true
 start_directory: ~/projects/exercism/
+before_script: ~/.config/tmux/scripts/direnv_prewarm
 repo: hh9dj/exercism.git
 windows:
   - window_name: "src"

@@ -1,6 +1,7 @@
 session_name: Notes
 suppress_history: true
 start_directory: ~/projects/secondBrain/
+before_script: ~/.config/tmux/scripts/direnv_prewarm
 repo: hh9dj:secondBrain
 windows:
   - window_name: "src"

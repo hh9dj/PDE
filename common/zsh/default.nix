@@ -84,7 +84,7 @@
       nvim_shada_clear = "rm ~/.local/state/nvim/shada/main.shada";
       hd = "hunk diff";
       nix_switch = lib.mkDefault "sudo nixos-rebuild switch --flake ~/PDE#nixos";
-      nh_clean = "nh clean all --keep 3";
+      nh_clean = "nh clean all --keep 3 --keep-one";
       nh_switch = lib.mkDefault "nh os switch --accept-flake-config";
     };
 

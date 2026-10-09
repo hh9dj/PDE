@@ -19,6 +19,10 @@
       source = ./scripts/floating-pane;
       executable = true;
     };
+    "tmux/scripts/direnv_prewarm" = {
+      source = ./scripts/direnv_prewarm;
+      executable = true;
+    };
   };
 
   xdg.configFile."tmuxp".source = ./sessions;

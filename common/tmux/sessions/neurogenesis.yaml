@@ -1,6 +1,7 @@
 session_name: neurogenesis
 suppress_history: true
 start_directory: ~/projects/neurogenesis/
+before_script: ~/.config/tmux/scripts/direnv_prewarm
 windows:
   - window_name: "src"
     shell_command_before: nvim

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Prewarm the direnv environment of tmuxp's session-level start_directory before
+# the session's windows are created, so their direnv shell hooks reuse the warm
+# cache instead of fetching the same dev shell dependencies concurrently.
+#
+# tmuxp runs before_script with cwd set to the session-level start_directory
+# (since tmuxp 1.3.4) and aborts the whole session load if this script exits
+# non-zero, so it must always succeed and quietly do nothing when there is
+# nothing to prewarm.
+if [ ! -f .envrc ] || ! command -v direnv >/dev/null 2>&1; then
+    exit 0
+fi
+
+direnv exec . true >/dev/null 2>&1 || true
