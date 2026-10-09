@@ -1,17 +1,31 @@
-# Agent rules
+# Agent Rules
 
-- Prefer light weight, free, open source and simple tools.
-- Eye candy is to be avoided, only add it if requested
-- Stability+reproducibility is king
-- Arch linux is configured using stow for dotfiles + a shell script
-- Macos: using Nix (Lix) + Nix-darwin
-- Never run `nh os switch`, `nixos-rebuild`, or any config apply yourself; the user applies changes manually.
-- only do simple test no compilcated evaluations and tests
-- Never stage or commit or edit git history
+## Principles & Tooling
 
-## Nix config checks (read-only, never apply)
+- **Tooling Preferences**: Prioritize lightweight, free, open-source, and simple tools.
+- **Design Philosophy**: Avoid visual embellishments ("eye candy") unless explicitly requested.
+- **Core Priority**: Prioritize stability and reproducibility above all else.
 
-Run after editing nix config. Evaluation only: no builds, no switch, no store changes.
+## Operating Environments
 
-- `nix flake check --no-build` — flake sanity + full NixOS eval (forces `nixosConfigurations.*.config.system.build.toplevel`, incl. home-manager). Does NOT check `darwinConfigurations` (Nix whitelists it as "known but unchecked").
-- `nix eval --raw .#darwinConfigurations.macbook.system.outPath` — deep-evaluates the macOS config (forces the darwin toplevel incl. home-manager). Prints a store path on success.
+- **NixOS**: Managed via Nix + Home Manager + per-project dev shells.
+- **macOS**: Managed via Nix (Lix) + nix-darwin + Home Manager.
+
+## Source Control
+
+- **Git Restrictions**: Never stage, commit, or modify git history.
+
+## Execution Rules
+
+- **No System Updates**: Never execute `nh os switch`, `nixos-rebuild`, or any configuration application commands. All system changes are applied manually by the user.
+- **Testing**: Keep evaluations and tests simple and lightweight.
+
+## Nix Configuration Checks (Read-Only)
+
+Run these read-only evaluation checks after modifying Nix configurations. Do **not** build, switch, or modify the Nix store.
+
+- **Flake Check**:
+  ```bash
+  nix eval --raw .#nixosConfigurations.<hostname>.config.system.build.toplevel.drvPath
+  nix eval --raw .#darwinConfigurations.<hostname>.system.outPath
+  ```
