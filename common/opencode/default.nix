@@ -9,6 +9,7 @@
       "opencode/command".source = ./command;
       "opencode/plugins".source = ./plugins;
       "opencode/skills".source = ./skills;
+      "opencode/agents".source = ./agents;
     };
   };
   programs.opencode = {
