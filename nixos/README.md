@@ -4,46 +4,56 @@
 
 **Flakes** + **Home Manager** workstation configuration.
 
-## Manual Steps
+Disk layout is declared in [`disko.nix`](./disko.nix) so the config is
+disk-agnostic: fresh installs need no `nixos-generate-config` and no manual
+partitioning. The target disk is passed on the command line via `--disk main`.
 
-Add **flakes** + **nix-commands** experimental features into `/etc/nixos/configuration.nix`
+## Fresh Install (GUI-less USB)
 
-```nix
-  nix.settings.experimental-features = [ "flakes" "nix-command" ];
-```
-
-Add user password
+### Internet Access
 
 ```bash
-nixos-enter --root / -c 'passwd khalil'
+sudo nmtui
 ```
 
-Clone repo
+### Identify the target disk
 
 ```bash
-git clone https://github.com/hh9dj/PDE
+lsblk           # e.g. /dev/nvme0n1 or /dev/sda
 ```
 
-Copy hardware-config.nix
+### Install
+
+This **wipes the target disk**. Preview with `--dry-run` appended first. No
+cloning needed — the flake is fetched from GitHub. `--disk main <device>` maps
+whatever disk this machine has onto the `main` entry in `disko.nix`.
 
 ```bash
-sudo cp /etc/nixos/hardware-configuration.nix ~/PDE/nixos/
+sudo nix --experimental-features "nix-command flakes" run \
+  github:nix-community/disko/latest#disko-install -- \
+  --write-efi-boot-entries \
+  --flake github:hh9dj/PDE#nixos \
+  --disk main /dev/nvme0n1
 ```
 
-Apply configuration
+### Set User
+
+```bash
+sudo mount /dev/disk/by-partlabel/root /mnt
+sudo mount /dev/disk/by-partlabel/ESP /mnt/boot
+sudo nixos-enter --root /mnt -c 'passwd khalil'
+sudo umount -R /mnt
+sudo reboot
+```
+
+## Updating
+
+```bash
+nh os switch github:hh9dj/PDE#nixos
+```
+
+or
 
 ```bash
 sudo nixos-rebuild switch --flake ~/PDE#nixos
 ```
-
-## Layout
-
-The flake lives at the **repository root** (`~/PDE/flake.nix`) and builds both hosts:
-
-- `common/` — home-manager modules shared by all hosts (zsh, tmux, nvim, git, ...)
-- `nixos/` — NixOS host config + NixOS-only modules (hyprland, noctalia, ...)
-- `macos/` — macOS host config + macOS-only modules (aerospace, ...)
-
-Host-specific overrides of shared modules live next to the host config (e.g.
-`nixos/ghostty` adds ligature disabling, `macos/ghostty` overrides font size,
-window decoration and sets `package = null` since the app comes from homebrew).

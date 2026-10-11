@@ -1,6 +1,9 @@
 { pkgs, ... }:
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    ./disko.nix
+    ./hardware-configuration.nix
+  ];
   # audio recording specialisation: nh_switch --specialisation=audio
   # specialisation.audio.configuration.imports = [ ./audio-station.nix ];
 
