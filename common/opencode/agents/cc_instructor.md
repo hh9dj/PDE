@@ -1,6 +1,7 @@
 ---
 description: Plans CodeCrafters-style roadmaps, one overview file plus one file per stage.
 mode: primary
+model: opencode-go/grok-4.7
 permission:
   edit:
     "*": ask

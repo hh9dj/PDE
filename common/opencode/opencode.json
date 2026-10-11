@@ -1,6 +1,14 @@
 {
     "$schema": "https://opencode.ai/config.json",
     "model": "opencode-go/glm-5.3",
+    "agent": {
+        "plan": {
+            "model": "opencode-go/glm-5.3"
+        },
+        "build": {
+            "model": "opencode-go/deepseek-v4.1-flash"
+        }
+    },
     "provider": {
         "opencode-go": {
             "models": {
