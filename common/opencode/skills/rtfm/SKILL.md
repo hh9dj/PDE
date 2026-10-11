@@ -50,6 +50,7 @@ When looking for how to use a CLI / TUI use either its man pages or help option
 - https://github.com/starship/starship
 - https://github.com/alexpasmantier/television
 - https://wiki.nixos.org/wiki/NixOS_Wiki
+- https://nixos.org/manual/nixos/stable/
 - https://wiki.archlinux.org/title/Main_page
 - https://github.com/agentskills/agentskills
 - https://github.com/NixOS/nix.dev
