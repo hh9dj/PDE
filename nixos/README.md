@@ -1,6 +1,6 @@
 # NixOS
 
-> if Arch and Debian had a baby it would be called NixOS
+> If Arch and Debian had a baby it would be called NixOS
 
 **Flakes** + **Home Manager** workstation configuration.
 
@@ -8,7 +8,7 @@ Disk layout is declared in [`disko.nix`](./disko.nix) so the config is
 disk-agnostic: fresh installs need no `nixos-generate-config` and no manual
 partitioning. The target disk is passed on the command line via `--disk main`.
 
-## Fresh Install (GUI-less USB)
+## Minimal Install ISO
 
 ### Internet Access
 
@@ -16,7 +16,7 @@ partitioning. The target disk is passed on the command line via `--disk main`.
 sudo nmtui
 ```
 
-### Identify the target disk
+### Identify Disk
 
 ```bash
 lsblk           # e.g. /dev/nvme0n1 or /dev/sda
