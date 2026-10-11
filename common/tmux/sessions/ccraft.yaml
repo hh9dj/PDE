@@ -8,7 +8,7 @@ windows:
     shell_command_before: nvim
     focus: true
   - window_name: "shell"
-  - window_name: "AI"
+  - window_name: "coding-agent"
     shell_command_before: opencode
   - window_name: "docs"
     shell_command_before: just docs

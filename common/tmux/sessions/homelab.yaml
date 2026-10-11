@@ -9,5 +9,5 @@ windows:
   - window_name: "ssh"
     shell_command_before: ssh homelab
   - window_name: "shell"
-  - window_name: "AI"
+  - window_name: "coding-agent"
     shell_command_before: opencode
