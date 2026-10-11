@@ -10,6 +10,8 @@ partitioning. The target disk is passed on the command line via `--disk main`.
 
 ## Minimal Install ISO
 
+[NixOS ISO](https://nixos.org/download/#nixos-iso)
+
 ### Internet Access
 
 ```bash
