@@ -4,48 +4,46 @@
 
 **Flakes** + **Home Manager** workstation configuration.
 
-Disk layout is declared in [`disko.nix`](./disko.nix) so the config is
-disk-agnostic: fresh installs need no `nixos-generate-config` and no manual
-partitioning. The target disk is passed on the command line via `--disk main`.
-
 ## Minimal Install ISO
 
 [NixOS ISO](https://nixos.org/download/#nixos-iso)
 
-### Internet Access
+- Switch to root
 
 ```bash
-sudo nmtui
+sudo -i
 ```
 
-### Identify Disk
+- Internet Access
 
 ```bash
-lsblk           # e.g. /dev/nvme0n1 or /dev/sda
+nmtui
 ```
 
-### Install
+- Identify disk
 
-This **wipes the target disk**. Preview with `--dry-run` appended first. No
-cloning needed — the flake is fetched from GitHub. `--disk main <device>` maps
-whatever disk this machine has onto the `main` entry in `disko.nix`.
+```bash
+lsblk
+```
+
+- Install
 
 ```bash
 sudo nix --experimental-features "nix-command flakes" run \
   github:nix-community/disko/latest#disko-install -- \
   --write-efi-boot-entries \
   --flake github:hh9dj/PDE#nixos \
-  --disk main /dev/nvme0n1
+  --disk main /dev/<device>
 ```
 
-### Set User
+- Set user
 
 ```bash
-sudo mount /dev/disk/by-partlabel/root /mnt
-sudo mount /dev/disk/by-partlabel/ESP /mnt/boot
-sudo nixos-enter --root /mnt -c 'passwd khalil'
-sudo umount -R /mnt
-sudo reboot
+mount /dev/disk/by-partlabel/root /mnt
+mount /dev/disk/by-partlabel/ESP /mnt/boot
+nixos-enter --root /mnt -c 'passwd khalil'
+umount -R /mnt
+reboot
 ```
 
 ## Updating
