@@ -26,23 +26,30 @@ nmtui
 lsblk
 ```
 
-- Install
+- Format disk
 
 ```bash
 sudo nix --experimental-features "nix-command flakes" run \
-  github:nix-community/disko/latest#disko-install -- \
-  --write-efi-boot-entries \
+  github:nix-community/disko/latest -- \
+  --mode destroy,format,mount \
+  --flake github:hh9dj/PDE#default \
+  --argstr device /dev/<device>
+```
+
+- Install
+
+```bash
+nixos-install \
   --flake github:hh9dj/PDE#nixos \
-  --disk main /dev/<device>
+  --root /mnt \
+  --no-channel-copy \
+  --no-root-password
 ```
 
 - Set user
 
 ```bash
-mount /dev/disk/by-partlabel/root /mnt
-mount /dev/disk/by-partlabel/ESP /mnt/boot
 nixos-enter --root /mnt -c 'passwd khalil'
-umount -R /mnt
 reboot
 ```
 

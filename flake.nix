@@ -72,6 +72,8 @@
         ];
       };
 
+      diskoConfigurations.default = import ./nixos/disko.nix;
+
       darwinConfigurations.macbook = nix-darwin.lib.darwinSystem {
         specialArgs = { inherit inputs; };
         modules = [
