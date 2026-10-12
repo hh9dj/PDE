@@ -22,10 +22,6 @@
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland-preview-share-picker = {
-      url = "git+https://github.com/WhySoBad/hyprland-preview-share-picker.git?submodules=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =

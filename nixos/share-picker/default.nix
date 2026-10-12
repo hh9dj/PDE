@@ -1,7 +1,7 @@
-{ inputs, pkgs, ... }:
+{ pkgs, ... }:
 {
   home.packages = [
-    inputs.hyprland-preview-share-picker.packages.${pkgs.stdenv.hostPlatform.system}.default
+    pkgs.hyprland-preview-share-picker
   ];
 
   xdg.configFile."hyprland-preview-share-picker/config.yaml".source = ./config.yaml;
