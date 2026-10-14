@@ -46,8 +46,6 @@
             (writeShellScriptBin "clone-projects" (builtins.readFile ./common/git/clone-projects))
           ];
         };
-
-        packages.pds = pkgs.callPackage ./pds { };
       }
     ))
     // {
