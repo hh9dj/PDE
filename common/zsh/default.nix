@@ -11,7 +11,6 @@
     gnutar
     hyperfine
     ripgrep
-    tree
   ];
 
   home.sessionVariables = {
@@ -75,6 +74,7 @@
       t = "tmuxp load -y";
       c = "clear";
       ".." = "cd ..";
+      tree = "eza --tree";
       mkdir = "mkdir -pv";
       grep = "grep --color=auto";
       xcurl = "curl -x 127.0.0.1:8000 -k ";

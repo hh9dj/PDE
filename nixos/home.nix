@@ -67,7 +67,6 @@
           ripgrep
           slurp
           socat
-          tree
           vial
           wl-clipboard
           blanket
