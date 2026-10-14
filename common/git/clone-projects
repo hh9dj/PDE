@@ -5,25 +5,33 @@ PDE="$HOME/PDE"
 SESSIONS="$PDE/common/tmux/sessions"
 KEY="$HOME/.ssh/personal"
 
+_msg() { gum style --bold --foreground "$1" --border thick --border-foreground "$1" --padding "0 1" "${@:2}" >&2; }
+info() { _msg 10 "$@"; }
+warn() { _msg 11 "$@"; }
+fail() { _msg 12 "$@"; }
+
 # --- 1. private SSH key ---------------------------------------------------
 if [[ ! -f "$KEY" ]]; then
   mkdir -p "$HOME/.ssh"
   chmod 700 "$HOME/.ssh"
-  gum log --level warn "$KEY not found."
+  warn "$KEY not found."
   key="$(gum write \
     --header "Paste your private SSH key from the password manager (Ctrl-D to submit)" \
-    --placeholder "-----BEGIN OPENSSH PRIVATE KEY-----" \
+    --placeholder="-----BEGIN OPENSSH PRIVATE KEY-----" \
     --width 80 \
-    --height 12)"
+    --height 12 \
+    --base.foreground 236 \
+    --cursor.foreground 240 \
+    --cursor-line-number.foreground 240)"
   if [[ "$key" != *"BEGIN"*"PRIVATE KEY"* || "$key" != *"END"*"PRIVATE KEY"* ]]; then
-    gum log --level error "input does not look like a private key"
+    fail "input does not look like a private key"
     exit 1
   fi
   printf '%s\n' "$key" >"$KEY"
   chmod 600 "$KEY"
-  gum log --level info "wrote: $KEY (mode 600)"
+  info "wrote: $KEY (mode 600)"
 else
-  gum log --level info "key: $KEY (already present)"
+  info "key: $KEY (already present)"
 fi
 
 # --- 2. PDE origin: https -> ssh -----------------------------------------
@@ -31,17 +39,18 @@ if [[ -d "$PDE/.git" ]]; then
   url="$(git -C "$PDE" remote get-url origin 2>/dev/null || true)"
   if [[ "$url" == https://github.com/* ]]; then
     git -C "$PDE" remote set-url origin "git@github.com:${url#https://github.com/}"
-    gum log --level info "remote: $PDE -> git@github.com:${url#https://github.com/}"
+    info "remote: $PDE -> git@github.com:${url#https://github.com/}"
   fi
 fi
 
 # --- 3. clone session repos ----------------------------------------------
 for f in "$SESSIONS"/*.yaml; do
-  repo="$(yq '.repo // ""' "$f")"
+  repo="$(yq '.repo' "$f")"
   [[ -z "$repo" || "$repo" == "null" ]] && continue
   dir="$(yq '.start_directory' "$f")"
+  dir="${dir/#\~/$HOME}"
   if [[ -d "$dir" ]]; then
-    gum log --level info "skip: $dir (already exists)"
+    info "skip: $dir (already exists)"
   else
     mkdir -p "$(dirname "$dir")"
     git clone "git@github.com:$repo" "$dir"
