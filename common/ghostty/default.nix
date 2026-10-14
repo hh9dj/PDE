@@ -13,6 +13,8 @@
       font-style-bold = lib.mkDefault true;
       font-style-italic = lib.mkDefault false;
       font-style-bold-italic = lib.mkDefault false;
+      font-thicken = lib.mkDefault true;
+      font-thicken-strength = lib.mkDefault 20;
       resize-overlay = lib.mkDefault "never";
       title = lib.mkDefault "Ghostty";
       cursor-style = lib.mkDefault "block";
