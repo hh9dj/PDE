@@ -34,7 +34,6 @@
         ../common/tmux
         ../common/yazi
         ../common/zsh
-        ./ghostty
         ./voxtype
         ./assets
         ./fuzzel

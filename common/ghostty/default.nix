@@ -26,6 +26,7 @@
       maximize = lib.mkDefault false;
       window-padding-x = lib.mkDefault 180;
       window-padding-y = lib.mkDefault 80;
+      font-feature = "-liga,-calt";
     };
   };
 }
