@@ -19,6 +19,7 @@
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs =
@@ -28,32 +29,29 @@
       nix-darwin,
       nix-homebrew,
       musnix,
+      flake-utils,
       ...
     }@inputs:
-    let
-      devShellsFor =
-        system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in
-        {
-          default = pkgs.mkShell {
-            packages = with pkgs; [
-              yq-go
-              bun
-            ];
-            shellHook = ''
-              export PATH="$PWD/common/git:$PATH"
-            '';
-          };
-
-          # alternative shell profile : nix develop .#special
-          special = pkgs.mkShell { };
+    (flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+      {
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs; [
+            yq-go
+            bun
+          ];
+          shellHook = ''
+            export PATH="$PWD/common/git:$PATH"
+          '';
         };
-    in
-    {
-      devShells = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-darwin" ] devShellsFor;
 
+        packages.pds = pkgs.callPackage ./pds { };
+      }
+    ))
+    // {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         modules = [
@@ -64,7 +62,6 @@
           ./nixos/home.nix
         ];
       };
-
       diskoConfigurations.default = import ./nixos/disko.nix;
 
       darwinConfigurations.macbook = nix-darwin.lib.darwinSystem {
