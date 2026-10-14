@@ -42,10 +42,9 @@
           packages = with pkgs; [
             yq-go
             bun
+            gum
+            (writeShellScriptBin "clone-projects" (builtins.readFile ./common/git/clone-projects))
           ];
-          shellHook = ''
-            export PATH="$PWD/common/git:$PATH"
-          '';
         };
 
         packages.pds = pkgs.callPackage ./pds { };

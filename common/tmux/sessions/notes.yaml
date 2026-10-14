@@ -2,7 +2,7 @@ session_name: Notes
 suppress_history: true
 start_directory: ~/projects/secondBrain/
 before_script: ~/.config/tmux/scripts/direnv_prewarm
-repo: hh9dj:secondBrain
+repo: hh9dj/secondBrain.git
 windows:
   - window_name: "src"
     shell_command_before: nvim

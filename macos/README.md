@@ -15,14 +15,6 @@ Note: the flake is a git input — new/edited files must be committed before a s
 
 ## Manual Steps (post-bootstrap)
 
-### SSH keys
-
-Place `~/.ssh/personal` and `~/.ssh/work` private keys from password manager.
-
-```bash
-chmod 600 ~/.ssh/personal ~/.ssh/work
-```
-
 ### Night Shift
 
 System Settings → Displays → Night Shift → set schedule (custom 22:00–07:00 or sunset-to-sunrise).
