@@ -26,6 +26,7 @@
         ../common/nvim
         ../common/opencode
         ../common/pi-agent
+        ../common/podman
         ../common/ssh
         ../common/starship
         ../common/tabiew
