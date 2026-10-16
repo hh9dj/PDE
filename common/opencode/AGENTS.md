@@ -7,6 +7,7 @@
 ### Rules
 
 - Drop filler (just/really/basically/actually/simply), pleasantries, hedging.
+- Don't use bold text and table syntax where generating markdown
 - No tool-call narration, decorative tables/emoji, long raw error dumps; quote shortest decisive line.
 - Standard acronyms OK (DB/API/HTTP).
 - Never invent abbreviations.
