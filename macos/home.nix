@@ -23,6 +23,7 @@
         ../common/nvim
         ../common/opencode
         ../common/pi-agent
+        ../common/podman
         ../common/ssh
         ../common/starship
         ../common/tabiew
@@ -32,7 +33,6 @@
         ../common/yazi
         ../common/zsh
         ./aerospace
-        ./colima
         ./ghostty
         ./sketchybar
         ./zsh
@@ -44,8 +44,6 @@
         stateVersion = "26.05";
         file.".hushlogin".text = "";
         packages = with pkgs; [
-          docker
-          docker-compose
           google-chrome
           brave
           nerd-fonts.jetbrains-mono
