@@ -25,3 +25,4 @@ vim.opt.fillchars:append({ eob = " " })
 vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.o.foldmethod = "expr"
 vim.o.foldlevel = 6
+vim.o.exrc = true
