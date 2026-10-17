@@ -72,6 +72,7 @@
       lc = "leetcode";
       e = "$EDITOR";
       t = "tmuxp load -y";
+      ta = "tv tmux-sessions";
       c = "clear";
       ".." = "cd ..";
       tree = "eza --tree";
