@@ -26,7 +26,7 @@ in
       gotools
       marksman
       harper
-      typescript-go
+      typescript
       lua-language-server
       neovim
       nixd
