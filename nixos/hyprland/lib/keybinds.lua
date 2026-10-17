@@ -133,3 +133,20 @@ hl.define_submap(vars.submap.transcribing, function()
     hl.bind("SUPER + O", helpers.stop_transcribing, { description = "Stop transcribing" })
     hl.bind("escape", helpers.stop_transcribing, { description = "Stop transcribing" })
 end)
+
+-- 16. Vial keyboard macros (F13-F24 are sent by the custom keyboard only)
+-- F13-F24 are bound by xkb keycode (191-202) because the inet layout maps some of their keysyms to XF86 keys
+-- hl.bind("code:191", hl.dsp.exec_cmd(vars.browser .. " --incognito"), { description = "Open private browser window" }) -- F13
+-- hl.bind("code:192", hl.dsp.exec_cmd(vars.terminal .. " -e tmux attach"), { description = "Open terminal attached to tmux" }) -- F14
+-- hl.bind("code:193", hl.dsp.exec_cmd(vars.raffi .. "tuis.yml"), { description = "Open raffi TUI launcher" }) -- F15
+hl.bind("code:194", hl.dsp.exec_cmd(vars.terminal), { description = "Open terminal" }) -- F16
+hl.bind("code:195", hl.dsp.exec_cmd(vars.browser), { description = "Open browser" }) -- F17
+hl.bind("code:196", hl.dsp.exec_cmd("blanket"), { description = "Open Blanket" }) -- F18
+
+hl.bind("code:197", hl.dsp.exec_cmd(vars.terminal .. " -e impala"), { description = "Open Wi-Fi manager" }) -- F19
+hl.bind("code:198", hl.dsp.exec_cmd(vars.terminal .. " -e bluetui"), { description = "Open Bluetooth manager" }) -- F20
+hl.bind("code:199", hl.dsp.exec_cmd(vars.terminal .. " -e pulsemixer"), { description = "Open audio mixer" }) -- F21
+
+hl.bind("code:200", hl.dsp.exec_cmd(vars.nctl .. "session lock"), { description = "Lock session" }) -- F22
+hl.bind("code:201", hl.dsp.exec_cmd(vars.nctl .. "session reboot"), { description = "Reboot" }) -- F23
+hl.bind("code:202", hl.dsp.exec_cmd(vars.nctl .. "session shutdown"), { description = "Shutdown" }) -- F24
