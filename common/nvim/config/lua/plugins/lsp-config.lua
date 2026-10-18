@@ -26,7 +26,7 @@ return {
       "ruff",
       "nixd",
       "yamlls",
-      "tsgo",
+      "tsc",
       "pyright",
       "bashls",
       "marksman",
