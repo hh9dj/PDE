@@ -15,8 +15,6 @@
     users.khalil = {
       imports = [
         ../common/alacritty
-        ../common/agent-deck
-        ../common/ccmux
         ../common/claude
         ../common/direnv
         ../common/fastfetch
