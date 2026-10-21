@@ -1,6 +1,10 @@
 { pkgs, ... }:
 {
-  home.packages = with pkgs; [ rtk claude-code ];
+  home.packages = with pkgs; [
+    rtk
+    htmlq
+  ];
+
   xdg = {
     configFile = {
       "opencode/AGENTS.md".source = ./AGENTS.md;
