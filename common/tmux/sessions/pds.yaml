@@ -1,8 +1,8 @@
-session_name: gcp-prof-dev
+session_name: Personal Dev Shell
 suppress_history: true
-start_directory: ~/projects/gcp-prof-dev
+start_directory: ~/projects/pds
 before_script: ~/.config/tmux/scripts/direnv_prewarm
-repo: hh9dj/gcp-prof-dev.git
+repo: hh9dj/pds
 windows:
   - window_name: "src"
     shell_command_before: nvim
