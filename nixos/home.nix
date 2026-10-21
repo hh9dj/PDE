@@ -14,6 +14,8 @@
     users.khalil = {
       imports = [
         ../common/alacritty
+        ../common/agent-deck
+        ../common/ccmux
         ../common/claude
         ../common/direnv
         ../common/fastfetch
@@ -35,6 +37,7 @@
         ../common/taskwarrior
         ../common/television
         ../common/tmux
+        ../common/workmux
         ../common/yazi
         ../common/zsh
         ./voxtype
