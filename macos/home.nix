@@ -7,9 +7,11 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
+    backupFileExtension = "hm-backup";
     users.khalil = {
       imports = [
         ../common/alacritty
+        ../common/claude
         ../common/direnv
         ../common/fastfetch
         ../common/ghostty

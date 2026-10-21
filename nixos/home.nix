@@ -7,12 +7,14 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
+    backupFileExtension = "hm-backup";
     extraSpecialArgs = {
       inherit inputs;
     };
     users.khalil = {
       imports = [
         ../common/alacritty
+        ../common/claude
         ../common/direnv
         ../common/fastfetch
         ../common/ghostty
@@ -59,7 +61,6 @@
           fzf
           gnugrep
           google-chrome
-          htmlq
           hyperfine
           impala
           libnotify
