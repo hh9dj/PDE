@@ -1,0 +1,32 @@
+{
+    "$schema": "https://www.schemastore.org/claude-code-keybindings.json",
+    "$docs": "https://code.claude.com/docs/en/keybindings",
+    "bindings": [
+        {
+            "context": "Chat",
+            "bindings": {
+                "ctrl+s": null,
+                "ctrl+s e": "chat:externalEditor",
+                "ctrl+s m": "chat:modelPicker",
+                "ctrl+s u": "chat:undo",
+                "ctrl+t": "chat:thinkingToggle",
+                "shift+enter": "chat:newline"
+            }
+        },
+        {
+            "context": "Global",
+            "bindings": {
+                "ctrl+t": null,
+                "ctrl+s o": "app:toggleTranscript",
+                "ctrl+s d": "app:toggleTodos",
+                "ctrl+s q": "app:exit"
+            }
+        },
+        {
+            "context": "Scroll",
+            "bindings": {
+                "ctrl+s y": "selection:copy"
+            }
+        }
+    ]
+}
