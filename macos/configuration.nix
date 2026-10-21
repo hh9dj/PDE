@@ -9,7 +9,11 @@
   };
 
   nix = {
-    package = pkgs.lix;
+    package = pkgs.lix.overrideAttrs (old: {
+      mesonFlags = builtins.filter (
+        flag: !(pkgs.lib.hasPrefix "-Dmimalloc=" flag)
+      ) old.mesonFlags;
+    });
     settings = {
       experimental-features = [
         "nix-command"
