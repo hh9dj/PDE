@@ -17,6 +17,7 @@
         prefix = [
           "~/PDE/"
           "~/projects/"
+          "~/workmux/"
         ];
       };
     };
