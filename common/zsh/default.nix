@@ -66,6 +66,7 @@
       gcam = "git commit -a -m";
       gcmsg = "git commit -m";
       gl = "git pull";
+      gll = "git log --oneline";
       gp = "git push";
       gd = "git diff";
       gds = "git diff --staged";
