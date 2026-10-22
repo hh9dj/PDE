@@ -34,6 +34,8 @@ return {
       "biome",
       "taplo",
       "dockerls",
+      "vtsls",
+      "vue_ls",
     }) do
       vim.lsp.enable(server)
     end

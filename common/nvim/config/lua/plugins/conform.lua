@@ -33,6 +33,7 @@ return {
       jsonc = { "biome" },
       markdown = { "prettierd" },
       scss = { "prettierd" },
+      vue = { "prettierd" },
       yaml = { "yamlfmt" },
       sh = { "shfmt", "beautysh" },
       zsh = { "beautysh" },
@@ -42,6 +43,7 @@ return {
       rust = { "rustfmt" },
       kdl = { "kdlfmt" },
       dockerfile = { "dockerfmt" },
+      just = { "just" },
     },
     formatters = {
       rustfmt = { command = "rustfmt", stdin = true },

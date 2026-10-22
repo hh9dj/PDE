@@ -4,6 +4,7 @@ return {
     events = { "BufWritePost", "BufReadPost", "InsertLeave" },
     linters_by_ft = {
       nix = { "statix" },
+      vue = { "eslint_d" },
     },
   },
   config = function(_, opts)

@@ -17,6 +17,7 @@ in
       biome
       clang-tools
       deno
+      eslint_d
       gcc
       gnumake
       go
@@ -24,9 +25,13 @@ in
       golines
       gopls
       gotools
+      just
+      just-lsp
       marksman
       harper
       typescript
+      pyright
+      ruff
       lua-language-server
       neovim
       nixd
@@ -39,6 +44,8 @@ in
       tinymist
       tree-sitter
       vscode-langservers-extracted
+      vtsls
+      vue-language-server
       yaml-language-server
       yamlfmt
     ];
