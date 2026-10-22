@@ -1,6 +1,6 @@
 nerdfont: true
 theme:
-  scheme: phosphor-arcade
+  scheme: obsidian-pop
   mode: light
 mode: session
 agent: opencode
