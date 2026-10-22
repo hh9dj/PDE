@@ -1,6 +1,6 @@
 nerdfont: true
 theme:
-  scheme: emberforge
+  scheme: phosphor-arcade
   mode: light
 mode: session
 agent: opencode
@@ -42,3 +42,8 @@ files:
     - .direnv
     - node_modules
     - .venv
+dashboard:
+  preview_size: 40
+sidebar:
+  position: top
+  layout: compact
