@@ -7,7 +7,6 @@
     ];
     file = {
       ".claude/CLAUDE.md".source = ./CLAUDE.md;
-      ".claude/settings.json".source = ./settings.json;
       ".claude/keybindings.json".source = ./keybindings.json;
 
       # recursive: link each entry, so cloud-synced skills under ~/.claude/skills stay put
@@ -28,5 +27,6 @@
 
   programs.claude-code = {
     enable = true;
+    settings = builtins.fromJSON (builtins.readFile ./settings.json);
   };
 }

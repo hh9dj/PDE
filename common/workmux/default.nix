@@ -63,6 +63,7 @@ in
   };
 
   programs.claude-code = {
+    marketplaces.workmux = workmux.src;
     plugins.workmux-status = workmux.src;
   };
 }
