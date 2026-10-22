@@ -33,6 +33,8 @@ in
   };
 
   xdg.configFile = {
+    "workmux/config.yaml".source = ./config.yaml;
+
     "opencode/plugins/workmux-status.ts".source =
       "${workmux.src}/resources/opencode/plugins/workmux-status.ts";
 

@@ -1,0 +1,44 @@
+nerdfont: true
+theme:
+  scheme: emberforge
+  mode: light
+mode: session
+agent: opencode
+# Git
+# base_branch: auto
+# merge_strategy: rebase
+# merge_keep: true
+
+# Worktree location
+worktree_dir: "~/workmux/{project}"
+worktree_naming: full
+windows:
+  - name: editor
+    panes:
+      - command: nvim
+        focus: true
+  - name: shell
+  - name: coding-agent
+    panes:
+      - command: <agent>
+  - name: diff-preview
+    panes:
+      - command: hd
+        #
+# Hooks
+post_create:
+  - direnv allow
+# pre_merge:
+#   - "<global>"
+# pre_remove:
+#   - "<global>"
+
+# Files
+files:
+  copy:
+    - .env
+    - .envrc
+  symlink:
+    - .direnv
+    - node_modules
+    - .venv

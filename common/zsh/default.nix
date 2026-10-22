@@ -87,6 +87,7 @@
       nix_switch = lib.mkDefault "sudo nixos-rebuild switch --flake ~/PDE#nixos";
       nh_clean = "nh clean all --keep 3 --keep-one";
       nh_switch = lib.mkDefault "nh os switch --accept-flake-config";
+      wm = "workmux";
     };
 
     initContent = builtins.readFile ./zshrc;
