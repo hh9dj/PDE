@@ -7,7 +7,7 @@
             "models": {
                 "deepseek-v4.1-flash": {
                     "options": {
-                        "reasoningEffort": "low"
+                        "reasoningEffort": "high"
                     }
                 }
             }
