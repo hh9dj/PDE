@@ -10,6 +10,8 @@ agent_notes = true
 transparent_background = false
 
 [keybindings]
+"hunk.review.previousFile" = "("
+"hunk.review.nextFile" = ")"
 "hunk.review.scrollCodeLeft" = ["h", "H"]
 "hunk.review.scrollCodeRight" = ["l", "L"]
 "hunk.view.toggleLineNumbers" = "alt+l"
