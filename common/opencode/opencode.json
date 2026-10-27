@@ -18,6 +18,9 @@
             "*": "allow",
             "**/*.env": "deny",
             "**/*.env.*": "deny"
+        },
+        "external_directory": {
+            "~/workmux/**": "allow"
         }
     }
 }
