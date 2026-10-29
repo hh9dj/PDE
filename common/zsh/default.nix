@@ -20,99 +20,101 @@
     FCEDIT = "nvim";
   };
 
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-    defaultKeymap = "emacs";
+  programs = {
+    zsh = {
+      enable = true;
+      enableCompletion = true;
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
+      defaultKeymap = "emacs";
 
-    history = {
-      size = 5000;
-      save = 5000;
-      append = true;
-      share = true;
-      ignoreDups = true;
-      ignoreAllDups = true;
-      saveNoDups = true;
-      findNoDups = true;
+      history = {
+        size = 5000;
+        save = 5000;
+        append = true;
+        share = true;
+        ignoreDups = true;
+        ignoreAllDups = true;
+        saveNoDups = true;
+        findNoDups = true;
+      };
+
+      completionInit = ''
+        fpath+=(
+          "${pkgs.zsh-completions}/share/zsh/site-functions"
+          "${pkgs.gh}/share/zsh/site-functions"
+        )
+        zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+        zstyle ':completion:*' menu select
+      '';
+
+      plugins = [
+        {
+          name = "fzf-tab";
+          src = pkgs.zsh-fzf-tab;
+          file = "share/fzf-tab/fzf-tab.plugin.zsh";
+        }
+      ];
+
+      shellAliases = {
+        gsw = "git switch";
+        gclean = "git clean -f";
+        grs = "git restore";
+        ga = "git add";
+        gaa = "git add --all";
+        gst = "git status";
+        gss = "git status --short";
+        gcam = "git commit -a -m";
+        gcmsg = "git commit -m";
+        gl = "git pull";
+        gll = "git log --oneline";
+        gp = "git push";
+        gd = "git diff";
+        gds = "git diff --staged";
+        lc = "leetcode";
+        e = "$EDITOR";
+        t = "tmuxp load -y";
+        ta = "tv tmux-sessions";
+        c = "clear";
+        ".." = "cd ..";
+        tree = "eza --tree";
+        mkdir = "mkdir -pv";
+        grep = "grep --color=auto";
+        xcurl = "curl -x 127.0.0.1:8000 -k ";
+        zbench = "hyperfine --warmup 5 'zsh -i -c exit'";
+        xel = "fc";
+        dotconf = "cd ~/.config";
+        nvim_shada_clear = "rm ~/.local/state/nvim/shada/main.shada";
+        hd = "hunk diff";
+        nix_switch = lib.mkDefault "sudo nixos-rebuild switch --flake ~/PDE#nixos";
+        nh_clean = "nh clean all --keep 3 --keep-one";
+        nh_switch = lib.mkDefault "nh os switch --accept-flake-config";
+        wm = "workmux";
+      };
+
+      initContent = builtins.readFile ./zshrc;
     };
-
-    completionInit = ''
-      fpath+=(
-        "${pkgs.zsh-completions}/share/zsh/site-functions"
-        "${pkgs.gh}/share/zsh/site-functions"
-      )
-      zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-      zstyle ':completion:*' menu select
-    '';
-
-    plugins = [
-      {
-        name = "fzf-tab";
-        src = pkgs.zsh-fzf-tab;
-        file = "share/fzf-tab/fzf-tab.plugin.zsh";
-      }
-    ];
-
-    shellAliases = {
-      gsw = "git switch";
-      gclean = "git clean -f";
-      grs = "git restore";
-      ga = "git add";
-      gaa = "git add --all";
-      gst = "git status";
-      gss = "git status --short";
-      gcam = "git commit -a -m";
-      gcmsg = "git commit -m";
-      gl = "git pull";
-      gll = "git log --oneline";
-      gp = "git push";
-      gd = "git diff";
-      gds = "git diff --staged";
-      lc = "leetcode";
-      e = "$EDITOR";
-      t = "tmuxp load -y";
-      ta = "tv tmux-sessions";
-      c = "clear";
-      ".." = "cd ..";
-      tree = "eza --tree";
-      mkdir = "mkdir -pv";
-      grep = "grep --color=auto";
-      xcurl = "curl -x 127.0.0.1:8000 -k ";
-      zbench = "hyperfine --warmup 5 'zsh -i -c exit'";
-      xel = "fc";
-      dotconf = "cd ~/.config";
-      nvim_shada_clear = "rm ~/.local/state/nvim/shada/main.shada";
-      hd = "hunk diff";
-      nix_switch = lib.mkDefault "sudo nixos-rebuild switch --flake ~/PDE#nixos";
-      nh_clean = "nh clean all --keep 3 --keep-one";
-      nh_switch = lib.mkDefault "nh os switch --accept-flake-config";
-      wm = "workmux";
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
     };
-
-    initContent = builtins.readFile ./zshrc;
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+      options = [
+        "--cmd"
+        "cd"
+      ];
+    };
+    bat = {
+      enable = true;
+      extraPackages = [ pkgs.bat-extras.batman ];
+      config.theme = "Catppuccin Latte";
+    };
+    eza = {
+      enable = true;
+      enableZshIntegration = true;
+    };
   };
 
-  programs.fzf = {
-    enable = true;
-    enableZshIntegration = true;
-  };
-  programs.zoxide = {
-    enable = true;
-    enableZshIntegration = true;
-    options = [
-      "--cmd"
-      "cd"
-    ];
-  };
-  programs.bat = {
-    enable = true;
-    extraPackages = [ pkgs.bat-extras.batman ];
-    config.theme = "Catppuccin Latte";
-  };
-  programs.eza = {
-    enable = true;
-    enableZshIntegration = true;
-  };
 }
