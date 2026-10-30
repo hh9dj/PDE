@@ -6,6 +6,13 @@ hl.window_rule({
     size = { "monitor_w * 0.8", "monitor_h * 0.8" },
 })
 hl.window_rule({
+    name = "brave extension window",
+    match = { initial_title = "^_crx_[a-p]{32}$" },
+    float = true,
+    center = true,
+    size = { "monitor_w * 0.5", "monitor_h * 0.8" },
+})
+hl.window_rule({
     name = "image viewer",
     match = { class = "imv" },
     float = true,
