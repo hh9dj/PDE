@@ -29,7 +29,7 @@
       pkgs.nodejs
     ];
     settings = {
-      defaultProvider = "opencode-go";
+      defaultProvider = "deepseek";
       defaultModel = "deepseek-v4-flash";
       defaultThinkingLevel = "high";
       tuiMode = "fullscreen";
