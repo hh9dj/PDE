@@ -9,6 +9,10 @@
     "${config.programs.pi-coding-agent.configDir}/clipboard.json".text = builtins.toJSON {
       enabled = true;
     };
+    "${config.programs.pi-coding-agent.configDir}/skills" = {
+      source = ./skills;
+      recursive = true;
+    };
   };
 
   xdg = {

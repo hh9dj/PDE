@@ -11,6 +11,7 @@
     gnutar
     hyperfine
     ripgrep
+    ast-grep
   ];
 
   home.sessionVariables = {

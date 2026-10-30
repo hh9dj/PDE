@@ -1,6 +1,6 @@
 ---
 name: rtfm
-description: Consult documentation, manuals, specifications, and source code to find the correct APIs, interfaces, and configurations instead of guessing. Use whenever the agent is unsure about a library or tool's exact API, a config key, a signature, or behavior across versions, or when the user says RTFM, read the docs/manual/spec, check the source, or look it up.
+description: Consult documentation, manuals, specifications, and source code to find the correct APIs, interfaces, and configurations instead of guessing.
 compatibility: Requires curl, htmlq, git, and network access for fetching docs and source.
 ---
 
