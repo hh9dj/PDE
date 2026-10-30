@@ -1,11 +1,10 @@
 {
     "$schema": "https://opencode.ai/config.json",
-    "model": "opencode-go/deepseek-v4.1-flash",
-    "plugin": ["@khalilgharbaoui/opencode-claude-code-plugin"],
+    "model": "deepseek/deepseek-flash",
     "provider": {
-        "opencode-go": {
+        "deepseek": {
             "models": {
-                "deepseek-v4.1-flash": {
+                "deepseek-flash": {
                     "options": {
                         "reasoningEffort": "high"
                     }
@@ -20,7 +19,8 @@
             "**/*.env.*": "deny"
         },
         "external_directory": {
-            "~/workmux/**": "allow"
+            "~/workmux/**": "allow",
+            "/tmp": "allow"
         }
     }
 }
