@@ -1,20 +1,22 @@
 * {
   all: unset;
-  font-family: JetBrains Mono NF;
-  color: #ecf2f8;
-  font-weight: bold;
-  font-size: 16px;
+  font-family: sans-serif;
+  color: #2e3436;
+  font-weight: 700;
+  font-size: 18px;
 }
 
 .window {
-  border-radius: 5px;
-  background-color: #0d1117;
-  border: solid 2px #21262d;
+  border-radius: 14px;
+  background-color: #fafafa;
+  border: solid 2px #d6d6d6;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   margin: 2px;
 }
 
 tabs {
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.25rem 0.5rem;
+  border-bottom: solid 2px #d6d6d6;
 }
 
 tabs > tab {
@@ -22,37 +24,39 @@ tabs > tab {
 }
 
 .tab-label {
-  color: #89929b;
+  color: #6e6e6e;
+  font-weight: 700;
   transition: all 0.2s ease;
 }
 
 tabs > tab:checked > .tab-label,
 tabs > tab:active > .tab-label {
   text-decoration: underline currentColor;
-  color: #ecf2f8;
+  color: #3584e4;
 }
 
 tabs > tab:focus > .tab-label {
-  color: #ecf2f8;
+  color: #3584e4;
 }
 
 .page {
-  padding: 1rem;
+  padding: 1.25rem;
 }
 
 .image-label {
-  font-size: 12px;
-  padding: 0.25rem;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 0.35rem 0.25rem 0.1rem;
+  color: #6e6e6e;
 }
 
 flowboxchild > .card,
 button > .card {
   transition: all 0.2s ease;
-  border: solid 2px transparent;
-  border-color: #161b22;
-  border-radius: 5px;
-  background-color: #161b22;
-  padding: 5px;
+  border: solid 3px #d6d6d6;
+  border-radius: 12px;
+  background-color: #ffffff;
+  padding: 6px;
 }
 
 flowboxchild:active > .card,
@@ -60,27 +64,39 @@ flowboxchild:selected > .card,
 button:active > .card,
 button:selected > .card,
 button:focus > .card {
-  border: solid 2px #61afef;
+  border: solid 3px #3584e4;
+  background-color: #f3f8ff;
+}
+
+.card-loading {
+  background-color: #f0f0f0;
 }
 
 .image {
-  border-radius: 5px;
+  border-radius: 8px;
 }
 
-.region-button {
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  background-color: #61afef;
-  color: #161b22;
+.region-button,
+.restore-button {
+  padding: 0.55rem 1.25rem;
+  border-radius: 9999px;
+  border: solid 3px #1c71d8;
+  background-color: #3584e4;
+  color: #ffffff;
+  font-weight: 700;
   transition: all 0.2s ease;
 }
 
 .region-button:not(:disabled):hover,
-.region-button:not(:disabled):focus {
-  background-color: #2472c8;
+.region-button:not(:disabled):focus,
+.restore-button:not(:disabled):hover,
+.restore-button:not(:disabled):focus {
+  background-color: #1c71d8;
 }
 
-.region-button:disabled {
-  background-color: #89929b;
-  color: #21262d;
+.region-button:disabled,
+.restore-button:disabled {
+  border-color: #c8c8c8;
+  background-color: #e8e8e8;
+  color: #9a9a9a;
 }
