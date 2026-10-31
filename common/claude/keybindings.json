@@ -25,6 +25,8 @@
         {
             "context": "Scroll",
             "bindings": {
+                "ctrl+alt+d": "scroll:pageDown",
+                "ctrl+alt+u": "scroll:pageUp",
                 "ctrl+s y": "selection:copy"
             }
         }
