@@ -23,6 +23,7 @@
   services = {
     displayManager.ly.enable = true;
     upower.enable = true;
+    tailscale.enable = true;
     power-profiles-daemon.enable = true;
     pipewire = {
       enable = true;
