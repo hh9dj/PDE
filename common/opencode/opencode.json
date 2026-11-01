@@ -18,7 +18,7 @@
         },
         "external_directory": {
             "~/workmux/**": "allow",
-            "/tmp": "allow"
+            "/tmp/**": "allow"
         }
     }
 }
