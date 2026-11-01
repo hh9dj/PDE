@@ -16,6 +16,7 @@
       imports = [
         ./alacritty
         ./claude
+        ./devenv
         ./direnv
         ./fastfetch
         ./ghostty
