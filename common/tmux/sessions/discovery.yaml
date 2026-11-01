@@ -1,0 +1,11 @@
+session_name: Discovery
+suppress_history: true
+start_directory: ~/projects/discovery/
+repo: hh9dj/discovery.git
+windows:
+  - window_name: "src"
+    shell_command_before: nvim
+    focus: true
+  - window_name: "shell"
+  - shell_command_before: opencode
+  - shell_command_before: claude
