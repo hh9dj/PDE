@@ -7,6 +7,9 @@ $env:VISUAL = "nvim"
 $env:BAT_THEME = "Catppuccin Latte"
 $env:ZELLIJ_CONFIG_DIR = "$env:USERPROFILE\.config\zellij"
 
+[Environment]::SetEnvironmentVariable("http_proxy",  "http://proxy.example:8080", "User")
+[Environment]::SetEnvironmentVariable("https_proxy", "http://proxy.example:8080", "User")
+
 # LINE EDITING (zsh: emacs keymap + autosuggestions)
 Set-PSReadLineOption -EditMode Emacs
 Set-PSReadLineOption -MaximumHistoryCount 5000
