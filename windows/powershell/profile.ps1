@@ -12,8 +12,31 @@ $env:ZELLIJ_CONFIG_DIR = "$env:USERPROFILE\.config\zellij"
 Set-PSReadLineOption -EditMode Emacs
 Set-PSReadLineOption -MaximumHistoryCount 5000
 Set-PSReadLineOption -HistoryNoDuplicates
+# Keep the cursor at the end of the line after Ctrl+p / Ctrl+n (zsh behavior).
+Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle InlineView
+# Syntax colors (Catppuccin Latte). The defaults use DarkGray for parameters
+# and operators, which is almost invisible on a light background.
+Set-PSReadLineOption -Colors @{
+    Command                = "`e[38;2;64;160;43m"    # green    #40a02b
+    Parameter              = "`e[38;2;30;102;245m"   # blue     #1e66f5
+    Default                = "`e[38;2;76;79;105m"    # text     #4c4f69
+    String                 = "`e[38;2;23;146;153m"   # teal     #179299
+    Variable               = "`e[38;2;136;57;239m"   # mauve    #8839ef
+    Keyword                = "`e[38;2;136;57;239m"   # mauve    #8839ef
+    Operator               = "`e[38;2;4;165;229m"    # sky      #04a5e5
+    Number                 = "`e[38;2;254;100;11m"   # peach    #fe640b
+    Member                 = "`e[38;2;114;135;253m"  # lavender #7287fd
+    Type                   = "`e[38;2;223;142;29m"   # yellow   #df8e1d
+    Comment                = "`e[38;2;124;127;147m"  # overlay2 #7c7f93
+    Error                  = "`e[38;2;210;15;57m"    # red      #d20f39
+    InlinePrediction       = "`e[38;2;140;143;161m"  # overlay1 #8c8fa1
+    ListPrediction         = "`e[38;2;30;102;245m"   # blue     #1e66f5
+    ListPredictionSelected = "`e[48;2;204;208;218m"  # surface0 #ccd0da
+    Selection              = "`e[48;2;204;208;218m"  # surface0 #ccd0da
+    ContinuationPrompt     = "`e[38;2;124;127;147m"  # overlay2 #7c7f93
+}
 Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 Set-PSReadLineKeyHandler -Chord Ctrl+y -Function AcceptSuggestion
 Set-PSReadLineKeyHandler -Chord Ctrl+o -Function ForwardWord

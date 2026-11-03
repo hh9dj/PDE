@@ -88,7 +88,7 @@ format = "[$symbol]($style)"
 
 [cmd_duration]
 min_time = 500
-style = "fg:gray"
+style = "fg:overlay2"
 format = "[$duration]($style)"
 
 [palettes.catppuccin_latte]

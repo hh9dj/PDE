@@ -60,7 +60,7 @@ To start GlazeWM at login, add a shortcut to `glazewm.exe` in the Startup folder
 
 ### Other tools
 
-- Flow Launcher: set its hotkey to `Alt D` (Settings, General, Flow Launcher Hotkey). Its default `Alt Space` opens the terminal in this config.
+- Flow Launcher: its hotkey must be `Alt D`, because `Alt Space` opens the terminal in this config. `flow-launcher/setup.ps1` sets it.
 - Browser: `Alt B` starts `msedge`. Change the command in `config.yaml` if you use another browser.
 - Zellij: GlazeWM uses `Alt S` for the scratch workspace. Zellij does not receive it, so scroll mode (`Alt s`) does not work while GlazeWM runs.
 

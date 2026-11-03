@@ -126,7 +126,7 @@ keybindings:
     bindings: ['alt+shift+r']
 
   # 3. Launchers
-  # alt+d (app launcher) is the Flow Launcher hotkey, set in Flow Launcher settings.
+  # alt+d (app launcher) is the Flow Launcher hotkey, set by flow-launcher/setup.ps1.
   - commands: ['shell-exec wezterm-gui']
     bindings: ['alt+space']
   # hyprland uses brave; change to the browser available on this machine.

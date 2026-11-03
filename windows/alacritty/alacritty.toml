@@ -26,25 +26,27 @@ args = ["-NoLogo"]
 background = "#eff1f5"
 foreground = "#4c4f69"
 
+# Official Catppuccin Latte ANSI palette. On a light theme, "black" must be
+# dark: PSReadLine and many CLIs print secondary text in (bright) black.
 [colors.normal]
-black = "#bcc0cc"
+black = "#5c5f77"
 red = "#d20f39"
 green = "#40a02b"
 yellow = "#df8e1d"
 blue = "#1e66f5"
-magenta = "#8839ef"
+magenta = "#ea76cb"
 cyan = "#179299"
 white = "#acb0be"
 
 [colors.bright]
-black = "#9ca0b0"
-red = "#e64553"
+black = "#6c6f85"
+red = "#d20f39"
 green = "#40a02b"
 yellow = "#df8e1d"
 blue = "#1e66f5"
-magenta = "#8839ef"
+magenta = "#ea76cb"
 cyan = "#179299"
-white = "#e6e9ef"
+white = "#bcc0cc"
 
 [keyboard]
 bindings = [
