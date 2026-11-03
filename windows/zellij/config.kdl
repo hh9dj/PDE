@@ -1,0 +1,129 @@
+// Minimal Zellij config. Mirrors common/tmux/tmux.conf.
+// Install: see README.md (copy to %USERPROFILE%\.config\zellij and set ZELLIJ_CONFIG_DIR).
+// No external plugins: only the built-in compact-bar and session-manager.
+
+// SETTINGS
+default_shell "pwsh"
+default_mode "locked"
+default_layout "compact"
+theme "catppuccin-mocha"
+mouse_mode true
+pane_frames false
+simplified_ui true
+scroll_buffer_size 100000
+scrollback_editor "nvim"
+on_force_close "detach"
+show_startup_tips false
+show_release_notes false
+
+ui {
+    pane_frames {
+        hide_session_name false
+    }
+}
+
+// KEYBINDS
+// locked = normal typing. Ctrl a = tmux prefix: enter "normal", run one action, go back to locked.
+keybinds clear-defaults=true {
+    locked {
+        bind "Ctrl a" { SwitchToMode "normal"; }
+        bind "Alt s" { SwitchToMode "scroll"; }
+    }
+    normal {
+        // send a literal Ctrl a to the program
+        bind "Ctrl a" { Write 1; SwitchToMode "locked"; }
+
+        // panes
+        bind "Ctrl h" { MoveFocus "left"; SwitchToMode "locked"; }
+        bind "Ctrl j" { MoveFocus "down"; SwitchToMode "locked"; }
+        bind "Ctrl k" { MoveFocus "up"; SwitchToMode "locked"; }
+        bind "Ctrl l" { MoveFocus "right"; SwitchToMode "locked"; }
+        bind "|" { NewPane "right"; SwitchToMode "locked"; }
+        bind "_" { NewPane "down"; SwitchToMode "locked"; }
+        bind "x" { CloseFocus; SwitchToMode "locked"; }
+        bind "z" { ToggleFocusFullscreen; SwitchToMode "locked"; }
+        bind "p" { ToggleFloatingPanes; SwitchToMode "locked"; }
+        bind "f" { TogglePaneEmbedOrFloating; SwitchToMode "locked"; }
+
+        // windows -> tabs
+        bind "c" { NewTab; SwitchToMode "locked"; }
+        bind "h" { GoToPreviousTab; SwitchToMode "locked"; }
+        bind "l" { GoToNextTab; SwitchToMode "locked"; }
+        bind "q" { CloseTab; SwitchToMode "locked"; }
+        bind "," { SwitchToMode "renametab"; TabNameInput 0; }
+        bind "1" { GoToTab 1; SwitchToMode "locked"; }
+        bind "2" { GoToTab 2; SwitchToMode "locked"; }
+        bind "3" { GoToTab 3; SwitchToMode "locked"; }
+        bind "4" { GoToTab 4; SwitchToMode "locked"; }
+        bind "5" { GoToTab 5; SwitchToMode "locked"; }
+        bind "6" { GoToTab 6; SwitchToMode "locked"; }
+        bind "7" { GoToTab 7; SwitchToMode "locked"; }
+        bind "8" { GoToTab 8; SwitchToMode "locked"; }
+        bind "9" { GoToTab 9; SwitchToMode "locked"; }
+
+        // sessions
+        bind "s" {
+            LaunchOrFocusPlugin "session-manager" { floating true; move_to_focused_tab true; }
+            SwitchToMode "locked"
+        }
+        bind "d" { Detach; }
+        bind "Ctrl q" { Quit; }
+
+        // scrollback
+        bind "Ctrl e" { EditScrollback; SwitchToMode "locked"; }
+        bind "/" { SwitchToMode "entersearch"; SearchInput 0; }
+
+        // modes
+        bind "r" { SwitchToMode "resize"; }
+        bind "m" { SwitchToMode "move"; }
+    }
+    resize {
+        bind "h" { Resize "Increase left"; }
+        bind "j" { Resize "Increase down"; }
+        bind "k" { Resize "Increase up"; }
+        bind "l" { Resize "Increase right"; }
+        bind "H" { Resize "Decrease left"; }
+        bind "J" { Resize "Decrease down"; }
+        bind "K" { Resize "Decrease up"; }
+        bind "L" { Resize "Decrease right"; }
+    }
+    move {
+        bind "h" { MovePane "left"; }
+        bind "j" { MovePane "down"; }
+        bind "k" { MovePane "up"; }
+        bind "l" { MovePane "right"; }
+    }
+    // tmux copy-mode equivalent (vi keys)
+    scroll {
+        bind "e" { EditScrollback; SwitchToMode "locked"; }
+        bind "/" { SwitchToMode "entersearch"; SearchInput 0; }
+    }
+    search {
+        bind "n" { Search "down"; }
+        bind "N" { Search "up"; }
+        bind "c" { SearchToggleOption "CaseSensitivity"; }
+        bind "w" { SearchToggleOption "Wrap"; }
+        bind "o" { SearchToggleOption "WholeWord"; }
+    }
+    shared_among "scroll" "search" {
+        bind "j" "Down" { ScrollDown; }
+        bind "k" "Up" { ScrollUp; }
+        bind "Ctrl d" "d" { HalfPageScrollDown; }
+        bind "Ctrl u" "u" { HalfPageScrollUp; }
+        bind "Ctrl f" "PageDown" { PageScrollDown; }
+        bind "Ctrl b" "PageUp" { PageScrollUp; }
+        bind "G" { ScrollToBottom; }
+        bind "q" "Ctrl c" { ScrollToBottom; SwitchToMode "locked"; }
+    }
+    entersearch {
+        bind "Enter" { SwitchToMode "search"; }
+        bind "Esc" "Ctrl c" { SwitchToMode "scroll"; }
+    }
+    renametab {
+        bind "Enter" { SwitchToMode "locked"; }
+        bind "Esc" { UndoRenameTab; SwitchToMode "locked"; }
+    }
+    shared_except "locked" "entersearch" "renametab" {
+        bind "Esc" "Enter" { SwitchToMode "locked"; }
+    }
+}
