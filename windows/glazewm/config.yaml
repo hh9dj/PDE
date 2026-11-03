@@ -1,0 +1,225 @@
+# GlazeWM v3 config. Mirrors nixos/hyprland (lib/keybinds.lua, lib/conf.lua).
+# Install: see README.md (copy to %USERPROFILE%\.glzr\glazewm\config.yaml).
+#
+# Modifier: hyprland SUPER -> alt.
+# Windows reserves most win+<key> shortcuts (win+l always locks the session),
+# so the win key cannot be used for hjkl navigation.
+
+general:
+  # Example: ['shell-exec zebar']
+  startup_commands: []
+  shutdown_commands: []
+  config_reload_commands: []
+  focus_follows_cursor: false
+  # Press the key of the current workspace again to go back to the previous one.
+  # Needed for the scratch workspace toggle (alt+s).
+  toggle_workspace_on_refocus: true
+  cursor_jump:
+    enabled: true
+    trigger: 'monitor_focus'
+  hide_method: 'cloak'
+  show_all_in_taskbar: false
+
+# hyprland: gaps_in = 10, gaps_out = 30
+gaps:
+  scale_with_dpi: true
+  inner_gap: '10px'
+  outer_gap:
+    top: '30px'
+    right: '30px'
+    bottom: '30px'
+    left: '30px'
+
+# hyprland: col.active_border, col.inactive_border, rounding, inactive_opacity.
+# Border width is fixed by Windows 11 (border_size cannot be set).
+window_effects:
+  focused_window:
+    border:
+      enabled: true
+      color: '#000000'
+    hide_title_bar:
+      enabled: false
+    corner_style:
+      enabled: true
+      style: 'rounded'
+    transparency:
+      enabled: false
+      opacity: '100%'
+  other_windows:
+    border:
+      enabled: true
+      color: '#cdd6f4'
+    hide_title_bar:
+      enabled: false
+    corner_style:
+      enabled: true
+      style: 'rounded'
+    transparency:
+      enabled: true
+      opacity: '90%'
+
+window_behavior:
+  initial_state: 'tiling'
+  state_defaults:
+    floating:
+      centered: true
+      shown_on_top: false
+    fullscreen:
+      maximized: false
+      shown_on_top: false
+
+# 1-10 like hyprland, plus 's' as the scratchpad (hyprland special:scratch).
+workspaces:
+  - name: '1'
+  - name: '2'
+  - name: '3'
+  - name: '4'
+  - name: '5'
+  - name: '6'
+  - name: '7'
+  - name: '8'
+  - name: '9'
+  - name: '10'
+  - name: 's'
+    display_name: 'scratch'
+
+window_rules:
+  - commands: ['ignore']
+    match:
+      - window_process: { equals: 'zebar' }
+      - window_process: { equals: 'Flow.Launcher' }
+      - window_title: { regex: '[Pp]icture.in.[Pp]icture' }
+        window_class: { regex: 'Chrome_WidgetWin_1|MozillaDialogClass' }
+      - window_process: { equals: 'PowerToys' }
+        window_class: { regex: 'HwndWrapper\[PowerToys\.PowerAccent.*?\]' }
+      - window_process: { equals: 'PowerToys' }
+        window_title: { regex: '.*? - Peek' }
+      - window_process: { equals: 'EXCEL' }
+        window_class: { not_regex: 'XLMAIN' }
+      - window_process: { equals: 'WINWORD' }
+        window_class: { not_regex: 'OpusApp' }
+      - window_process: { equals: 'POWERPNT' }
+        window_class: { not_regex: 'PPTFrameClass' }
+
+# hyprland: SUPER + R submap (helpers.setup_resize_binds, offset 40)
+binding_modes:
+  - name: 'resize'
+    keybindings:
+      - commands: ['resize --width -40px']
+        bindings: ['h', 'left']
+      - commands: ['resize --width +40px']
+        bindings: ['l', 'right']
+      - commands: ['resize --height +40px']
+        bindings: ['k', 'up']
+      - commands: ['resize --height -40px']
+        bindings: ['j', 'down']
+      - commands: ['wm-disable-binding-mode --name resize']
+        bindings: ['escape', 'enter', 'alt+r']
+
+keybindings:
+  # 1. Windows
+  - commands: ['close']
+    bindings: ['alt+q']
+
+  # 2. Reload
+  - commands: ['wm-reload-config']
+    bindings: ['alt+shift+r']
+
+  # 3. Launchers
+  # alt+d (app launcher) is the Flow Launcher hotkey, set in Flow Launcher settings.
+  - commands: ['shell-exec wezterm-gui']
+    bindings: ['alt+space']
+  # hyprland uses brave; change to the browser available on this machine.
+  - commands: ['shell-exec msedge']
+    bindings: ['alt+b']
+  - commands: ['shell-exec wezterm-gui start -- yazi']
+    bindings: ['alt+e']
+  - commands: ['shell-exec explorer']
+    bindings: ['alt+shift+e']
+
+  # 4. Session, screenshots
+  # No session menu on Windows: pause/resume the WM instead.
+  - commands: ['wm-toggle-pause']
+    bindings: ['alt+shift+p']
+  - commands: ['shell-exec explorer ms-screenclip:']
+    bindings: ['alt+c']
+
+  # 7. Focus
+  - commands: ['focus --direction left']
+    bindings: ['alt+h', 'alt+left']
+  - commands: ['focus --direction right']
+    bindings: ['alt+l', 'alt+right']
+  - commands: ['focus --direction up']
+    bindings: ['alt+k', 'alt+up']
+  - commands: ['focus --direction down']
+    bindings: ['alt+j', 'alt+down']
+
+  # 8. Workspaces
+  - commands: ['focus --workspace 1']
+    bindings: ['alt+1']
+  - commands: ['focus --workspace 2']
+    bindings: ['alt+2']
+  - commands: ['focus --workspace 3']
+    bindings: ['alt+3']
+  - commands: ['focus --workspace 4']
+    bindings: ['alt+4']
+  - commands: ['focus --workspace 5']
+    bindings: ['alt+5']
+  - commands: ['focus --workspace 6']
+    bindings: ['alt+6']
+  - commands: ['focus --workspace 7']
+    bindings: ['alt+7']
+  - commands: ['focus --workspace 8']
+    bindings: ['alt+8']
+  - commands: ['focus --workspace 9']
+    bindings: ['alt+9']
+  - commands: ['focus --workspace 10']
+    bindings: ['alt+0']
+  - commands: ['focus --workspace s']
+    bindings: ['alt+s']
+
+  # 9. Move windows (the focus stays on the current workspace, like hyprland)
+  - commands: ['move --workspace 1']
+    bindings: ['alt+shift+1']
+  - commands: ['move --workspace 2']
+    bindings: ['alt+shift+2']
+  - commands: ['move --workspace 3']
+    bindings: ['alt+shift+3']
+  - commands: ['move --workspace 4']
+    bindings: ['alt+shift+4']
+  - commands: ['move --workspace 5']
+    bindings: ['alt+shift+5']
+  - commands: ['move --workspace 6']
+    bindings: ['alt+shift+6']
+  - commands: ['move --workspace 7']
+    bindings: ['alt+shift+7']
+  - commands: ['move --workspace 8']
+    bindings: ['alt+shift+8']
+  - commands: ['move --workspace 9']
+    bindings: ['alt+shift+9']
+  - commands: ['move --workspace 10']
+    bindings: ['alt+shift+0']
+  - commands: ['move --workspace s']
+    bindings: ['alt+shift+s']
+  - commands: ['move --direction left']
+    bindings: ['alt+shift+h', 'alt+shift+left']
+  - commands: ['move --direction right']
+    bindings: ['alt+shift+l', 'alt+shift+right']
+  - commands: ['move --direction up']
+    bindings: ['alt+shift+k', 'alt+shift+up']
+  - commands: ['move --direction down']
+    bindings: ['alt+shift+j', 'alt+shift+down']
+
+  # 10. Groups -> no groups in GlazeWM. alt+g changes where new windows open.
+  - commands: ['toggle-tiling-direction']
+    bindings: ['alt+g']
+
+  # 11. Fullscreen and float
+  - commands: ['toggle-fullscreen']
+    bindings: ['alt+f']
+  - commands: ['toggle-floating --centered']
+    bindings: ['alt+shift+f']
+
+  # 12. Resize
+  - commands: ['wm-enable-binding-mode --name resize']
+    bindings: ['alt+r']
