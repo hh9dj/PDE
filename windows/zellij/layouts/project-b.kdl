@@ -1,0 +1,36 @@
+// Layout "project-b": 4 tabs (editor, shell, dev, gemini).
+// Fill every PLACEHOLDER_* value by hand.
+// Start: zellij --layout project-b   (needs layouts in ZELLIJ_CONFIG_DIR\layouts)
+
+layout {
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="compact-bar"
+        }
+        children
+    }
+
+    // Tab 1: editor
+    tab name="editor" focus=true cwd="PLACEHOLDER_DIR_EDITOR" {
+        pane command="nvim"
+    }
+
+    // Tab 2: shell (PowerShell)
+    tab name="shell" cwd="PLACEHOLDER_DIR_SHELL" {
+        pane command="pwsh"
+    }
+
+    // Tab 3: dev command
+    tab name="dev" cwd="PLACEHOLDER_DIR_DEV" {
+        pane command="pwsh" {
+            args "-NoExit" "-Command" "PLACEHOLDER_DEV_COMMAND"
+        }
+    }
+
+    // Tab 4: gemini
+    tab name="gemini" cwd="PLACEHOLDER_DIR_GEMINI" {
+        pane command="pwsh" {
+            args "-NoExit" "-Command" "gemini"
+        }
+    }
+}

@@ -116,3 +116,12 @@ Default mode is `locked`. Press `Ctrl a` (prefix), then one key. Zellij returns 
 ## Documentation
 
 https://zellij.dev/documentation/
+
+## Layouts
+
+Files are in `layouts/`. Copy them to `%USERPROFILE%\.config\zellij\layouts`.
+
+- `project-a.kdl` and `project-b.kdl` have the same 4 tabs: `editor` (nvim), `shell` (pwsh), `dev` (your command), `gemini`.
+- Replace each `PLACEHOLDER_DIR_*` with a directory path. Use forward slashes or escaped backslashes.
+- Replace `PLACEHOLDER_DEV_COMMAND` with the dev command.
+- Start a layout: `zellij --layout project-a`.
