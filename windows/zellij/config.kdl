@@ -66,6 +66,14 @@ keybinds clear-defaults=true {
             LaunchOrFocusPlugin "session-manager" { floating true; move_to_focused_tab true; }
             SwitchToMode "locked"
         }
+        // fzf session picker in a floating pane (needs fzf in PATH)
+        bind "S" {
+            Run "pwsh" "-NoProfile" "-Command" "$n = zellij list-sessions --short --no-formatting | Where-Object { $_ -ne $env:ZELLIJ_SESSION_NAME } | fzf --reverse --prompt='session> '; if ($n) { zellij action switch-session $n }" {
+                floating true
+                close_on_exit true
+            }
+            SwitchToMode "locked"
+        }
         bind "d" { Detach; }
         bind "Ctrl q" { Quit; }
 

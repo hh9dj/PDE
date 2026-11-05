@@ -70,6 +70,7 @@ If symbolic links are blocked, copy the file again after each change.
 
 - `pwsh` in `PATH` (default shell).
 - `nvim` in `PATH` (scrollback editor, `Ctrl a` then `Ctrl e`).
+- `fzf` in `PATH` (session picker, `Ctrl a` then `S`). Needs a Zellij release with `zellij action switch-session`.
 - A terminal that does not capture `Ctrl a` and `Alt s`.
 
 ### Start automatically (optional)
@@ -96,6 +97,7 @@ Default mode is `locked`. Press `Ctrl a` (prefix), then one key. Zellij returns 
 - `Ctrl a` `,`: Rename tab.
 - `Ctrl a` `q`: Close tab.
 - `Ctrl a` `s`: Session manager.
+- `Ctrl a` `S`: Session picker with fzf in a floating pane. Needs `fzf` in `PATH`.
 - `Ctrl a` `d`: Detach.
 - `Ctrl a` `Ctrl q`: Quit.
 - `Ctrl a` `Ctrl e`: Edit scrollback in Neovim.

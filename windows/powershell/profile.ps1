@@ -48,6 +48,10 @@ Set-PSReadLineKeyHandler -Chord Ctrl+Spacebar -ScriptBlock {
     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 }
 
+# fzf: Ctrl+r history search (file: windows/fzf/fzf.ps1, copy it next to the profile)
+$fzfScript = Join-Path (Split-Path $PROFILE) "fzf.ps1"
+if (Test-Path $fzfScript) { . $fzfScript }
+
 # ALIASES
 # Remove built-in aliases that collide with the names below
 # (gl = Get-Location, gp = Get-ItemProperty, ls = Get-ChildItem).
