@@ -92,7 +92,7 @@ Focus and move:
 Workspaces:
 
 - `Alt 1..9`, `Alt 0`: go to workspace 1 to 10.
-- `Alt Shift 1..9`, `Alt Shift 0`: move the window to workspace 1 to 10. The focus stays, like hyprland.
+- `Alt Shift 1..9`, `Alt Shift 0`: move the window to workspace 1 to 10. The focus follows the window.
 - `Alt S`: go to the scratch workspace. Press it again to go back.
 - `Alt Shift S`: move the window to the scratch workspace.
 

@@ -1,0 +1,32 @@
+{
+  "name": "pde-bar",
+  "version": "0.1.0",
+  "description": "Simple top bar: workspaces, focused window, floating state, clock, keyboard layout.",
+  "widgets": [
+    {
+      "name": "bar",
+      "htmlPath": "index.html",
+      "zOrder": "normal",
+      "shownInTaskbar": false,
+      "focused": false,
+      "resizable": false,
+      "transparent": false,
+      "presets": [
+        {
+          "name": "default",
+          "anchor": "top_center",
+          "offsetX": "0px",
+          "offsetY": "0px",
+          "width": "100%",
+          "height": "35px",
+          "monitorSelection": { "type": "all" },
+          "dockToEdge": {
+            "enabled": true,
+            "edge": "top",
+            "windowMargin": "0px"
+          }
+        }
+      ]
+    }
+  ]
+}
