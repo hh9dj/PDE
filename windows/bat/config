@@ -1,0 +1,2 @@
+# bat config. Mirrors the Home Manager bat module (theme Catppuccin Latte, built in since bat 0.25).
+--theme="Catppuccin Latte"

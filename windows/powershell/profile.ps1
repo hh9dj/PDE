@@ -6,6 +6,8 @@
 $env:EDITOR = "nvim"
 $env:VISUAL = "nvim"
 $env:BAT_THEME = "Catppuccin Latte"
+$env:BAT_CONFIG_PATH = "$env:USERPROFILE\.config\bat\config"
+$env:RIPGREP_CONFIG_PATH = "$env:USERPROFILE\.config\ripgrep\config"
 $env:ZELLIJ_CONFIG_DIR = "$env:USERPROFILE\.config\zellij"
 $env:TELEVISION_CONFIG = "$env:USERPROFILE\.config\television"
 $global:PdeDir = $env:PDE_DIR ?? "$env:USERPROFILE\PDE"
@@ -63,7 +65,7 @@ if (Test-Path $fzfScript) { . $fzfScript }
 # ALIASES
 # Remove built-in aliases that collide with the names below
 # (gl = Get-Location, gp = Get-ItemProperty, ls = Get-ChildItem).
-foreach ($name in @("gl", "gp", "ls")) {
+foreach ($name in @("gl", "gp", "ls", "cat")) {
     Remove-Alias -Name $name -Force -ErrorAction SilentlyContinue
 }
 
@@ -90,6 +92,12 @@ function la { eza -a @args }
 function lt { eza --tree @args }
 function lla { eza -la @args }
 function tree { eza --tree @args }
+
+# bat instead of cat, ripgrep for grep (rg flags, not GNU grep flags)
+function cat { bat --paging=never @args }
+function grep { rg --color=auto @args }
+# rgrep: search everything below the current directory, also hidden and ignored files
+function rgrep { rg --no-ignore --hidden @args }
 
 # misc
 function e { & $env:EDITOR @args }
@@ -118,6 +126,8 @@ $global:PdeSetupScripts = [ordered]@{
     git        = "git\setup.ps1"
     television = "television\setup.ps1"
     gemini     = "gemini\apply.ps1"
+    bat        = "bat\setup.ps1"
+    ripgrep    = "ripgrep\setup.ps1"
     glazewm    = "glazewm\setup.ps1"
     flow       = "flow-launcher\setup.ps1"
     chrome     = "chrome\setup.ps1"

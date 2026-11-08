@@ -11,3 +11,5 @@
 [delta]
 	navigate = true
 	side-by-side = true
+	light = true
+	syntax-theme = Catppuccin Latte

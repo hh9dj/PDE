@@ -22,7 +22,7 @@ setup_git -DryRun
 
 ## Configured features
 
-- delta: `navigate = true` (jump between diff sections with `n` and `N`), `side-by-side = true`.
+- delta: `navigate = true` (jump between diff sections with `n` and `N`), `side-by-side = true`, `light = true`, `syntax-theme = Catppuccin Latte` (built in since delta 0.20).
 - `merge.conflictstyle = diff3`.
 - `diff.colorMoved = default`.
 

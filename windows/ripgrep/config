@@ -1,0 +1,4 @@
+# ripgrep config (the profile sets RIPGREP_CONFIG_PATH to it).
+--smart-case
+--hidden
+--glob=!.git/
