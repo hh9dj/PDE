@@ -1,6 +1,6 @@
 ; Scroll keys for Chrome only (AutoHotkey v2). Chrome policy blocks extensions.
 ; Esc turns "nav mode" on. A mouse click or "i" turns it off (so you can type in a page).
-; In nav mode: u = page up, d = page down.
+; In nav mode: u = page up, d = page down, gg = top, G = bottom.
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 
@@ -19,3 +19,11 @@ SetNav(on) {
 i:: SetNav(false)
 u:: Send "{PgUp}"
 d:: Send "{PgDn}"
++g:: Send "{End}"
+g:: {
+    ih := InputHook("L1 T0.5")
+    ih.Start()
+    ih.Wait()
+    if (ih.Input = "g")
+        Send "{Home}"
+}

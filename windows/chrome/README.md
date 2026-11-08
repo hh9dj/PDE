@@ -19,6 +19,7 @@ It copies `vim-nav.ahk` to `~\.config\chrome-nav\`, adds a Startup shortcut and 
 
 - `Esc`: nav mode on. A small `nav` text shows at the top left of the screen.
 - `u` / `d`: page up / page down (nav mode only).
+- `gg` / `G`: top / bottom of the page (nav mode only). For `gg` press `g` twice within half a second.
 - Mouse click or `i`: nav mode off, so you can type in a page. Press `Esc` to go back.
 
 ## Limits
@@ -29,5 +30,5 @@ It copies `vim-nav.ahk` to `~\.config\chrome-nav\`, adds a Startup shortcut and 
 
 ## Manual tests
 
-- `Esc` on a page: `nav` shows. `u` and `d` scroll.
+- `Esc` on a page: `nav` shows. `u` and `d` scroll. `gg` and `G` jump.
 - Click in a search box and type: letters appear (nav is off).
