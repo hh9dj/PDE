@@ -1,6 +1,6 @@
 ; Vimium-like keys for Chrome only (AutoHotkey v2). Chrome policy blocks extensions.
 ; Esc turns "nav mode" on. A mouse click or "i" turns it off (so you can type in a page).
-; Link hints come from the bookmarklet "hints" (first item of the bookmark bar).
+; Link hints come from the bookmarklet "hints" (second item of the bookmark bar).
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 
@@ -39,8 +39,11 @@ o:: Send "^l"
 r:: Send "{F5}"
 /:: Send "^f"
 f:: {
-    ; Alt+Shift+B focuses the bookmark bar. Enter runs its first item (the hints bookmarklet).
+    ; Alt+Shift+B focuses the bookmark bar (first item = the fixed default widget).
+    ; Right moves to the second item (the hints bookmarklet). Enter runs it.
     Send "!+b"
     Sleep 80
+    Send "{Right}"
+    Sleep 40
     Send "{Enter}"
 }

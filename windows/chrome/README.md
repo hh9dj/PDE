@@ -24,7 +24,7 @@ One manual step in Chrome:
 
 1. Press `Ctrl+Shift+B` to show the bookmark bar.
 2. Right-click the bar, "Add page". Name: `hints`. URL: paste the clipboard (or the content of `~\.config\chrome-nav\hints.bookmarklet.txt`).
-3. `hints` must be the first item of the bookmark bar. Drag it to the left if needed.
+3. `hints` must be the second item of the bookmark bar, right after the fixed default item that cannot be removed. Drag it there if needed.
 
 ## Keys
 
@@ -42,7 +42,7 @@ One manual step in Chrome:
 
 - The script cannot see if a text field has focus. This is why nav mode is a mode. Do not leave it on while you type in a page.
 - Bookmarklet hints do not work on pages that Chrome blocks (`chrome://`, the web store, the new tab page).
-- Hints start through `Alt+Shift+B` and `Enter`. If you do not use the bookmark bar, this does not work.
+- Hints start through `Alt+Shift+B`, `Right` and `Enter`. If you do not use the bookmark bar, this does not work.
 - Esc also turns nav mode on when a page uses Esc (for example to close a dialog). Press `i` to leave.
 
 ## Manual tests
