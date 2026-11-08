@@ -62,11 +62,14 @@ Without the bundle the server stays off.
 
 ## Treesitter (off, test with zig)
 
-Treesitter needs a C compiler to build parsers. The laptop has none. `zig` (scoop) can act as one. This is not proven yet, so it is opt-in:
+Treesitter needs a C compiler to build parsers. The laptop has none. `zig` (scoop) can act as one. This is not proven yet, so it is opt-in.
+
+A plain `$env:CC = "zig cc"` fails: `unable to parse target query x86_64-pc-windows-msvc: UnknownOperatingSystem`. The tree-sitter CLI passes an MSVC target that zig does not know. `setup_nvim` installs a wrapper, `~\.config\zig-cc\zig-cc.cmd`, that changes the target to `x86_64-windows-gnu` (zig has its own C library for it).
 
 ```powershell
+setup_nvim                       # installs the wrapper
 $env:NVIM_TREESITTER = "1"
-$env:CC = "zig cc"
+$env:CC = "$HOME\.config\zig-cc\zig-cc.cmd"
 nvim
 # inside nvim:
 # :Lazy sync
@@ -75,6 +78,7 @@ nvim
 ```
 
 - It needs `tree-sitter` (the CLI, in `setup_tools`) and `zig`.
+- Check the wrapper alone: `& $env:CC --version` prints the zig clang version.
 - If `:TSInstall` works, tell me. Then the variables become permanent in the profile and treesitter is on by default.
 - If it fails, send the error text. The fallback is parser DLLs compiled on NixOS for Windows.
 

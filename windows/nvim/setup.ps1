@@ -7,3 +7,6 @@ $ErrorActionPreference = "Stop"
 
 $base = if ($IsWindows) { $env:LOCALAPPDATA } else { Join-Path $HOME ".config" }
 Install-PdeConfig -Source "$PSScriptRoot/../../common/nvim/config" -Target (Join-Path $base "nvim") -DryRun:$DryRun -Replace
+
+# C compiler wrapper for treesitter (zig cc). Used only when $env:CC points to it (see README.md).
+Install-PdeConfig -Source "$PSScriptRoot/zig-cc.cmd" -Target (Join-Path $HOME ".config/zig-cc/zig-cc.cmd") -DryRun:$DryRun
