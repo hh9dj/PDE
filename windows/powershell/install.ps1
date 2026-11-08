@@ -53,6 +53,7 @@ $apps = @(
     # desktop
     "glazewm"
     "flow-launcher"
+    "autohotkey"
 )
 
 $failed = @()

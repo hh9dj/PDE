@@ -115,6 +115,7 @@ $global:PdeSetupScripts = [ordered]@{
     gemini     = "gemini\apply.ps1"
     glazewm    = "glazewm\setup.ps1"
     flow       = "flow-launcher\setup.ps1"
+    chrome     = "chrome\setup.ps1"
     tools      = "powershell\install.ps1"
 }
 foreach ($tool in $global:PdeSetupScripts.Keys) {
