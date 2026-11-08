@@ -7,7 +7,7 @@ return {
   ---@type blink.cmp.Config
   opts = {
     signature = { enabled = true, window = { show_documentation = false } },
-    keymap = { preset = "default", ["<C-c>"] = { "hide", "fallback" }, ["<CR>"] = false },
+    keymap = { preset = "default", ["<C-c>"] = { "hide", "fallback" }, ["<CR>"] = false, ["<C-l>"] = { "show", "fallback" } },
     appearance = { nerd_font_variant = "mono" },
     completion = {
       accept = { auto_brackets = { enabled = true } },
