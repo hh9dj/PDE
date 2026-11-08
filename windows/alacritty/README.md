@@ -1,72 +1,41 @@
 # Alacritty
 
-GPU-accelerated terminal emulator. Alternative terminal for the Windows PDE.
+Terminal emulator. Runs PowerShell 7 and, inside it, zellij.
 
-## Role in the stack
+## Dependencies
 
-- Alternative to WezTerm.
-- Runs PowerShell 7 as the default shell.
-- Has no built-in tabs, panes, or multiplexer. Use it as a single-window terminal or pair it with a separate multiplexer. WezTerm remains the primary terminal for that reason.
+- `alacritty` (scoop: `scoop install alacritty`).
+- `pwsh` 7.
+- Font `JetBrainsMono Nerd Font` (scoop: `JetBrainsMono-NF`, bucket `nerd-fonts`).
 
-## Installation
+`setup_tools` installs these with scoop.
 
-Preferred:
-
-```powershell
-scoop install alacritty
-```
-
-Fallback:
-
-1. Download the official portable ZIP.
-2. Extract it into `%USERPROFILE%\apps\alacritty`.
-3. Execute `alacritty.exe`.
-
-## Configuration
-
-Copy `alacritty.toml` into the Windows config directory:
-
-```text
-%APPDATA%\alacritty\alacritty.toml
-```
-
-Create the directory first if it does not exist:
+## Setup
 
 ```powershell
-New-Item -ItemType Directory -Force "$env:APPDATA\alacritty"
+setup_alacritty         # copy alacritty.toml to %APPDATA%\alacritty
+setup_alacritty -DryRun
 ```
 
-The configuration mirrors the NixOS/macOS setup:
+- An existing file is copied to `alacritty.toml.bak-<timestamp>` first.
+- Alacritty reloads the file on save. Restart if a setting does not change.
 
-- `TERM=xterm-256color`.
-- Maximized window with `180`/`90` padding.
-- `10000` lines of scrollback.
-- JetBrainsMono Nerd Font, size `16`.
-- Catppuccin Latte colors.
-- Alt and Shift Enter bindings.
+## Configured features
 
-## Shell configuration
+- Catppuccin Latte colors: background `#eff1f5`, foreground `#4c4f69`, official ANSI palette.
+- On this light theme, ANSI "black" is dark (`#5c5f77`), because PSReadLine and many CLIs print secondary text in black.
+- Shell: `pwsh -NoLogo` (no startup banner, the profile still loads).
+- Font `JetBrainsMono Nerd Font`, size 16.
+- Keys: `Shift+Enter` and `Alt+Enter` send CSI-u sequences, so TUI apps (nvim, gemini) can tell them apart from `Enter`.
 
-```toml
-[terminal.shell]
-program = "pwsh"
-args = ["-NoLogo"]
-```
+## Defaults changed
 
-`-NoLogo` suppresses the PowerShell startup banner (version, build, copyright, and help hints). The shell starts with a clean prompt. It does not skip the profile; use `-NoProfile` for that.
+- `TERM = xterm-256color`.
+- Starts maximized, padding x 180 and y 90.
+- Scrollback history 10000 lines.
 
-## Notes
+## Manual tests
 
-- `font.size` is a float in TOML, so `16.0` is used.
-- The Catppuccin Latte colors are inlined because Windows has no home-manager theme generation.
-
-## Alternatives
-
-### WezTerm (primary)
-
-- Provides tabs, panes, and a multiplexer workflow.
-- Use it when you need more than one terminal surface.
-
-## Documentation
-
-https://alacritty.org/
+- The window opens maximized with a light background and a prompt.
+- `Shift+Enter` in gemini adds a new line without sending the prompt.
+- Zellij shows its colors correctly inside alacritty.

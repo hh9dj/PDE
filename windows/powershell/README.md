@@ -1,118 +1,66 @@
-# PowerShell 7
+# PowerShell profile
 
-Primary shell for the Windows PDE. Provides a Unix-like command experience without WSL.
+PowerShell 7 profile. Mirrors the zsh setup (`common/zsh`): environment, line editing, aliases, integrations. It also holds the `setup_<tool>` commands.
 
-## Role in the stack
+## Dependencies
 
-- Default shell in WezTerm.
-- Hosts the Starship prompt, zoxide, environment variables and CLI aliases.
-- Runs alongside Windows PowerShell 5.1.
+- `pwsh` 7 (scoop: `scoop install pwsh`). The profile uses `??`, which needs PowerShell 7.
+- `git`: needed to clone and update this repo.
+- `scoop`: the package manager. `setup_tools` installs the rest.
+- Optional, each one is skipped when missing: `starship`, `zoxide`, `fzf`, `eza`, `zellij`, `tv`, `nvim`.
+- Execution policy `RemoteSigned` or looser (scripts from a git clone are local, so they run).
 
-## Files
-
-- `install.ps1`: installs Scoop, the buckets and all PDE tools, and sets the persistent user environment variables.
-- `profile.ps1`: the PowerShell profile. It mirrors `common/zsh` (environment variables, aliases, line editing).
-
-## Installation
-
-Run the install script from Windows PowerShell 5.1 or PowerShell 7. It does not need administrator rights:
+## First install (once)
 
 ```powershell
-cd <repo>\windows\powershell
-powershell -ExecutionPolicy Bypass -File .\install.ps1
+git clone <repo-url> $HOME\PDE
+Copy-Item $HOME\PDE\windows\powershell\profile.ps1 $PROFILE -Force
+. $PROFILE
+setup_tools      # scoop apps (needs the proxy and buckets to work)
+setup_all        # every config below
 ```
 
-The script:
+- The repo must be at `$HOME\PDE`. Set `$env:PDE_DIR` before the profile loads for another path.
 
-1. Installs Scoop if it is missing.
-2. Installs Git, then adds the `extras` and `nerd-fonts` buckets.
-3. Installs the apps: `pwsh`, WezTerm, Zellij, Starship, JetBrainsMono Nerd Font, Neovim, the CLI tools from `common/zsh`, GlazeWM and Flow Launcher.
-4. Sets the user environment variables `EDITOR`, `VISUAL` and `ZELLIJ_CONFIG_DIR`.
-5. Lists the apps that failed (for example because of the proxy). Install those with the fallback in each tool README.
+## Update (every time)
 
-You can run it again. Scoop skips the apps that are already installed.
+```powershell
+pde_pull         # git pull --ff-only in the repo
+setup_all        # or one tool, for example setup_zellij
+. $PROFILE       # reload (or open a new terminal)
+```
 
-Zebar is not in the script. Install it from the official releases (see `zebar/README.md`).
+## Commands
 
-Fallback for PowerShell 7 only:
+- `setup_profile`: copy the profile to `$PROFILE` and `fzf.ps1` next to it.
+- `setup_zellij`, `setup_starship`, `setup_alacritty`, `setup_git`, `setup_television`, `setup_gemini`, `setup_glazewm`, `setup_zebar`, `setup_flow`: install the config of one tool. See the README of the tool.
+- `setup_tools`: install the scoop apps and set user environment variables (`install.ps1`). Run it by hand when you need it.
+- `setup_all`: every `setup_*` above except `setup_tools`.
+- `setup_list`: list the commands.
+- `pde_pull`: update the repo.
+- `-DryRun` works on the config commands. Old files are backed up as `<name>.bak-<timestamp>`. A file that did not change is not touched.
 
-1. Download the official PowerShell ZIP distribution.
-2. Extract it into `%USERPROFILE%\apps\powershell`.
-3. Execute `pwsh.exe`.
+## Configured features
 
-## Configuration
+- Environment: `EDITOR` and `VISUAL` = nvim, `BAT_THEME` = Catppuccin Latte, `ZELLIJ_CONFIG_DIR`, `TELEVISION_CONFIG`.
+- Line editing like zsh: Emacs keys, history predictions, `Ctrl+y` accepts a suggestion, `Ctrl+o` next word, `Ctrl+p` and `Ctrl+n` search history by prefix, `Ctrl+e` edit the command in the editor, `Ctrl+Space` accept and run, `Tab` menu completion.
+- Catppuccin Latte syntax colors (PSReadLine).
+- Aliases: git (`gst`, `gaa`, `gcmsg`, ...), eza (`ls`, `ll`, `la`, `lt`, `tree`), `e`, `c`, `..`, `croot`, `dotconf`, `reload`.
+- Zellij: `z <layout>` starts or attaches a session, `za` picks a live session with tv.
+- Integrations when installed: starship prompt, zoxide (`cd` is replaced, init is last), fzf `Ctrl+r`.
 
-1. Start `pwsh` and copy the profile:
+## Defaults changed
 
-   ```powershell
-   New-Item -ItemType Directory -Force -Path (Split-Path $PROFILE) | Out-Null
-   Copy-Item .\profile.ps1 $PROFILE
-   ```
+- Built-in aliases `gl`, `gp`, `ls` are removed (they clash with git and eza functions).
+- `cd` is replaced by zoxide.
+- PSReadLine: edit mode Emacs, 5000 history entries without duplicates, inline prediction from history, `Tab` is `MenuComplete`.
 
-   To keep the profile in Git, use a symbolic link instead (needs Developer Mode or administrator rights):
+## Note on install.ps1
 
-   ```powershell
-   New-Item -ItemType SymbolicLink -Path $PROFILE -Target "<repo>\windows\powershell\profile.ps1"
-   ```
+`setup_tools` uses scoop as configured on the machine. It does not set proxy or registry settings. It sets user variables `EDITOR`, `VISUAL` and `ZELLIJ_CONFIG_DIR`.
 
-2. Open a new terminal, or run `. $PROFILE`.
+## Manual tests
 
-3. If the profile is blocked by the execution policy, allow local scripts for your user:
-
-   ```powershell
-   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-   ```
-
-The profile loads Starship and zoxide only if they are installed.
-
-### Environment variables
-
-- `EDITOR`, `VISUAL`: `nvim`.
-- `BAT_THEME`: `Catppuccin Latte` (same as `common/zsh`).
-- `ZELLIJ_CONFIG_DIR`: `%USERPROFILE%\.config\zellij`.
-
-### Line editing (same keys as `common/zsh/zshrc`)
-
-- Emacs keys, inline history suggestions, 5000 history entries without duplicates.
-- `Tab`: completion menu.
-- `Ctrl y`: accept the suggestion.
-- `Ctrl Space`: accept the suggestion and run it.
-- `Ctrl o`: next word.
-- `Ctrl p` / `Ctrl n`: search history backward / forward with the current text.
-- `Ctrl e`: edit the command line in `$EDITOR`.
-
-### Aliases
-
-The profile removes the built-in aliases `gl`, `gp` and `ls` because they collide with the names below.
-
-- Git: `gsw`, `gclean`, `grs`, `ga`, `gaa`, `gst`, `gss`, `gcam`, `gcmsg`, `gl`, `gll`, `gp`, `gd`, `gds`.
-- eza: `ls`, `ll`, `la`, `lt`, `lla`, `tree`.
-- `cd`: zoxide (`--cmd cd`, same as `common/zsh`).
-- `e`: open `$EDITOR`.
-- `c`: clear the screen.
-- `..`: go to the parent directory.
-- `dotconf`: go to `%USERPROFILE%\.config`.
-- `croot`: go to the Git repository root.
-- `nvim_shada_clear`: delete the Neovim ShaDa file.
-- `pbench`: measure the shell startup time (replaces `zbench`).
-- `reload`: reload the profile.
-
-Aliases from `common/zsh` that depend on Linux tools are not ported (`tmuxp`, `tv`, `workmux`, `hunk`, `nh`, `nixos-rebuild`, `leetcode`, `xcurl`).
-
-## Alternatives
-
-### Windows PowerShell 5.1 (fallback)
-
-- Ships with Windows.
-- Older language features and slower startup.
-- Use when PowerShell 7 cannot be installed.
-
-### Git Bash (fallback)
-
-- POSIX shell included with Git for Windows.
-- Provides Bash, SSH, grep, sed and awk.
-- Use when a Unix shell is required, but it does not integrate with the PowerShell profile.
-
-## Documentation
-
-https://learn.microsoft.com/powershell/
+- A new terminal loads without errors. `setup_list` prints the commands.
+- `setup_zellij -DryRun`, then `setup_zellij`. A second run prints "up to date".
+- The prompt is starship. `cd` jumps with zoxide after a few visits.

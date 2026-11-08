@@ -2,12 +2,48 @@
 
 Application launcher with a plugin ecosystem.
 
+## Dependencies
+
+- `flow-launcher` (scoop: `scoop install flow-launcher`, bucket `extras`).
+- Font `JetBrainsMono Nerd Font` (scoop: `JetBrainsMono-NF`).
+- Start Flow Launcher once, so that `Settings.json` exists.
+
+## Setup
+
+```powershell
+setup_flow
+```
+
+- The script stops Flow Launcher (it writes `Settings.json` on exit), copies the theme, changes only the keys listed below, backs up the file to `Settings.json.bak`, and starts Flow Launcher again.
+
+## Configured features
+
+- Theme `Latte Blue` (Catppuccin Latte colors, layout like fuzzel).
+- Hotkey `Alt + D`.
+- Next and previous result: `Ctrl + N` and `Ctrl + J`, `Ctrl + P` and `Ctrl + K`.
+- Launch at system startup.
+
+## Defaults changed
+
+- Theme, color scheme `Light`, window size and item heights, 8 results.
+- Fonts `JetBrainsMono Nerd Font` (query 18, results 16, subtitles 12), placeholder text.
+- Animation, drop shadow, clock and date are off.
+
+## Pending
+
+- Clipboard history (plugin from the plugin store, if the store is allowed).
+
+## Manual tests
+
+- `Alt + D` opens the launcher with the Latte theme.
+- `Ctrl + N` and `Ctrl + P` move through the results.
+
 ## Role in the stack
 
 - Primary launcher.
 - Provides application search, file search, calculator, and web search.
 
-## Installation
+## Manual installation (alternative)
 
 Check availability, then install through Scoop:
 
@@ -31,7 +67,7 @@ https://github.com/Flow-Launcher/Flow.Launcher
 - Plugin ecosystem.
 - Custom shortcuts.
 
-## Configuration
+## Manual configuration (alternative)
 
 The config mirrors `nixos/fuzzel`. It has two files:
 

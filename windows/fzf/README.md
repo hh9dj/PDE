@@ -1,55 +1,31 @@
 # fzf
 
-Command-line fuzzy finder.
+Fuzzy finder. Here it powers `Ctrl+r` history search in PowerShell and the zellij session picker.
 
-## Role in the stack
+## Dependencies
 
-- Primary fuzzy finder.
-- Filters files, history, branches, and command output.
+- `fzf` (scoop: `scoop install fzf`).
+- PSReadLine (bundled with PowerShell 7).
 
-## Installation
+`setup_tools` installs fzf with scoop.
 
-Preferred:
+## Setup
 
-```powershell
-scoop install fzf
-```
+`fzf.ps1` is installed next to the profile by `setup_profile` (see `powershell/README.md`). The profile loads it when it exists. No separate step.
 
-Check availability with:
+## Configured features
 
-```powershell
-scoop search fzf
-```
+- `Ctrl+r`: search the shell history with fzf (newest first, no duplicates, the current line is the query).
 
-## Configuration
+## Defaults changed
 
-`fzf.ps1` binds `Ctrl+r` in PowerShell to an fzf search of the shell history.
+- `Ctrl+r` is replaced (the PSReadLine reverse search is gone).
+- fzf options: `--scheme=history --height=40% --reverse --prompt='history> '`.
 
-- Reads the PSReadLine history file, newest first, without duplicates.
-- Starts with the text already typed on the line as the query.
-- `Enter` puts the selected command on the prompt. It does not run it.
-- Needs `fzf` in `PATH`. It does not need the PSFzf module.
+## Not done yet
 
-Install:
+- File and directory completion (`Ctrl+t`, `Alt+c`, tab completion). Planned through television.
 
-```powershell
-Copy-Item .\fzf.ps1 (Join-Path (Split-Path $PROFILE) "fzf.ps1")
-```
+## Manual tests
 
-The profile (`windows/powershell/profile.ps1`) loads this file if it exists. Copy it again after each change, or use a symbolic link like the profile.
-
-## Alternatives
-
-### Telescope (inside Neovim)
-
-- Fuzzy search inside Neovim.
-- Use it when working inside the editor.
-
-### PowerShell filtering
-
-- Filter pipeline output manually.
-- No fuzzy matching.
-
-## Documentation
-
-https://github.com/junegunn/fzf
+- `Ctrl+r` opens a list at the bottom. Enter puts the command on the prompt without running it.

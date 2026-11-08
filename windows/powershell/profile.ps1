@@ -1,11 +1,14 @@
 # PowerShell 7 profile. Mirrors common/zsh (env vars, aliases, line editing).
-# Install: see README.md (copy to $PROFILE).
+# First install: copy this file to $PROFILE once. After that, use setup_profile (see README.md).
+# The PDE repo must be in $HOME\PDE (or set $env:PDE_DIR before the profile loads).
 
 # ENV VARS
 $env:EDITOR = "nvim"
 $env:VISUAL = "nvim"
 $env:BAT_THEME = "Catppuccin Latte"
 $env:ZELLIJ_CONFIG_DIR = "$env:USERPROFILE\.config\zellij"
+$env:TELEVISION_CONFIG = "$env:USERPROFILE\.config\television"
+$global:PdeDir = $env:PDE_DIR ?? "$env:USERPROFILE\PDE"
 
 
 # LINE EDITING (zsh: emacs keymap + autosuggestions)
@@ -99,6 +102,49 @@ function croot {
         Set-Location $root
     }
 }
+
+# PDE SETUP (each setup_<tool> runs windows\<tool>\setup.ps1 from the PDE repo)
+# Old config is backed up as <file>.bak-<timestamp>. Add -DryRun to see what would change.
+$global:PdeSetupScripts = [ordered]@{
+    profile    = "powershell\setup.ps1"
+    zellij     = "zellij\setup.ps1"
+    starship   = "starship\setup.ps1"
+    alacritty  = "alacritty\setup.ps1"
+    git        = "git\setup.ps1"
+    television = "television\setup.ps1"
+    gemini     = "gemini\apply.ps1"
+    glazewm    = "glazewm\setup.ps1"
+    zebar      = "zebar\setup.ps1"
+    flow       = "flow-launcher\setup.ps1"
+    tools      = "powershell\install.ps1"
+}
+foreach ($tool in $global:PdeSetupScripts.Keys) {
+    $path = Join-Path $global:PdeDir "windows\$($global:PdeSetupScripts[$tool])"
+    Set-Item -Path "function:global:setup_$tool" -Value ([scriptblock]::Create("& '$path' @args"))
+}
+# Every tool except "tools" (scoop installs, run it once by hand: setup_tools)
+function setup_all {
+    foreach ($tool in $global:PdeSetupScripts.Keys | Where-Object { $_ -ne "tools" }) {
+        Write-Host "== setup_$tool"
+        & "setup_$tool" @args
+    }
+}
+function setup_list { $global:PdeSetupScripts.Keys | ForEach-Object { "setup_$_" }; "setup_all" }
+function pde_pull { git -C $global:PdeDir pull --ff-only }
+
+# zellij sessions (tmux: t = tmuxp load, ta = tv tmux-sessions). Here: z = layout, za = picker.
+# Layout name -> start directory. The repo path can be changed with $env:PDE_DIR.
+$global:ZellijLayoutDirs = @{ dots = $global:PdeDir }
+function z {
+    param([Parameter(Mandatory)][string]$Name)
+    if ($global:ZellijLayoutDirs.ContainsKey($Name)) { Set-Location $global:ZellijLayoutDirs[$Name] }
+    if (zellij list-sessions --short --no-formatting 2>$null | Where-Object { $_ -eq $Name }) {
+        zellij attach $Name
+    } else {
+        zellij --session $Name --new-session-with-layout $Name
+    }
+}
+function za { tv zellij-sessions }
 
 # INTEGRATIONS (only if the tool is installed)
 if (Get-Command starship -ErrorAction SilentlyContinue) {

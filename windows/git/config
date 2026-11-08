@@ -1,0 +1,13 @@
+; Extra global Git config, read from ~/.config/git/config.
+; Git reads this file before ~/.gitconfig, so company settings in ~/.gitconfig win.
+; No identity, credential, proxy or url settings here on purpose.
+
+[merge]
+	conflictstyle = diff3
+
+[diff]
+	colorMoved = default
+
+[delta]
+	navigate = true
+	side-by-side = true

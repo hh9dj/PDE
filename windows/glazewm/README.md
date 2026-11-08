@@ -2,12 +2,52 @@
 
 Dynamic tiling window manager for Windows.
 
+## Dependencies
+
+- `glazewm` (scoop: `scoop install glazewm`).
+- `zebar`: started by GlazeWM at startup (see `zebar/README.md`).
+- `alacritty` (terminal) and Chrome (browser): launched by keybinds.
+
+`setup_tools` installs glazewm with scoop.
+
+## Setup
+
+```powershell
+setup_glazewm           # copy config.yaml to ~\.glzr\glazewm\config.yaml
+setup_glazewm -DryRun
+```
+
+- An existing file is copied to `config.yaml.bak-<timestamp>` first.
+- Start GlazeWM once before the first setup, so the folder exists. Reload the config in GlazeWM afterwards (or restart it).
+
+## Configured features
+
+- Tiling with workspaces `1` to `10`.
+- Keybinds for focus, move, resize mode, layout and launching apps (see Keybindings below).
+- Zebar starts with GlazeWM (`startup_commands: ['shell-exec zebar']`). Zebar windows are ignored by the tiler.
+
+## Defaults changed
+
+- `inner_gap: 10px` and a larger outer gap (hyprland-like gaps).
+- `focus_follows_cursor: false`.
+- Extra workspace `s` (scratch) and keybinds that start `wezterm-gui` and `msedge`.
+
+## Pending (see the plan, phase 7)
+
+- Remove the scratch workspace `s` (zellij uses `Alt s`).
+- Replace `wezterm-gui` with `alacritty` and `msedge` with Chrome (default browser keybind).
+
+## Manual tests
+
+- GlazeWM starts with zebar on top. Windows tile. `Alt` + number switches workspace.
+- The terminal keybind opens alacritty (after the pending change).
+
 ## Role in the stack
 
 - Primary window manager.
 - Provides dynamic tiling, keyboard-driven window management, and workspaces.
 
-## Installation
+## Manual installation (alternative)
 
 Check availability, then install through Scoop:
 
@@ -28,7 +68,7 @@ https://github.com/glzr-io/glazewm
 - Window rules.
 - Multi-monitor support.
 
-## Configuration
+## Manual configuration (alternative)
 
 The config file is `config.yaml` in this directory. It is written for GlazeWM v3. It mirrors the hyprland setup in `nixos/hyprland` (keybinds, gaps, border colors, rounding, inactive opacity).
 

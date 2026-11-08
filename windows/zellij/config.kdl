@@ -1,12 +1,15 @@
 // Minimal Zellij config. Mirrors common/tmux/tmux.conf.
 // Install: see README.md (copy to %USERPROFILE%\.config\zellij and set ZELLIJ_CONFIG_DIR).
-// No external plugins: only the built-in compact-bar and session-manager.
+// No external plugins: only the built-in compact-bar.
 
 // SETTINGS
 default_shell "pwsh"
 default_mode "locked"
 default_layout "compact"
-theme "catppuccin-mocha"
+theme "catppuccin-latte"
+// tmux-like: sessions live only while the server runs. No resurrectable sessions.
+session_serialization false
+pane_viewport_serialization false
 mouse_mode true
 pane_frames false
 simplified_ui true
@@ -62,12 +65,8 @@ keybinds clear-defaults=true {
         bind "9" { GoToTab 9; SwitchToMode "locked"; }
 
         // sessions
-        bind "s" {
-            LaunchOrFocusPlugin "session-manager" { floating true; move_to_focused_tab true; }
-            SwitchToMode "locked"
-        }
         // fzf session picker in a floating pane (needs fzf in PATH)
-        bind "S" {
+        bind "s" {
             Run "pwsh" "-NoProfile" "-Command" "$n = zellij list-sessions --short --no-formatting | Where-Object { $_ -ne $env:ZELLIJ_SESSION_NAME } | fzf --reverse --prompt='session> '; if ($n) { zellij action switch-session $n }" {
                 floating true
                 close_on_exit true
@@ -104,6 +103,9 @@ keybinds clear-defaults=true {
     // tmux copy-mode equivalent (vi keys)
     scroll {
         bind "e" { EditScrollback; SwitchToMode "locked"; }
+        // Zellij has no keyboard line selection. Open the scrollback in nvim,
+        // then use V to select lines and "+y to copy.
+        bind "V" { EditScrollback; SwitchToMode "locked"; }
         bind "/" { SwitchToMode "entersearch"; SearchInput 0; }
     }
     search {

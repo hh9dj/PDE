@@ -1,129 +1,60 @@
 # Zellij
 
-Terminal multiplexer. Replaces `tmux` with the same prefix and keybinds as `common/tmux/tmux.conf`.
+Terminal multiplexer. Replaces tmux with the same prefix and keybinds as `common/tmux/tmux.conf`.
 
-## Role in the stack
+## Dependencies
 
-- Provides tabs, panes, floating panes, sessions and scrollback search.
-- Runs inside WezTerm or Windows Terminal.
-- Default shell is PowerShell 7.
-- Uses only built-in plugins (`compact-bar`, `session-manager`).
+- `zellij` (scoop: `scoop install zellij`). Use a recent release: native Windows support is new.
+- `pwsh` 7: default shell.
+- `nvim`: scrollback editor.
+- `fzf`: session picker (`Ctrl a`, `s`).
+- `tv` (television): `za` picker. Needs the `television` setup (channel `zellij-sessions`).
+- A terminal that does not capture `Ctrl a` and `Alt s` (alacritty is configured for this).
 
-## Installation
+`setup_tools` installs these with scoop.
 
-Preferred:
-
-```powershell
-scoop search zellij
-scoop install zellij
-```
-
-Fallback:
-
-1. Download the Windows ZIP from the official releases page.
-2. Extract it into `%USERPROFILE%\apps\zellij`.
-3. Add that directory to the user `PATH`.
-
-Verify:
+## Setup
 
 ```powershell
-zellij --version
+setup_zellij            # copy config.kdl and layouts to ~\.config\zellij
+setup_zellij -DryRun    # show what would change
 ```
 
-Native Windows support is recent. Use the latest release.
+- The old files are copied to `<name>.bak-<timestamp>` first. If nothing changed, nothing is written.
+- The profile sets `ZELLIJ_CONFIG_DIR` to `~\.config\zellij`.
+- Check the config: `zellij setup --check` (look for "Config file: Well defined").
 
-## Configuration
+## Configured features
 
-The config file is `config.kdl` in this directory.
+- Same prefix as tmux: `Ctrl a`, then one key. Zellij returns to normal typing after the action (mode `locked`).
+- Keybinds (after `Ctrl a`):
+  - `Ctrl h/j/k/l`: focus pane. `|` and `_`: split right and down. `x`: close pane. `z`: fullscreen. `p`: show or hide floating panes. `f`: float or embed the pane.
+  - `c`: new tab. `h` and `l`: previous and next tab. `1..9`: go to tab. `,`: rename. `q`: close tab.
+  - `s`: session picker (fzf in a floating pane, live sessions only). `d`: detach. `Ctrl q`: quit.
+  - `Ctrl e`: edit the scrollback in nvim. `/`: search. `r`: resize mode. `m`: move mode. `Ctrl a`: send a literal `Ctrl a`.
+- `Alt s`: scroll mode (vi keys, `q` leaves). `V` opens the scrollback in nvim (select lines with `V`, copy with `"+y`).
+- Layout `dots` (`layouts\dots.kdl`): tabs `editor` (nvim), `shell-prompt`, `coding-agent` (gemini). It mirrors `common/tmux/sessions/dots.yaml`.
+- Profile functions:
+  - `z dots`: go to `$HOME\PDE`, attach to the session `dots` if it exists, otherwise create it with the layout.
+  - `za`: television picker of live sessions (attach with Enter).
 
-1. Create a config directory and copy the file:
+## Defaults changed
 
-   ```powershell
-   $dir = "$env:USERPROFILE\.config\zellij"
-   New-Item -ItemType Directory -Force -Path $dir | Out-Null
-   Copy-Item .\config.kdl "$dir\config.kdl"
-   ```
+- `theme "catppuccin-latte"`.
+- `session_serialization false` and `pane_viewport_serialization false`: sessions live only while the server runs. No resurrectable sessions.
+- `default_shell "pwsh"`, `default_mode "locked"`, `default_layout "compact"`.
+- `keybinds clear-defaults=true`: all default keybinds are removed. Only the ones above exist.
+- `mouse_mode true`, `pane_frames false`, `simplified_ui true`, `scroll_buffer_size 100000`.
+- `scrollback_editor "nvim"`, `on_force_close "detach"`, no startup tips, no release notes.
 
-2. Tell Zellij where the config is. Set a user environment variable:
+## Manual tests
 
-   ```powershell
-   [Environment]::SetEnvironmentVariable("ZELLIJ_CONFIG_DIR", "$env:USERPROFILE\.config\zellij", "User")
-   ```
-
-3. Open a new terminal so the variable is loaded.
-
-4. Validate the config. The output shows the config directory in use and any parse errors:
-
-   ```powershell
-   zellij setup --check
-   ```
-
-To keep the config in Git, use a symbolic link instead of a copy (needs Developer Mode or administrator rights):
-
-```powershell
-New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.config\zellij\config.kdl" -Target "<repo>\windows\zellij\config.kdl"
-```
-
-If symbolic links are blocked, copy the file again after each change.
-
-### Requirements
-
-- `pwsh` in `PATH` (default shell).
-- `nvim` in `PATH` (scrollback editor, `Ctrl a` then `Ctrl e`).
-- `fzf` in `PATH` (session picker, `Ctrl a` then `S`). Needs a Zellij release with `zellij action switch-session`.
-- A terminal that does not capture `Ctrl a` and `Alt s`.
-
-### Start automatically (optional)
-
-In WezTerm, set the default program:
-
-```lua
-config.default_prog = { "zellij", "attach", "--create", "main" }
-```
-
-## Keybinds
-
-Default mode is `locked`. Press `Ctrl a` (prefix), then one key. Zellij returns to `locked` after the action.
-
-- `Ctrl a` `Ctrl h/j/k/l`: Focus pane.
-- `Ctrl a` `|` / `_`: Split right / down.
-- `Ctrl a` `x`: Close pane.
-- `Ctrl a` `z`: Fullscreen pane.
-- `Ctrl a` `p`: Show or hide floating panes.
-- `Ctrl a` `f`: Make pane floating or embedded.
-- `Ctrl a` `c`: New tab.
-- `Ctrl a` `h` / `l`: Previous / next tab.
-- `Ctrl a` `1..9`: Go to tab.
-- `Ctrl a` `,`: Rename tab.
-- `Ctrl a` `q`: Close tab.
-- `Ctrl a` `s`: Session manager.
-- `Ctrl a` `S`: Session picker with fzf in a floating pane. Needs `fzf` in `PATH`.
-- `Ctrl a` `d`: Detach.
-- `Ctrl a` `Ctrl q`: Quit.
-- `Ctrl a` `Ctrl e`: Edit scrollback in Neovim.
-- `Ctrl a` `/`: Search scrollback.
-- `Ctrl a` `r`: Resize mode (`hjkl`, `HJKL`).
-- `Ctrl a` `m`: Move mode (`hjkl`).
-- `Ctrl a` `Ctrl a`: Send literal `Ctrl a`.
-- `Alt s`: Scroll mode (vi keys, `q` exits).
-- `Esc` / `Enter`: Back to `locked`.
-
-## Alternatives
-
-### WezTerm panes (fallback)
-
-- Native tabs and panes, no separate multiplexer.
-- No detach or session restore without a mux domain.
+- `z dots` creates 3 tabs. Detach (`Ctrl a`, `d`), run `z dots` again: it reattaches.
+- `za` lists live sessions only. Enter attaches.
+- `Ctrl a`, `s` shows live sessions and switches.
+- After you quit zellij, `zellij ls` shows no exited session.
+- `Alt s`, `V` opens nvim with the scrollback.
 
 ## Documentation
 
 https://zellij.dev/documentation/
-
-## Layouts
-
-Files are in `layouts/`. Copy them to `%USERPROFILE%\.config\zellij\layouts`.
-
-- `project-a.kdl` and `project-b.kdl` have the same 4 tabs: `editor` (nvim), `shell` (pwsh), `dev` (your command), `gemini`.
-- Replace each `PLACEHOLDER_DIR_*` with a directory path. Use forward slashes or escaped backslashes.
-- Replace `PLACEHOLDER_DEV_COMMAND` with the dev command.
-- Start a layout: `zellij --layout project-a`.

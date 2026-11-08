@@ -1,0 +1,20 @@
+[metadata]
+name = "zellij-sessions"
+description = "List and manage live zellij sessions"
+requirements = ["zellij"]
+
+[source]
+command = "zellij list-sessions --short --no-formatting"
+
+[actions.attach]
+description = "Attach to the selected session"
+command = "zellij attach {}"
+mode = "execute"
+
+[actions.kill]
+description = "Kill the selected session"
+command = "zellij kill-session {}"
+mode = "fork"
+
+[keybindings]
+enter = "actions:attach"

@@ -2,12 +2,46 @@
 
 Status bar for the Windows PDE. Integrates with GlazeWM.
 
+## Dependencies
+
+- `zebar` (scoop: `scoop install zebar`, bucket `extras`, or the official release).
+- `glazewm`: the widgets read its workspaces and tiling state.
+
+## Setup
+
+```powershell
+setup_zebar             # copy the bar directory to ~\.glzr\zebar\pde-bar
+setup_zebar -DryRun
+```
+
+- An existing `pde-bar` directory is copied to `pde-bar.bak-<timestamp>` first.
+- The pack id is the directory name (`pde-bar`). Restart zebar to load it. GlazeWM starts zebar at startup.
+
+## Configured features
+
+- Top bar, full width, 35px high, docked to the top edge, on all monitors.
+- Widgets: workspaces, focused window, floating state, clock, keyboard layout.
+
+## Defaults changed
+
+- The pack is our own (`bar\`: `index.html`, `main.js`, `styles.css`, `zpack.json`). No default zebar pack is used.
+
+## Pending (see the plan, phase 7)
+
+- CPU and memory usage widgets.
+- Float and tiling status check.
+
+## Manual tests
+
+- The bar shows at the top. Workspace changes in GlazeWM update the bar.
+- The bar does not get tiled by GlazeWM.
+
 ## Role in the stack
 
 - Primary status bar.
 - Displays workspaces, active window, clock, and system information.
 
-## Installation
+## Manual installation (alternative)
 
 Install from the official releases.
 

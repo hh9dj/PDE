@@ -1,0 +1,21 @@
+{
+  "name": "CatppuccinLatte",
+  "type": "custom",
+  "background": {
+    "primary": "#eff1f5",
+    "diff": { "added": "#d8ecd4", "removed": "#f5d5db" }
+  },
+  "text": {
+    "primary": "#4c4f69",
+    "secondary": "#6c6f85",
+    "link": "#1e66f5",
+    "accent": "#8839ef"
+  },
+  "border": { "default": "#ccd0da", "focused": "#1e66f5" },
+  "status": { "success": "#40a02b", "warning": "#df8e1d", "error": "#d20f39" },
+  "ui": {
+    "comment": "#8c8fa1",
+    "symbol": "#179299",
+    "gradient": ["#1e66f5", "#8839ef", "#ea76cb"]
+  }
+}

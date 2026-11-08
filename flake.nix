@@ -47,6 +47,9 @@
             yq-go
             bun
             gum
+            # test tools for the windows/ dotfiles
+            zellij
+            powershell
             (writeShellScriptBin "clone-projects" (builtins.readFile ./common/git/clone-projects))
           ];
         };

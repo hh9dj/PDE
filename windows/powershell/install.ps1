@@ -25,8 +25,9 @@ foreach ($bucket in @("extras", "nerd-fonts")) {
 $apps = @(
     # shell and terminal
     "pwsh"
-    "wezterm"
+    "alacritty"
     "zellij"
+    "television"
     "starship"
     "JetBrainsMono-NF"
 
