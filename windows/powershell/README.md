@@ -1,96 +1,45 @@
 # PowerShell profile
 
-PowerShell 7 profile. Mirrors the zsh setup (`common/zsh`): environment, line editing, aliases, integrations. It also holds the `setup_<tool>` commands.
+PowerShell 7 profile (mirrors `common/zsh`) and the `setup_*` commands.
 
 ## Dependencies
 
-- `pwsh` 7 (scoop: `scoop install pwsh`). The profile uses `??`, which needs PowerShell 7.
-- `git`: needed to clone and update this repo.
-- `scoop`: the package manager. `setup_tools` installs the rest.
-- Optional, each one is skipped when missing: `starship`, `mise`, `zoxide`, `fzf`, `eza`, `zellij`, `tv`, `nvim`.
-- Execution policy `RemoteSigned` or looser (scripts from a git clone are local, so they run).
+- `pwsh` 7, `git`, `scoop`. Execution policy `RemoteSigned` or looser.
+- Optional (skipped when missing): `starship`, `mise`, `zoxide`, `fzf`, `tv`, `eza`, `bat`, `zellij`, `nvim`.
 
-## First install (once)
+## Setup
 
 ```powershell
-git clone <repo-url> $HOME\PDE
+git clone <repo-url> $HOME\PDE    # or set $env:PDE_DIR before the profile loads
 Copy-Item $HOME\PDE\windows\powershell\profile.ps1 $PROFILE -Force
 . $PROFILE
-setup_tools      # scoop apps (needs the proxy and buckets to work)
-setup_all        # every config below
+setup_tools                       # scoop apps + user variables EDITOR, VISUAL, ZELLIJ_CONFIG_DIR
+setup_all
 ```
 
-- The repo must be at `$HOME\PDE`. Set `$env:PDE_DIR` before the profile loads for another path.
+Update: `pde_pull`, `setup_all`, `. $PROFILE`.
 
-## Where each config goes
-
-Rule: `~\.config` when the tool supports it (through its default, an environment variable of the profile, or `XDG_CONFIG_HOME`). Otherwise the default path of the tool.
-
-- `~\.config`: zellij (`ZELLIJ_CONFIG_DIR`), starship (default), git (`~\.config\git\config`), television (`TELEVISION_CONFIG`), bat (`BAT_CONFIG_PATH`), ripgrep (`RIPGREP_CONFIG_PATH`), nvim (`XDG_CONFIG_HOME`), mise (`conf.d`), the Chrome scroll script, the zig wrapper.
-- Tool default path (no XDG support, or company managed):
-  - alacritty: `%APPDATA%\alacritty` (Windows has no XDG in alacritty).
-  - glazewm and zebar: `~\.glzr` (only a command line option exists).
-  - gemini: `~\.gemini` (company managed).
-  - Flow Launcher: its own data folder.
-  - the PowerShell profile: `$PROFILE` (fixed by PowerShell).
-
-## Backups
-
-Every `setup_*` command that replaces a file first copies the old one to `<name>.bak-<timestamp>`. Only the 5 newest backups of each file are kept. Change the number with `$env:PDE_KEEP_BACKUPS = 10`.
-
-## Local settings (proxy, not in git)
-
-The profile loads `local.ps1` from the folder of `$PROFILE`, before everything else. Put the proxy variables there. The file is outside the repo, so it is never committed.
-
-```powershell
-Copy-Item $HOME\PDE\windows\powershell\local.example.ps1 (Join-Path (Split-Path $PROFILE) local.ps1)
-notepad (Join-Path (Split-Path $PROFILE) local.ps1)   # set the real proxy address
-. $PROFILE
-```
-
-- `local.example.ps1` shows `HTTP_PROXY`, `HTTPS_PROXY` and `NO_PROXY` with placeholder values.
-- No real value is stored in the repo. `setup_profile` does not copy or change `local.ps1`.
-- If your machine already sets the proxy system wide, you do not need this file.
-
-## Update (every time)
-
-```powershell
-pde_pull         # git pull --ff-only in the repo
-setup_all        # or one tool, for example setup_zellij
-. $PROFILE       # reload (or open a new terminal)
-```
+Proxy (not in git): copy `local.example.ps1` to `local.ps1` next to `$PROFILE` and set the values. The profile loads it first.
 
 ## Commands
 
-- `setup_profile`: copy the profile to `$PROFILE` and `fzf.ps1` next to it.
-- `setup_zellij`, `setup_starship`, `setup_alacritty`, `setup_git`, `setup_television`, `setup_bat`, `setup_ripgrep`, `setup_mise`, `setup_nvim`, `setup_gemini`, `setup_glazewm`, `setup_flow`, `setup_chrome`: install the config of one tool. See the README of the tool.
-- `setup_tools`: install the scoop apps and set user environment variables (`install.ps1`). Run it by hand when you need it.
-- `setup_all`: every `setup_*` above except `setup_tools`.
-- `setup_list`: list the commands.
-- `pde_pull`: update the repo.
-- `-DryRun` works on the config commands. Old files are backed up as `<name>.bak-<timestamp>`. A file that did not change is not touched.
+- `setup_<tool>`: profile, zellij, starship, alacritty, git, television, gemini, bat, ripgrep, mise, nvim, glazewm, flow, chrome. `-DryRun` shows the changes.
+- `setup_all`: all of them. `setup_tools`: scoop apps (`install.ps1`). `setup_list`, `pde_pull`.
+- Backups: `<name>.bak-<timestamp>`, the 5 newest are kept (`$env:PDE_KEEP_BACKUPS` changes it).
 
 ## Configured features
 
-- Environment: `XDG_CONFIG_HOME` = `~\.config`, `CC` = `~\.config\zig-cc\zig-cc.cmd` when that file exists (treesitter parsers, see `nvim/README.md`), `EDITOR` and `VISUAL` = nvim, `BAT_THEME` = Catppuccin Latte, `ZELLIJ_CONFIG_DIR`, `TELEVISION_CONFIG`.
-- Line editing like zsh: Emacs keys, history predictions, `Ctrl+y` accepts a suggestion, `Ctrl+o` next word, `Ctrl+p` and `Ctrl+n` search history by prefix, `Ctrl+e` edit the command in the editor, `Ctrl+Space` accept and run, `Tab` menu completion.
-- Catppuccin Latte syntax colors (PSReadLine).
-- Aliases: git (`gst`, `gaa`, `gcmsg`, ...), eza (`ls`, `ll`, `la`, `lt`, `tree`), `e`, `c`, `..`, `croot`, `dotconf`, `reload`.
-- Zellij: `z <name>` attaches to the session or creates it (with the layout of the same name). `za` picks a live session with tv, or `za <name>`. Inside zellij both switch session and do not nest.
-- Integrations when installed: starship prompt, zoxide (`cd` is replaced, init is last), fzf `Ctrl+r`.
+- Environment: `XDG_CONFIG_HOME`, `EDITOR`/`VISUAL` = nvim, `BAT_THEME`, `BAT_CONFIG_PATH`, `RIPGREP_CONFIG_PATH`, `ZELLIJ_CONFIG_DIR`, `TELEVISION_CONFIG`, `CC` (zig wrapper, see `nvim/README.md`).
+- PSReadLine: Emacs keys, Catppuccin Latte colors, inline history prediction. `Ctrl+y` accept suggestion, `Ctrl+Space` accept and run, `Ctrl+o` next word, `Ctrl+p`/`Ctrl+n` prefix history search, `Ctrl+e` edit in nvim, `Tab` menu completion.
+- Integrations: starship, mise (`activate`), zoxide (`cd`), tv (`Ctrl+f`), fzf (`Ctrl+r`).
+- Aliases: git (`gst`, `gaa`, `gcmsg`, `gd`, ...), eza (`ls`, `ll`, `la`, `lt`, `tree`), `cat` = bat, `grep` = rg, `rgrep`, `e`, `c`, `..`, `croot`, `dotconf`, `reload`.
+- zellij: `z <name>` attaches or creates the session (layout of the same name if any). `za` picks a live session with tv. Inside zellij both switch session, never nest.
+
+## Config locations
+
+- `~\.config`: zellij, starship, git, television, bat, ripgrep, nvim, mise (`conf.d`), chrome script, zig wrapper.
+- Tool default (no XDG support or company managed): alacritty `%APPDATA%`, glazewm and zebar `~\.glzr`, gemini `~\.gemini`, Flow Launcher, `$PROFILE`.
 
 ## Defaults changed
 
-- Built-in aliases `gl`, `gp`, `ls` are removed (they clash with git and eza functions).
-- `cd` is replaced by zoxide.
-- PSReadLine: edit mode Emacs, 5000 history entries without duplicates, inline prediction from history, `Tab` is `MenuComplete`.
-
-## Note on install.ps1
-
-`setup_tools` uses scoop as configured on the machine. It does not set proxy or registry settings. It sets user variables `EDITOR`, `VISUAL` and `ZELLIJ_CONFIG_DIR`.
-
-## Manual tests
-
-- A new terminal loads without errors. `setup_list` prints the commands.
-- `setup_zellij -DryRun`, then `setup_zellij`. A second run prints "up to date".
-- The prompt is starship. `cd` jumps with zoxide after a few visits.
+- Built-in aliases `gl`, `gp`, `ls`, `cat` are removed. `cd` is zoxide.

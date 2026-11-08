@@ -1,36 +1,17 @@
 # Git
 
-Extra global Git config. It adds delta and diff settings and does not touch company settings.
+Extra global config. The company `~/.gitconfig` is not touched and wins on conflicts.
 
 ## Dependencies
 
-- `git`.
-- `delta` (scoop: `scoop install delta`). The pager is already `delta` in `~/.gitconfig`.
-
-`setup_tools` installs delta with scoop.
+- `git`, `delta` (scoop). The pager (`core.pager = delta`) comes from the company config.
 
 ## Setup
 
-```powershell
-setup_git               # copy windows\git\config to ~\.config\git\config
-setup_git -DryRun
-```
-
-- Git reads `~/.config/git/config` before `~/.gitconfig`. The company file `~/.gitconfig` wins on conflicts.
-- An existing target is copied to `config.bak-<timestamp>` first.
-- Check: `git config --global --list --show-origin`.
+`setup_git`: copies `config` to `~\.config\git\config`. Check: `git config --global --list --show-origin`.
 
 ## Configured features
 
-- delta: `navigate = true` (jump between diff sections with `n` and `N`), `side-by-side = true`, `light = true`, `syntax-theme = Catppuccin Latte` (built in since delta 0.20).
-- `merge.conflictstyle = diff3`.
-- `diff.colorMoved = default`.
-
-## Not set on purpose
-
-- No user name or email, credential helper, proxy, `url.*.insteadOf` or `core.sshCommand`. These belong to the company config.
-
-## Manual tests
-
-- `git diff` in a repo with changes shows delta with side-by-side columns.
-- `git config --show-origin delta.navigate` shows `~/.config/git/config`.
+- delta: `navigate`, `side-by-side`, `light`, `syntax-theme = Catppuccin Latte`.
+- `merge.conflictstyle = diff3`, `diff.colorMoved = default`.
+- Not set on purpose: identity, credentials, proxy, `url.*.insteadOf`, `core.sshCommand`.

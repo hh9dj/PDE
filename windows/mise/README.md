@@ -1,120 +1,21 @@
 # mise
 
-Multi-language runtime manager. Manages Python, Node.js, Go, Rust, and other tools from one configuration.
-
 ## Dependencies
 
-- `mise` (scoop: `scoop install mise`). `mise` 2026.7.4 or newer is not needed: no `[dotfiles]` feature is used.
-- `node` in the global mise config (or on PATH) for the npm tools.
+- `mise` (scoop), `node` in your global mise config (for the npm tools).
 
 ## Setup
 
 ```powershell
-setup_mise -DryRun
-setup_mise              # copy pde.toml to ~\.config\mise\conf.d\pde.toml
-mise install            # needs the company npm registry (npm config is not changed)
+setup_mise     # pde.toml to ~\.config\mise\conf.d\pde.toml, shims dir to the user PATH
+mise install   # through the company npm registry
+setup_mise     # again, to create the shims of the new tools
 ```
 
-- `conf.d\pde.toml` is read together with your own `~\.config\mise\config.toml`, which stays untouched.
+Your `~\.config\mise\config.toml` is not changed.
 
 ## Configured features
 
-- Shell: the profile runs `mise activate pwsh` (after starship). In a directory with a `mise.toml` the project tools are in PATH, and `node`, `python` and the others are the mise versions.
-- Other programs: `setup_mise` adds the shims folder (`%LOCALAPPDATA%\mise\shims`, or `$MISE_DATA_DIR\shims`) to the front of the user PATH and runs `mise reshim`. Programs that do not start from pwsh (nvim started from a launcher, GUI apps, python `subprocess` calls, other terminals) find the same tools through the shims.
-
-- `pde.toml` installs `lazysql` (GitHub release, command `lazysql`) and the neovim language servers and formatters (npm backend): bash-language-server, pyright, typescript, vtsls, vue language server, vscode-langservers-extracted, yaml-language-server, biome, prettierd. See `nvim/README.md`.
-
-## Defaults changed
-
-- None in your global config. No `node`, `python` or `zig` entry is added: keep them in your own file.
-
-## Manual tests
-
-- In a new terminal: `Get-Command node` shows a path in the mise folder. In `cmd.exe` (not pwsh) `where node` shows the shim.
-- `mise ls` lists the tools after `mise install`. `lazysql --version` works. If the GitHub download is blocked, run `scoop search lazysql` or download the release by hand. `bash-language-server --version` works.
-
-## Role in the stack
-
-- Preferred runtime manager for backend development.
-- Replaces separate version managers when one tool is enough.
-- Reads project versions from `mise.toml` or `.tool-versions`.
-
-## Installation
-
-Preferred (Scoop):
-
-```powershell
-scoop install mise
-```
-
-Alternative (winget):
-
-```powershell
-winget install jdx.mise
-```
-
-Alternative (PowerShell script):
-
-```powershell
-irm https://mise.run/powershell | iex
-```
-
-Alternative (manual):
-
-1. Download `mise-v<version>-windows-x64.zip` and `SHASUMS256.txt` from GitHub Releases.
-2. Verify the SHA256 hash with `Get-FileHash`.
-3. Extract the `mise\bin` folder.
-4. Add it to PATH. Keep `mise.exe` and `mise-shim.exe` together.
-
-## Configuration
-
-Activate it in the PowerShell profile:
-
-```powershell
-mise activate pwsh | Out-String | Invoke-Expression
-```
-
-Example project `mise.toml`:
-
-```toml
-[tools]
-node = "lts"
-python = "3.12"
-```
-
-Install the declared tools:
-
-```powershell
-mise install
-```
-
-## Maintenance
-
-```powershell
-mise upgrade
-mise self-update
-```
-
-`mise upgrade` updates installed tools. `mise self-update` updates mise itself when it was not installed by a package manager.
-
-## Alternatives
-
-### uv (Python only)
-
-- Fast Python package and environment manager.
-- Use it when mise is unavailable.
-
-### fnm (Node.js only)
-
-- Fast Node.js version manager.
-- Use it when mise is unavailable.
-
-### rustup, Go, and JDK distributions
-
-- Native toolchains for their own runtimes.
-- Use them when a project requires the official toolchain.
-
-## Documentation
-
-- https://mise.jdx.dev/installing-mise.html#windows-scoop
-- https://github.com/jdx/mise
+- `pde.toml`: `lazysql` (GitHub release) and the nvim language servers and formatters (npm backend).
+- pwsh: `mise activate pwsh` in the profile.
+- Other programs (GUI apps, `cmd.exe`, python subprocesses): the shims dir (`%LOCALAPPDATA%\mise\shims`) is first in the user PATH.
