@@ -3,8 +3,8 @@
   { "command": "scroll.down", "key": "ctrl+alt+d" },
   { "command": "nav.down", "keys": ["ctrl+n"] },
   { "command": "nav.up", "keys": ["ctrl+p"] },
-  { "command": "nav.dialog.down", "keys": ["ctrl+n", "ctrl+j"] },
-  { "command": "nav.dialog.up", "keys": ["ctrl+p", "ctrl+k"] },
+  { "command": "nav.dialog.down", "keys": ["ctrl+n"] },
+  { "command": "nav.dialog.up", "keys": ["ctrl+p"] },
   { "command": "-app.toggleYolo", "key": "ctrl+y" },
   { "command": "suggest.accept", "key": "ctrl+y" }
 ]

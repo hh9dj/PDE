@@ -51,6 +51,13 @@ $wanted = @(Get-Content -Raw (Join-Path $here "keybindings.json") | ConvertFrom-
 $sig = { param($e) ($e | ConvertTo-Json -Compress -Depth 5) }
 $have = @($existing | ForEach-Object { & $sig $_ })
 $kbChanged = $false
+# Entries an earlier version of this script added and that are no longer wanted
+$obsolete = @(
+    '{"command":"nav.dialog.down","keys":["ctrl+n","ctrl+j"]}'
+    '{"command":"nav.dialog.up","keys":["ctrl+p","ctrl+k"]}'
+)
+$kept = @($existing | Where-Object { $obsolete -notcontains (& $sig $_) })
+if ($kept.Count -ne $existing.Count) { $existing = $kept; $kbChanged = $true }
 foreach ($w in $wanted) {
     if ($have -notcontains (& $sig $w)) { $existing += $w; $kbChanged = $true }
 }

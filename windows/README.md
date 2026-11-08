@@ -41,7 +41,7 @@ A windows work laptop, with limited access to tools : git and scoop are availabl
   - keybinds for
     - scrolling the agent output
     - opening nvim to write the prompt
-    - ctrl+n / p or ctrl+j/k for up and down actions in menus and selections
+    - ctrl+n / p for up and down actions in menus and selections (ctrl+j/k dropped)
     - tab cycleapproval modes
 - neovim
   - full copy of current config
