@@ -11,6 +11,7 @@ Primary editor. The config is shared with NixOS: the source is `common/nvim/conf
 - Language servers and formatters. Two sources, both through the company channels:
   - scoop (`setup_tools`): `lua-language-server`, `marksman`, `stylua`, `shfmt`, `taplo`, `ruff`.
   - mise, npm backend (`setup_mise`, then `mise install`): `bash-language-server`, `pyright`, `typescript`, `@vtsls/language-server`, `@vue/language-server`, `vscode-langservers-extracted` (html, css, json), `yaml-language-server`, `@biomejs/biome`, `@fsouza/prettierd`. `node` must be available in mise or on PATH.
+- `deno` (scoop, in `setup_tools`): builds the markdown preview plugin (peek.nvim).
 - PowerShell Editor Services (optional, see below).
 - Treesitter parsers: off by default (see below).
 

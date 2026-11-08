@@ -35,8 +35,10 @@ setup_zellij -DryRun    # show what would change
 - `Alt s`: scroll mode (vi keys, `q` leaves). `V` opens the scrollback in nvim (select lines with `V`, copy with `"+y`).
 - Layout `dots` (`layouts\dots.kdl`): tabs `editor` (nvim), `shell-prompt`, `coding-agent` (gemini). It mirrors `common/tmux/sessions/dots.yaml`.
 - Profile functions:
-  - `z dots`: go to `$HOME\PDE`, attach to the session `dots` if it exists, otherwise create it with the layout.
-  - `za`: television picker of live sessions (attach with Enter).
+  - `z <name>`: attach to the session `<name>` if it exists. Otherwise create it, with the layout of the same name if there is one (`z dots` goes to `$HOME\PDE` first).
+  - `za`: television picker of live sessions. Enter attaches. `za <name>` works like `z <name>`.
+  - Inside zellij, `z` and `za` switch to the session (`zellij action switch-session`) and never start a nested zellij. A new session gets its layout and start directory too.
+- The tab bar is at the bottom of the screen (`compact-bar` after the panes in the layout).
 
 ## Defaults changed
 
@@ -51,6 +53,8 @@ setup_zellij -DryRun    # show what would change
 
 - `z dots` creates 3 tabs. Detach (`Ctrl a`, `d`), run `z dots` again: it reattaches.
 - `za` lists live sessions only. Enter attaches.
+- Inside zellij: `z dots` and `za` switch the session. No second bar appears.
+- `z newname` creates a session. The bar is at the bottom.
 - `Ctrl a`, `s` shows live sessions and switches.
 - After you quit zellij, `zellij ls` shows no exited session.
 - `Alt s`, `V` opens nvim with the scrollback.

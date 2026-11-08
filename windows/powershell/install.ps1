@@ -43,7 +43,7 @@ $apps = @(
     "eza"
     "delta"
     "jq"
-    "lazygit"
+    "deno"
     "yazi"
     "btop"
     "mise"
@@ -76,7 +76,7 @@ foreach ($app in $apps) {
 
 # Persistent user environment variables.
 # These are needed by programs that do not start from the PowerShell profile
-# (for example Zellij started directly by WezTerm).
+# (for example Zellij started directly by a terminal or a launcher).
 $userEnv = @{
     EDITOR            = "nvim"
     VISUAL            = "nvim"

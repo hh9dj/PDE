@@ -5,7 +5,7 @@ Terminal file manager.
 ## Role in the stack
 
 - Primary file manager.
-- Runs inside WezTerm.
+- Runs inside alacritty.
 - Provides fast keyboard-driven file navigation.
 
 ## Installation

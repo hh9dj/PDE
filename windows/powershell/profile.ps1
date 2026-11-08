@@ -2,6 +2,11 @@
 # First install: copy this file to $PROFILE once. After that, use setup_profile (see README.md).
 # The PDE repo must be in $HOME\PDE (or set $env:PDE_DIR before the profile loads).
 
+# LOCAL (not in git): proxy and other private settings. Template: windows/powershell/local.example.ps1
+# Copy it to local.ps1 next to this profile and edit it. Loaded first, so later steps see the proxy.
+$localScript = Join-Path (Split-Path $PROFILE) "local.ps1"
+if (Test-Path $localScript) { . $localScript }
+
 # ENV VARS
 $env:EDITOR = "nvim"
 $env:VISUAL = "nvim"
@@ -149,19 +154,38 @@ function setup_all {
 function setup_list { $global:PdeSetupScripts.Keys | ForEach-Object { "setup_$_" }; "setup_all" }
 function pde_pull { git -C $global:PdeDir pull --ff-only }
 
-# zellij sessions (tmux: t = tmuxp load, ta = tv tmux-sessions). Here: z = layout, za = picker.
+# zellij sessions (tmux: t = tmuxp load, ta = tv tmux-sessions). Here: z = by name or layout, za = picker.
+# - The session exists: attach to it. It does not exist: create it (with the layout of the same name, if any).
+# - Already inside zellij: switch to the session. A nested zellij is never started.
 # Layout name -> start directory. The repo path can be changed with $env:PDE_DIR.
 $global:ZellijLayoutDirs = @{ dots = $global:PdeDir }
+function Enter-ZellijSession {
+    param([Parameter(Mandatory)][string]$Name)
+    $dir = $global:ZellijLayoutDirs[$Name]
+    $hasLayout = Test-Path (Join-Path $env:ZELLIJ_CONFIG_DIR "layouts\$Name.kdl")
+    $exists = [bool](zellij list-sessions --short --no-formatting 2>$null | Where-Object { $_ -eq $Name })
+    if ($env:ZELLIJ) {
+        $extra = @()
+        if (-not $exists -and $hasLayout) { $extra += @("--layout", $Name) }
+        if (-not $exists -and $dir) { $extra += @("--cwd", $dir) }
+        zellij action switch-session $Name @extra
+        return
+    }
+    if ($dir) { Set-Location $dir }
+    if ($exists) { zellij attach $Name }
+    elseif ($hasLayout) { zellij --session $Name --new-session-with-layout $Name }
+    else { zellij attach --create $Name }
+}
 function z {
     param([Parameter(Mandatory)][string]$Name)
-    if ($global:ZellijLayoutDirs.ContainsKey($Name)) { Set-Location $global:ZellijLayoutDirs[$Name] }
-    if (zellij list-sessions --short --no-formatting 2>$null | Where-Object { $_ -eq $Name }) {
-        zellij attach $Name
-    } else {
-        zellij --session $Name --new-session-with-layout $Name
-    }
+    Enter-ZellijSession $Name
 }
-function za { tv zellij-sessions }
+# za: pick a live session with tv. za <name>: same as z <name>.
+function za {
+    param([string]$Name)
+    if (-not $Name) { $Name = tv zellij-sessions }
+    if ($Name) { Enter-ZellijSession $Name.Trim() }
+}
 
 # INTEGRATIONS (only if the tool is installed)
 if (Get-Command starship -ErrorAction SilentlyContinue) {

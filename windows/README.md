@@ -58,10 +58,7 @@ A windows work laptop, with limited access to tools : git and scoop are availabl
   - remove the scratch workspace since zellij will use alt+s
   - chrome as default browser
 - zebar
-  - workspaces
-  - float / tilling status
-  - datetime
-  - memory cpu usage
+  - vanilla default config, started by glazewm (the custom pack was removed)
 - Flow.launcher
   - default config + clipboard management if possible
 - scoop

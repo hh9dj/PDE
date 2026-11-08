@@ -19,7 +19,7 @@ mise install            # needs the company npm registry (npm config is not chan
 
 ## Configured features
 
-- `pde.toml` lists the neovim language servers and formatters (npm backend): bash-language-server, pyright, typescript, vtsls, vue language server, vscode-langservers-extracted, yaml-language-server, biome, prettierd. See `nvim/README.md`.
+- `pde.toml` installs `lazysql` (GitHub release, command `lazysql`) and the neovim language servers and formatters (npm backend): bash-language-server, pyright, typescript, vtsls, vue language server, vscode-langservers-extracted, yaml-language-server, biome, prettierd. See `nvim/README.md`.
 
 ## Defaults changed
 
@@ -27,7 +27,7 @@ mise install            # needs the company npm registry (npm config is not chan
 
 ## Manual tests
 
-- `mise ls` lists the npm tools after `mise install`. `bash-language-server --version` works.
+- `mise ls` lists the tools after `mise install`. `lazysql --version` works. If the GitHub download is blocked, run `scoop search lazysql` or download the release by hand. `bash-language-server --version` works.
 
 ## Role in the stack
 

@@ -21,7 +21,7 @@ setup_television -DryRun
 ## Configured features
 
 - Channel `zellij-sessions` (`cable\zellij-sessions.toml`): lists live zellij sessions (`zellij list-sessions --short --no-formatting`).
-  - Enter: attach. Action `kill`: kill the selected session.
+  - Enter prints the name. The profile function `za` then attaches (or switches, inside zellij). Action `kill` (`ctrl-x`): kill the selected session.
 - Profile function `za` runs `tv zellij-sessions`.
 
 - `config.toml` (from `common/television/default.nix`):
@@ -44,4 +44,4 @@ setup_television -DryRun
 - `tv list-channels` shows `zellij-sessions`. If it does not, check where tv reads its config on Windows (`tv --help`, `$env:TELEVISION_CONFIG`).
 - `Ctrl+f` after `cd ` lists directories. After `git switch ` it lists branches (needs the `git-branch` channel, check `tv list-channels`).
 - `ctrl-j` / `ctrl-k` move in tv lists.
-- `za` shows live sessions only. Enter attaches.
+- `za` shows live sessions only. Enter attaches, or switches when you are already in zellij.

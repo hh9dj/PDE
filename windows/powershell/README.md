@@ -22,6 +22,20 @@ setup_all        # every config below
 
 - The repo must be at `$HOME\PDE`. Set `$env:PDE_DIR` before the profile loads for another path.
 
+## Local settings (proxy, not in git)
+
+The profile loads `local.ps1` from the folder of `$PROFILE`, before everything else. Put the proxy variables there. The file is outside the repo, so it is never committed.
+
+```powershell
+Copy-Item $HOME\PDE\windows\powershell\local.example.ps1 (Join-Path (Split-Path $PROFILE) local.ps1)
+notepad (Join-Path (Split-Path $PROFILE) local.ps1)   # set the real proxy address
+. $PROFILE
+```
+
+- `local.example.ps1` shows `HTTP_PROXY`, `HTTPS_PROXY` and `NO_PROXY` with placeholder values.
+- No real value is stored in the repo. `setup_profile` does not copy or change `local.ps1`.
+- If your machine already sets the proxy system wide, you do not need this file.
+
 ## Update (every time)
 
 ```powershell
@@ -46,7 +60,7 @@ setup_all        # or one tool, for example setup_zellij
 - Line editing like zsh: Emacs keys, history predictions, `Ctrl+y` accepts a suggestion, `Ctrl+o` next word, `Ctrl+p` and `Ctrl+n` search history by prefix, `Ctrl+e` edit the command in the editor, `Ctrl+Space` accept and run, `Tab` menu completion.
 - Catppuccin Latte syntax colors (PSReadLine).
 - Aliases: git (`gst`, `gaa`, `gcmsg`, ...), eza (`ls`, `ll`, `la`, `lt`, `tree`), `e`, `c`, `..`, `croot`, `dotconf`, `reload`.
-- Zellij: `z <layout>` starts or attaches a session, `za` picks a live session with tv.
+- Zellij: `z <name>` attaches to the session or creates it (with the layout of the same name). `za` picks a live session with tv, or `za <name>`. Inside zellij both switch session and do not nest.
 - Integrations when installed: starship prompt, zoxide (`cd` is replaced, init is last), fzf `Ctrl+r`.
 
 ## Defaults changed
