@@ -33,7 +33,7 @@ setup_all        # or one tool, for example setup_zellij
 ## Commands
 
 - `setup_profile`: copy the profile to `$PROFILE` and `fzf.ps1` next to it.
-- `setup_zellij`, `setup_starship`, `setup_alacritty`, `setup_git`, `setup_television`, `setup_gemini`, `setup_glazewm`, `setup_zebar`, `setup_flow`: install the config of one tool. See the README of the tool.
+- `setup_zellij`, `setup_starship`, `setup_alacritty`, `setup_git`, `setup_television`, `setup_gemini`, `setup_glazewm`, `setup_flow`: install the config of one tool. See the README of the tool.
 - `setup_tools`: install the scoop apps and set user environment variables (`install.ps1`). Run it by hand when you need it.
 - `setup_all`: every `setup_*` above except `setup_tools`.
 - `setup_list`: list the commands.

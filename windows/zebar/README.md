@@ -9,29 +9,16 @@ Status bar for the Windows PDE. Integrates with GlazeWM.
 
 ## Setup
 
-```powershell
-setup_zebar             # copy the bar directory to ~\.glzr\zebar\pde-bar
-setup_zebar -DryRun
-```
-
-- An existing `pde-bar` directory is copied to `pde-bar.bak-<timestamp>` first.
-- The pack id is the directory name (`pde-bar`). Restart zebar to load it. GlazeWM starts zebar at startup.
+No setup script and no custom config. GlazeWM starts zebar (`startup_commands: ['shell-exec zebar']`). Zebar creates its default pack in `~\.glzr\zebar` on the first start.
 
 ## Configured features
 
-- Top bar, full width, 35px high, on all monitors. It does not reserve screen space (`dockToEdge` is off). GlazeWM keeps the gap: its top gap is 55px.
-- Widgets: workspaces, focused window, window state (tiling, floating, fullscreen), CPU %, memory %, clock, keyboard layout.
-
-## Defaults changed
-
-- The pack is our own (`bar\`: `index.html`, `main.js`, `styles.css`, `zpack.json`). No default zebar pack is used.
+- None. Vanilla zebar with the default widget pack.
+- If the old custom pack exists, delete `~\.glzr\zebar\pde-bar` and remove it from the zebar settings (tray icon, then widget packs).
 
 ## Manual tests
 
-- The bar shows at the top. Workspace changes in GlazeWM update the bar.
-- The bar does not get tiled by GlazeWM, and windows do not touch it.
-- The state text changes with `Alt Shift F` (floating) and `Alt F` (fullscreen).
-- CPU and memory values change every 2 seconds.
+- The bar shows at the top. Windows do not touch it (raise the top gap in `glazewm/config.yaml` if they do).
 
 ## Role in the stack
 
@@ -82,19 +69,3 @@ Do not spend time building a custom status bar before the tiling workflow is sta
 ## Documentation
 
 https://github.com/glzr-io/zebar
-
-## Bar config
-
-The widget pack is in `bar/` (`zpack.json`, `index.html`, `main.js`, `styles.css`).
-
-Style follows `nixos/noctalia/conf/bar.toml`: white bar, 35px, bold text, clock in a blue capsule. Layout:
-
-- Workspaces of the current monitor. The active workspace is highlighted. Click one to focus it.
-- Title of the focused window, after the workspaces.
-- Clock in the center (capsule). Window state, CPU, memory and keyboard layout on the right.
-
-Install:
-
-1. Copy the `bar` directory to `%USERPROFILE%\.glzr\zebar\pde-bar`. The pack id is the directory name.
-2. Start Zebar and enable the `pde-bar/bar` widget. GlazeWM starts Zebar with `startup_commands`.
-3. The widget sits at the top edge. It does not reserve space: the GlazeWM top gap (55px) leaves room. `main.js` loads the `zebar` API from `esm.sh`, so it needs internet access.

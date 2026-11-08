@@ -14,18 +14,18 @@ Application launcher with a plugin ecosystem.
 setup_flow
 ```
 
-- The script stops Flow Launcher (it writes `Settings.json` on exit), copies the theme, changes only the keys listed below, backs up the file to `Settings.json.bak`, and starts Flow Launcher again.
+- The script stops Flow Launcher (it writes `Settings.json` on exit), changes only the keys listed below, backs up the file to `Settings.json.bak`, and starts Flow Launcher again.
 
 ## Configured features
 
-- Theme `Latte Blue` (Catppuccin Latte colors, layout like fuzzel).
+- Default Flow Launcher theme (no custom theme).
 - Hotkey `Alt + D`.
 - Next and previous result: `Ctrl + N` and `Ctrl + J`, `Ctrl + P` and `Ctrl + K`.
 - Launch at system startup.
 
 ## Defaults changed
 
-- Theme, color scheme `Light`, window size and item heights, 8 results.
+- Window size and item heights, 8 results.
 - Fonts `JetBrainsMono Nerd Font` (query 18, results 16, subtitles 12), placeholder text.
 - Animation, drop shadow, clock and date are off.
 
@@ -35,7 +35,7 @@ setup_flow
 
 ## Manual tests
 
-- `Alt + D` opens the launcher with the Latte theme.
+- `Alt + D` opens the launcher.
 - `Ctrl + N` and `Ctrl + P` move through the results.
 
 ## Role in the stack
@@ -69,10 +69,9 @@ https://github.com/Flow-Launcher/Flow.Launcher
 
 ## Manual configuration (alternative)
 
-The config mirrors `nixos/fuzzel`. It has two files:
+The config mirrors `nixos/fuzzel`. It has one file:
 
-- `Latte Blue.xaml`: theme with the colors from `nixos/fuzzel/conf/themes/latte_blue.ini`. It is based on the built-in SlimLight theme.
-- `setup.ps1`: copies the theme and changes only the keys it sets in `Settings.json`. The other settings stay.
+- `setup.ps1`: changes only the keys it sets in `Settings.json`. The other settings stay.
 
 ### Setup
 
@@ -88,20 +87,18 @@ The config mirrors `nixos/fuzzel`. It has two files:
 
    - finds the data directory: `%USERPROFILE%\scoop\persist\flow-launcher\UserData` (Scoop, portable build) or `%APPDATA%\FlowLauncher` (installer build).
    - stops Flow Launcher, because it writes `Settings.json` when it exits.
-   - copies the theme to `UserData\Themes`.
    - saves a backup as `Settings.json.bak`, then writes the new values.
    - starts Flow Launcher again.
 
 4. Press `Alt D`.
 
-Run the script again after you change the theme or the values in it. To undo, stop Flow Launcher and restore `Settings.json.bak`.
+Run the script again after you change the values in it. To undo, stop Flow Launcher and restore `Settings.json.bak`.
 
 ### What is the same as fuzzel
 
 - Position: center of the screen (`anchor=center`).
 - Size: 8 results, fixed height, 600px wide (`lines=8`, `width=40`).
 - Font: JetBrainsMono Nerd Font, bold query (`font`, `use-bold`).
-- Colors: Latte Blue (background, text, placeholder, selection, matches in blue and bold).
 - Border: 4px black, radius 20 (`[border]`).
 - Placeholder: `Search apps ❯` (`prompt`).
 - Keys:
@@ -139,3 +136,5 @@ Use one primary launcher to avoid shortcut conflicts.
 ## Documentation
 
 https://github.com/Flow-Launcher/Flow.Launcher
+
+A custom `Latte Blue` theme was removed. If an earlier `setup_flow` already set it, choose the default theme in Flow Launcher settings (Theme).

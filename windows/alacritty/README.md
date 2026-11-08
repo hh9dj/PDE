@@ -31,11 +31,11 @@ setup_alacritty -DryRun
 ## Defaults changed
 
 - `TERM = xterm-256color`.
-- Starts maximized, padding x 180 and y 90.
+- Padding x 180 and y 90.
 - Scrollback history 10000 lines.
 
 ## Manual tests
 
-- The window opens maximized with a light background and a prompt.
+- The window opens with a light background and a prompt.
 - `Shift+Enter` in gemini adds a new line without sending the prompt.
 - Zellij shows its colors correctly inside alacritty.

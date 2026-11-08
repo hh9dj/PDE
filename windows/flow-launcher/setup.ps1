@@ -24,16 +24,10 @@ if ($flow) {
     $flow | Wait-Process -Timeout 10 -ErrorAction SilentlyContinue
 }
 
-# Theme
-New-Item -ItemType Directory -Force -Path "$dataDir\Themes" | Out-Null
-Copy-Item "$PSScriptRoot\Latte Blue.xaml" "$dataDir\Themes\Latte Blue.xaml" -Force
-
 # Settings (only these keys change, the rest of the file is kept)
 $values = [ordered]@{
     # GlazeWM uses alt+space for the terminal (hyprland SUPER + D = launcher)
     Hotkey                           = "Alt + D"
-    Theme                            = "Latte Blue"
-    ColorScheme                      = "Light"
 
     # fuzzel: lines=8, width=40, line-height=38, anchor=center
     MaxResultsToShow                 = 8

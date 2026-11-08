@@ -26,11 +26,11 @@ setup_glazewm -Ultrawide -SideGap 500 # other side gap
 
 - Tiling with workspaces `1` to `10`.
 - Keybinds for focus, move, resize mode, layout and launching apps (see Keybindings below).
-- Zebar starts with GlazeWM (`startup_commands: ['shell-exec zebar']`). Zebar windows are ignored by the tiler.
+- Zebar (vanilla, default pack) starts with GlazeWM (`startup_commands: ['shell-exec zebar']`). Zebar windows are ignored by the tiler.
 
 ## Defaults changed
 
-- `inner_gap: 10px`, outer gap 30px. The top gap is 55px: the zebar bar is 35px high and does not reserve space, so 20px stay free below it.
+- `inner_gap: 10px`, outer gap 30px. The top gap is 30px (vanilla zebar docks itself and reserves space). Raise `top` in `config.yaml` if windows touch the bar.
 - `focus_follows_cursor: false`.
 - No scratch workspace and no `Alt s` / `Alt Shift s` keybinds (`Alt s` is the zellij scroll mode). `toggle_workspace_on_refocus` is off.
 - `Alt Space` starts alacritty, `Alt e` starts yazi in alacritty, `Alt b` starts Chrome.
@@ -41,7 +41,7 @@ GlazeWM has no maximum window width. The way to keep windows in the middle is a 
 
 ## Manual tests
 
-- GlazeWM starts with zebar on top. A window does not touch the bar (about 20px free).
+- GlazeWM starts with zebar on top. A window does not touch the bar. If it does, raise the top gap.
 - `Alt` + number switches workspace. `Alt s` does nothing in GlazeWM and reaches zellij.
 - `Alt Space` opens alacritty. `Alt b` opens Chrome (if not, put the full path of `chrome.exe` in `config.yaml`).
 - Ultra wide: after `setup_glazewm -Ultrawide`, one window is centered. Adjust `-SideGap`.

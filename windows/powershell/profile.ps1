@@ -114,7 +114,6 @@ $global:PdeSetupScripts = [ordered]@{
     television = "television\setup.ps1"
     gemini     = "gemini\apply.ps1"
     glazewm    = "glazewm\setup.ps1"
-    zebar      = "zebar\setup.ps1"
     flow       = "flow-launcher\setup.ps1"
     tools      = "powershell\install.ps1"
 }
