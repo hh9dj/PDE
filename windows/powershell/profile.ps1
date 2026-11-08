@@ -162,21 +162,17 @@ function pde_pull { git -C $global:PdeDir pull --ff-only }
 # zellij sessions (tmux: t = tmuxp load, ta = tv tmux-sessions). Here: z = by name or layout, za = picker.
 # - The session exists: attach to it. It does not exist: create it (with the layout of the same name, if any).
 # - Already inside zellij: switch to the session. A nested zellij is never started.
-# Layout name -> start directory. The repo path can be changed with $env:PDE_DIR.
-$global:ZellijLayoutDirs = @{ dots = $global:PdeDir }
+# The start directory of a layout is its cwd (in layouts\<name>.kdl).
 function Enter-ZellijSession {
     param([Parameter(Mandatory)][string]$Name)
-    $dir = $global:ZellijLayoutDirs[$Name]
     $hasLayout = Test-Path (Join-Path $env:ZELLIJ_CONFIG_DIR "layouts\$Name.kdl")
     $exists = [bool](zellij list-sessions --short --no-formatting 2>$null | Where-Object { $_ -eq $Name })
     if ($env:ZELLIJ) {
         $extra = @()
         if (-not $exists -and $hasLayout) { $extra += @("--layout", $Name) }
-        if (-not $exists -and $dir) { $extra += @("--cwd", $dir) }
         zellij action switch-session $Name @extra
         return
     }
-    if ($dir) { Set-Location $dir }
     if ($exists) { zellij attach $Name }
     elseif ($hasLayout) { zellij --session $Name --new-session-with-layout $Name }
     else { zellij attach --create $Name }

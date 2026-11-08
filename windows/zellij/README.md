@@ -21,7 +21,9 @@ tmux replacement with the same prefix and keys as `common/tmux/tmux.conf`.
 
 ## Configured features
 
-- Layout `dots`: tabs `editor` (nvim), `shell-prompt`, `coding-agent` (gemini), bar at the bottom. nvim and gemini run in `pwsh -NoExit`: quitting them leaves a shell in the pane.
+- Layouts in `layouts\`. Each one sets its start folder with `cwd` (`~` is the home folder), so `z <name>` works from any directory.
+  - `dots`: `cwd "~/PDE"`. Tabs `editor` (nvim), `shell-prompt`, `coding-agent` (gemini), bar at the bottom. nvim and gemini run in `pwsh -NoExit`: quitting them leaves a shell in the pane.
+  - `template`: same tabs, `cwd "~"`. Copy it to `<name>.kdl` and set `cwd` for a new project.
 - `z <name>` / `za`: see `powershell/README.md`.
 
 ## Defaults changed

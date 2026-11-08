@@ -33,7 +33,7 @@ Proxy (not in git): copy `local.example.ps1` to `local.ps1` next to `$PROFILE` a
 - PSReadLine: Emacs keys, Catppuccin Latte colors, inline history prediction. `Ctrl+y` accept suggestion, `Ctrl+Space` accept and run, `Ctrl+o` next word, `Ctrl+p`/`Ctrl+n` prefix history search, `Ctrl+e` edit in nvim, `Tab` menu completion.
 - Integrations: starship, mise (`activate`), zoxide (`cd`), tv (`Ctrl+f`), fzf (`Ctrl+r`).
 - Aliases: git (`gst`, `gaa`, `gcmsg`, `gd`, ...), eza (`ls`, `ll`, `la`, `lt`, `tree`), `cat` = bat, `grep` = rg, `rgrep`, `e`, `c`, `..`, `croot`, `dotconf`, `reload`.
-- zellij: `z <name>` attaches or creates the session (layout of the same name if any). `za` picks a live session with tv. Inside zellij both switch session, never nest.
+- zellij: `z <name>` attaches or creates the session (layout of the same name if any, started in the layout `cwd`). `za` picks a live session with tv. Inside zellij both switch session, never nest.
 
 ## Config locations
 

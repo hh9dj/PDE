@@ -1,8 +1,9 @@
 // Layout "dots": same 3 windows as common/tmux/sessions/dots.yaml.
-// Start: z dots   (the profile does Set-Location to the PDE repo, then starts this layout)
-// No cwd here: the layout inherits the directory of the command that starts it.
+// Start: z dots. All panes start in cwd (~ is the home folder).
 
 layout {
+    cwd "~/PDE"
+
     // bar at the bottom: children first, then the bar
     default_tab_template {
         children

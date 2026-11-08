@@ -1,4 +1,9 @@
+// Copy this file to <name>.kdl, set cwd to the project folder, then start it with: z <name>
+// All panes start in cwd (~ is the home folder).
+
 layout {
+    cwd "~"
+
     // bar at the bottom: children first, then the bar
     default_tab_template {
         children
