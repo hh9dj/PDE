@@ -36,6 +36,7 @@ return {
       "dockerls",
       "vtsls",
       "vue_ls",
+      "powershell_es",
     }) do
       vim.lsp.enable(server)
     end

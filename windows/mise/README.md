@@ -2,6 +2,33 @@
 
 Multi-language runtime manager. Manages Python, Node.js, Go, Rust, and other tools from one configuration.
 
+## Dependencies
+
+- `mise` (scoop: `scoop install mise`). `mise` 2026.7.4 or newer is not needed: no `[dotfiles]` feature is used.
+- `node` in the global mise config (or on PATH) for the npm tools.
+
+## Setup
+
+```powershell
+setup_mise -DryRun
+setup_mise              # copy pde.toml to ~\.config\mise\conf.d\pde.toml
+mise install            # needs the company npm registry (npm config is not changed)
+```
+
+- `conf.d\pde.toml` is read together with your own `~\.config\mise\config.toml`, which stays untouched.
+
+## Configured features
+
+- `pde.toml` lists the neovim language servers and formatters (npm backend): bash-language-server, pyright, typescript, vtsls, vue language server, vscode-langservers-extracted, yaml-language-server, biome, prettierd. See `nvim/README.md`.
+
+## Defaults changed
+
+- None in your global config. No `node`, `python` or `zig` entry is added: keep them in your own file.
+
+## Manual tests
+
+- `mise ls` lists the npm tools after `mise install`. `bash-language-server --version` works.
+
 ## Role in the stack
 
 - Preferred runtime manager for backend development.

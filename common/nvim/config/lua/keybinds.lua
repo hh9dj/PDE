@@ -64,15 +64,17 @@ map("n", "<leader>cp", function()
   vim.fn.setreg("+", file_path)
 end, { desc = "Copy current file path" })
 
-map("n", "<leader>fx", function()
-  local file_path = vim.fn.expand("%:p")
-  if file_path == "" then
-    vim.notify("[No file opened]", vim.log.levels.ERROR)
-    return
-  end
-  vim.fn.system("chmod +x " .. vim.fn.shellescape(file_path))
-  vim.notify("Made " .. file_path .. " executable", vim.log.levels.INFO)
-end, { desc = "Make file executable (chmod +x)" })
+if not vim.g.is_win then -- chmod does not exist on Windows
+  map("n", "<leader>fx", function()
+    local file_path = vim.fn.expand("%:p")
+    if file_path == "" then
+      vim.notify("[No file opened]", vim.log.levels.ERROR)
+      return
+    end
+    vim.fn.system("chmod +x " .. vim.fn.shellescape(file_path))
+    vim.notify("Made " .. file_path .. " executable", vim.log.levels.INFO)
+  end, { desc = "Make file executable (chmod +x)" })
+end
 
 map("n", "dD", "d0", { desc = "Delete to start of line", remap = true })
 map("n", "_", "0", { desc = "Start of line", remap = true })

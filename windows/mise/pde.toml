@@ -1,0 +1,13 @@
+# Language servers and formatters for neovim, installed by mise (npm backend uses the company npm registry).
+# Needs node in the global mise config or on PATH. Installed with: mise install
+# Other tools (ruff, stylua, shfmt, taplo, marksman, lua-language-server) come from scoop (see powershell/install.ps1).
+[tools]
+"npm:bash-language-server" = "latest"
+"npm:pyright" = "latest"
+"npm:typescript" = "latest"
+"npm:@vtsls/language-server" = "latest"
+"npm:@vue/language-server" = "latest"
+"npm:vscode-langservers-extracted" = "latest"
+"npm:yaml-language-server" = "latest"
+"npm:@biomejs/biome" = "latest"
+"npm:@fsouza/prettierd" = "latest"

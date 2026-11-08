@@ -50,6 +50,16 @@ $apps = @(
     "hyperfine"
     "ast-grep"
 
+    # neovim: language servers and tools (the npm ones come from mise, see mise/pde.toml)
+    "lua-language-server"
+    "marksman"
+    "stylua"
+    "shfmt"
+    "taplo"
+    "ruff"
+    "zig"
+    "tree-sitter"
+
     # desktop
     "glazewm"
     "flow-launcher"

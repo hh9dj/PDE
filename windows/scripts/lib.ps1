@@ -24,11 +24,13 @@ function Test-PdeSame {
 # - Same content: nothing happens (no backup noise).
 # - Different content: the old target is first copied to <target>.bak-<timestamp>.
 # - A directory source is overlaid on the target. Extra files in the target stay.
+# - With -Replace the old directory is moved to the backup, so no old file mixes with the new config.
 function Install-PdeConfig {
     param(
         [Parameter(Mandatory)][string]$Source,
         [Parameter(Mandatory)][string]$Target,
-        [switch]$DryRun
+        [switch]$DryRun,
+        [switch]$Replace
     )
     if (-not (Test-Path $Source)) { throw "Source not found: $Source" }
     if (Test-PdeSame $Source $Target) { Write-Host "up to date  $Target"; return }
@@ -39,7 +41,8 @@ function Install-PdeConfig {
         Write-Host "would copy  $Source -> $Target$(if ($backup) { " (backup: $backup)" })"
         return
     }
-    if ($backup) { Copy-Item $Target $backup -Recurse -Force }
+    if ($backup -and $Replace) { Move-Item $Target $backup }
+    elseif ($backup) { Copy-Item $Target $backup -Recurse -Force }
     if (Test-Path $Source -PathType Leaf) {
         New-Item -ItemType Directory -Force -Path (Split-Path $Target) | Out-Null
         Copy-Item $Source $Target -Force
