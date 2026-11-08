@@ -11,9 +11,7 @@ general:
   shutdown_commands: []
   config_reload_commands: []
   focus_follows_cursor: false
-  # Press the key of the current workspace again to go back to the previous one.
-  # Needed for the scratch workspace toggle (alt+s).
-  toggle_workspace_on_refocus: true
+  toggle_workspace_on_refocus: false
   cursor_jump:
     enabled: true
     trigger: 'monitor_focus'
@@ -21,11 +19,14 @@ general:
   show_all_in_taskbar: false
 
 # hyprland: gaps_in = 10, gaps_out = 30
+# The zebar bar is 35px high and does not reserve space (dockToEdge is off).
+# So the top gap is bar height (35px) + a free margin (20px) = 55px.
+# Left and right gaps are 30px. For an ultra wide monitor use: setup_glazewm -Ultrawide
 gaps:
   scale_with_dpi: true
   inner_gap: '10px'
   outer_gap:
-    top: '30px'
+    top: '55px'
     right: '30px'
     bottom: '30px'
     left: '30px'
@@ -68,7 +69,7 @@ window_behavior:
       maximized: false
       shown_on_top: false
 
-# 1-10 like hyprland, plus 's' as the scratchpad (hyprland special:scratch).
+# 1-10 like hyprland. No scratch workspace: alt+s belongs to zellij (scroll mode).
 workspaces:
   - name: '1'
   - name: '2'
@@ -80,8 +81,6 @@ workspaces:
   - name: '8'
   - name: '9'
   - name: '10'
-  - name: 's'
-    display_name: 'scratch'
 
 window_rules:
   - commands: ['ignore']
@@ -127,12 +126,12 @@ keybindings:
 
   # 3. Launchers
   # alt+d (app launcher) is the Flow Launcher hotkey, set by flow-launcher/setup.ps1.
-  - commands: ['shell-exec wezterm-gui']
+  - commands: ['shell-exec alacritty']
     bindings: ['alt+space']
-  # hyprland uses brave; change to the browser available on this machine.
-  - commands: ['shell-exec msedge']
+  # Chrome is found through the Windows App Paths registry. If not, use the full path of chrome.exe.
+  - commands: ['shell-exec chrome']
     bindings: ['alt+b']
-  - commands: ['shell-exec wezterm-gui start -- yazi']
+  - commands: ['shell-exec alacritty -e yazi']
     bindings: ['alt+e']
   - commands: ['shell-exec explorer']
     bindings: ['alt+shift+e']
@@ -175,8 +174,6 @@ keybindings:
     bindings: ['alt+9']
   - commands: ['focus --workspace 10']
     bindings: ['alt+0']
-  - commands: ['focus --workspace s']
-    bindings: ['alt+s']
 
   # 9. Move windows (the focus follows the window to the workspace)
   - commands: ['move --workspace 1', 'focus --workspace 1']
@@ -199,8 +196,6 @@ keybindings:
     bindings: ['alt+shift+9']
   - commands: ['move --workspace 10', 'focus --workspace 10']
     bindings: ['alt+shift+0']
-  - commands: ['move --workspace s', 'focus --workspace s']
-    bindings: ['alt+shift+s']
   - commands: ['move --direction left']
     bindings: ['alt+shift+h', 'alt+shift+left']
   - commands: ['move --direction right']

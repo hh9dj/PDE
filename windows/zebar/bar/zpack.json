@@ -1,7 +1,7 @@
 {
   "name": "pde-bar",
   "version": "0.1.0",
-  "description": "Simple top bar: workspaces, focused window, floating state, clock, keyboard layout.",
+  "description": "Simple top bar: workspaces, focused window, tiling state, cpu, memory, clock, keyboard layout.",
   "widgets": [
     {
       "name": "bar",
@@ -21,7 +21,7 @@
           "height": "35px",
           "monitorSelection": { "type": "all" },
           "dockToEdge": {
-            "enabled": true,
+            "enabled": false,
             "edge": "top",
             "windowMargin": "0px"
           }

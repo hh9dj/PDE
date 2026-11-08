@@ -19,22 +19,19 @@ setup_zebar -DryRun
 
 ## Configured features
 
-- Top bar, full width, 35px high, docked to the top edge, on all monitors.
-- Widgets: workspaces, focused window, floating state, clock, keyboard layout.
+- Top bar, full width, 35px high, on all monitors. It does not reserve screen space (`dockToEdge` is off). GlazeWM keeps the gap: its top gap is 55px.
+- Widgets: workspaces, focused window, window state (tiling, floating, fullscreen), CPU %, memory %, clock, keyboard layout.
 
 ## Defaults changed
 
 - The pack is our own (`bar\`: `index.html`, `main.js`, `styles.css`, `zpack.json`). No default zebar pack is used.
 
-## Pending (see the plan, phase 7)
-
-- CPU and memory usage widgets.
-- Float and tiling status check.
-
 ## Manual tests
 
 - The bar shows at the top. Workspace changes in GlazeWM update the bar.
-- The bar does not get tiled by GlazeWM.
+- The bar does not get tiled by GlazeWM, and windows do not touch it.
+- The state text changes with `Alt Shift F` (floating) and `Alt F` (fullscreen).
+- CPU and memory values change every 2 seconds.
 
 ## Role in the stack
 
@@ -94,10 +91,10 @@ Style follows `nixos/noctalia/conf/bar.toml`: white bar, 35px, bold text, clock 
 
 - Workspaces of the current monitor. The active workspace is highlighted. Click one to focus it.
 - Title of the focused window, after the workspaces.
-- Clock in the center (capsule). Floating state and keyboard layout on the right.
+- Clock in the center (capsule). Window state, CPU, memory and keyboard layout on the right.
 
 Install:
 
 1. Copy the `bar` directory to `%USERPROFILE%\.glzr\zebar\pde-bar`. The pack id is the directory name.
 2. Start Zebar and enable the `pde-bar/bar` widget. GlazeWM starts Zebar with `startup_commands`.
-3. The widget docks to the top edge and reserves 35px. `main.js` loads the `zebar` API from `esm.sh`, so it needs internet access.
+3. The widget sits at the top edge. It does not reserve space: the GlazeWM top gap (55px) leaves room. `main.js` loads the `zebar` API from `esm.sh`, so it needs internet access.

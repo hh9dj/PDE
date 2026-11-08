@@ -15,6 +15,8 @@ Dynamic tiling window manager for Windows.
 ```powershell
 setup_glazewm           # copy config.yaml to ~\.glzr\glazewm\config.yaml
 setup_glazewm -DryRun
+setup_glazewm -Ultrawide              # big left/right gaps (700px each)
+setup_glazewm -Ultrawide -SideGap 500 # other side gap
 ```
 
 - An existing file is copied to `config.yaml.bak-<timestamp>` first.
@@ -28,19 +30,22 @@ setup_glazewm -DryRun
 
 ## Defaults changed
 
-- `inner_gap: 10px` and a larger outer gap (hyprland-like gaps).
+- `inner_gap: 10px`, outer gap 30px. The top gap is 55px: the zebar bar is 35px high and does not reserve space, so 20px stay free below it.
 - `focus_follows_cursor: false`.
-- Extra workspace `s` (scratch) and keybinds that start `wezterm-gui` and `msedge`.
+- No scratch workspace and no `Alt s` / `Alt Shift s` keybinds (`Alt s` is the zellij scroll mode). `toggle_workspace_on_refocus` is off.
+- `Alt Space` starts alacritty, `Alt e` starts yazi in alacritty, `Alt b` starts Chrome.
 
-## Pending (see the plan, phase 7)
+## Ultra wide monitor
 
-- Remove the scratch workspace `s` (zellij uses `Alt s`).
-- Replace `wezterm-gui` with `alacritty` and `msedge` with Chrome (default browser keybind).
+GlazeWM has no maximum window width. The way to keep windows in the middle is a big left and right outer gap. `setup_glazewm -Ultrawide` copies the config with `left` and `right` set to 700px (change it with `-SideGap`). The gap is global, so use this only on the work machine. Run `setup_glazewm` without the switch to go back to 30px. Reload with `Alt Shift R`.
 
 ## Manual tests
 
-- GlazeWM starts with zebar on top. Windows tile. `Alt` + number switches workspace.
-- The terminal keybind opens alacritty (after the pending change).
+- GlazeWM starts with zebar on top. A window does not touch the bar (about 20px free).
+- `Alt` + number switches workspace. `Alt s` does nothing in GlazeWM and reaches zellij.
+- `Alt Space` opens alacritty. `Alt b` opens Chrome (if not, put the full path of `chrome.exe` in `config.yaml`).
+- Ultra wide: after `setup_glazewm -Ultrawide`, one window is centered. Adjust `-SideGap`.
+- Set Chrome as the default browser in Windows Settings (apps, default apps). A config file cannot do this.
 
 ## Role in the stack
 
@@ -101,8 +106,7 @@ To start GlazeWM at login, add a shortcut to `glazewm.exe` in the Startup folder
 ### Other tools
 
 - Flow Launcher: its hotkey must be `Alt D`, because `Alt Space` opens the terminal in this config. `flow-launcher/setup.ps1` sets it.
-- Browser: `Alt B` starts `msedge`. Change the command in `config.yaml` if you use another browser.
-- Zellij: GlazeWM uses `Alt S` for the scratch workspace. Zellij does not receive it, so scroll mode (`Alt s`) does not work while GlazeWM runs.
+- Browser: `Alt B` starts Chrome.
 
 ## Keybindings
 
@@ -117,9 +121,9 @@ Windows:
 Launchers:
 
 - `Alt D`: Flow Launcher (hotkey set in Flow Launcher).
-- `Alt Space`: WezTerm.
-- `Alt B`: browser.
-- `Alt E`: yazi in WezTerm.
+- `Alt Space`: alacritty.
+- `Alt B`: Chrome.
+- `Alt E`: yazi in alacritty.
 - `Alt Shift E`: File Explorer.
 - `Alt C`: screenshot of a region (Snipping Tool).
 
@@ -133,8 +137,6 @@ Workspaces:
 
 - `Alt 1..9`, `Alt 0`: go to workspace 1 to 10.
 - `Alt Shift 1..9`, `Alt Shift 0`: move the window to workspace 1 to 10. The focus follows the window.
-- `Alt S`: go to the scratch workspace. Press it again to go back.
-- `Alt Shift S`: move the window to the scratch workspace.
 
 Layout:
 
@@ -145,7 +147,7 @@ Layout:
 
 ### Differences from hyprland
 
-- Scratch workspace: GlazeWM has no special workspace. `s` is a normal workspace, and the toggle comes from `toggle_workspace_on_refocus`. This option also applies to `Alt 1..0`.
+- Scratch workspace: removed, because `Alt s` is used by zellij.
 - Groups (`G`, `N`, `P`): not available. `Alt G` changes the tiling direction instead.
 - Scrolling layout: not available. GlazeWM tiles like i3.
 - Border width: fixed by Windows 11. Colors and rounded corners work on Windows 11 only.

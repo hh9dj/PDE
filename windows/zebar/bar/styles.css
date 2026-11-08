@@ -54,5 +54,5 @@ html, body {
   color: var(--primary);
 }
 
-#floating { color: var(--primary); }
-#floating:empty { display: none; }
+#state { color: var(--primary); }
+#state:empty, #cpu:empty, #memory:empty { display: none; }
