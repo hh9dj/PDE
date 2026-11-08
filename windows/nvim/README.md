@@ -11,9 +11,10 @@ Primary editor. The config is shared with NixOS: the source is `common/nvim/conf
 - Language servers and formatters. Two sources, both through the company channels:
   - scoop (`setup_tools`): `lua-language-server`, `marksman`, `stylua`, `shfmt`, `taplo`, `ruff`.
   - mise, npm backend (`setup_mise`, then `mise install`): `bash-language-server`, `pyright`, `typescript`, `@vtsls/language-server`, `@vue/language-server`, `vscode-langservers-extracted` (html, css, json), `yaml-language-server`, `@biomejs/biome`, `@fsouza/prettierd`. `node` must be available in mise or on PATH.
+- `make` (scoop, in `setup_tools`): LuaSnip builds `jsregexp` with it (uses the `CC` wrapper from the profile).
 - `deno` (scoop, in `setup_tools`): builds the markdown preview plugin (peek.nvim).
 - PowerShell Editor Services (optional, see below).
-- Treesitter parsers: off by default (see below).
+- Treesitter parsers: built with `zig` and `tree-sitter` (both in `setup_tools`). The profile sets `CC` (see below).
 
 ## Setup
 
@@ -38,19 +39,15 @@ nvim                    # first start: lazy.nvim installs the plugins
   - bash: `bashls`. Python: `pyright`, `ruff`. TypeScript and JavaScript: `vtsls`, `biome`.
   - Vue and Pinia: `vue_ls` with `vtsls` (the Vue TypeScript plugin). Pinia needs no extra server.
   - HTML, CSS, JSON: `vscode-langservers-extracted` (`biome` formats them). Also yaml, toml, markdown, lua.
-- Windows guards in the shared config:
-  - The shell of nvim is `pwsh`.
-  - Only installed language servers are enabled (no error for a missing one). `:checkhealth vim.lsp` shows the active ones.
-  - Treesitter plugin off (no C compiler).
-  - `blink.cmp` uses its Lua matcher (no download of a prebuilt binary).
-  - The `make` and `deno` build steps of LuaSnip and peek.nvim run only when `make` or `deno` exists.
+- Windows guards in the shared config (`vim.g.is_win`, set in `lua/options.lua`):
   - The `chmod +x` keybind (`<leader>fx`) is not defined.
-  - nvim-lint ignores a missing linter.
+  - The Vue plugin path for `vtsls` is found from the mise or npm install (`$env:VUE_LS_PATH` overrides it).
+  - `powershell_es` is defined in `lsp/powershell_es.lua` and starts only when its bundle exists.
 
 ## Defaults changed
 
-- `shell` is `pwsh` with the flags from `:h shell-powershell`.
-- No treesitter parsers beyond the ones bundled with nvim (c, lua, vim, vimdoc, markdown, query). Other languages have no treesitter highlighting.
+- Nothing in the nvim config changes for treesitter. The compiler is set outside nvim: the profile sets `$env:CC` (see below).
+- A language server that is not installed may show an error when you open its file type. Install it (`mise install`) or ignore it.
 
 ## PowerShell Editor Services (optional)
 
@@ -60,16 +57,21 @@ nvim                    # first start: lazy.nvim installs the plugins
 
 Without the bundle the server stays off.
 
-## Treesitter (off, test with zig)
+## Treesitter (parsers built with zig)
 
-Treesitter needs a C compiler to build parsers. The laptop has none. `zig` (scoop) can act as one. This is not proven yet, so it is opt-in.
+Treesitter builds its parsers with a C compiler. The laptop has none, so `zig` (scoop) is used as one. The nvim config has no special code for this. Only the compiler comes from the environment.
 
-A plain `$env:CC = "zig cc"` fails: `unable to parse target query x86_64-pc-windows-msvc: UnknownOperatingSystem`. The tree-sitter CLI passes an MSVC target that zig does not know. `setup_nvim` installs a wrapper, `~\.config\zig-cc\zig-cc.cmd`, that changes the target to `x86_64-windows-gnu` (zig has its own C library for it).
+- A plain `$env:CC = "zig cc"` fails: `unable to parse target query x86_64-pc-windows-msvc: UnknownOperatingSystem`. The tree-sitter CLI passes an MSVC target that zig does not know.
+- `setup_nvim` installs a wrapper, `~\.config\zig-cc\zig-cc.cmd` (source: `zig-cc.cmd` in this directory). It changes the target to `x86_64-windows-gnu`. Zig has its own C library for it, so no Visual Studio is needed.
+- The profile sets `$env:CC` to the wrapper when the file exists. This applies to every program started from pwsh. If another build tool breaks because of it, run `Remove-Item Env:CC` in that terminal.
+
+Steps (first time):
 
 ```powershell
+setup_tools                      # zig and tree-sitter
 setup_nvim                       # installs the wrapper
-$env:NVIM_TREESITTER = "1"
-$env:CC = "$HOME\.config\zig-cc\zig-cc.cmd"
+. $PROFILE                       # sets CC
+& $env:CC --version              # prints the zig clang version
 nvim
 # inside nvim:
 # :Lazy sync
@@ -77,17 +79,13 @@ nvim
 # :checkhealth nvim-treesitter
 ```
 
-- It needs `tree-sitter` (the CLI, in `setup_tools`) and `zig`.
-- Check the wrapper alone: `& $env:CC --version` prints the zig clang version.
-- If `:TSInstall` works, tell me. Then the variables become permanent in the profile and treesitter is on by default.
-- If it fails, send the error text. The fallback is parser DLLs compiled on NixOS for Windows.
+If a build fails, send the error text. The fallback is parser DLLs compiled on NixOS for Windows.
 
 ## Manual tests
 
 - `nvim` starts without errors. After the first start, `:Lazy` shows the plugins as installed.
 - Open `a.ps1`, `a.sh`, `a.py`, `a.ts`, `a.vue`, `a.html`, `a.css`. In each, `:checkhealth vim.lsp` lists the right server (after `mise install`).
 - `K` shows hover docs. `<space>ca` shows code actions. `<leader>gg` formats (a formatter must exist).
-- `:!echo hi` and `:terminal` run in `pwsh`.
 - If a Vue file shows no TypeScript info, `:lua print(vim.lsp.config.vtsls.settings.vtsls.tsserver.globalPlugins[1].location)` must print a folder that exists. If not, set `$env:VUE_LS_PATH` to the folder of `@vue/language-server` (`mise where npm:@vue/language-server`, then `node_modules\@vue\language-server`).
 
 ## Test on Linux

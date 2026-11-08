@@ -58,6 +58,7 @@ $apps = @(
     "taplo"
     "ruff"
     "zig"
+    "make"
     "tree-sitter"
 
     # desktop

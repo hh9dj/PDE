@@ -15,6 +15,9 @@ $env:BAT_CONFIG_PATH = "$env:USERPROFILE\.config\bat\config"
 $env:RIPGREP_CONFIG_PATH = "$env:USERPROFILE\.config\ripgrep\config"
 $env:ZELLIJ_CONFIG_DIR = "$env:USERPROFILE\.config\zellij"
 $env:TELEVISION_CONFIG = "$env:USERPROFILE\.config\television"
+# C compiler for treesitter parsers (zig cc through a wrapper, see windows/nvim/README.md)
+$zigCc = "$env:USERPROFILE\.config\zig-cc\zig-cc.cmd"
+if (Test-Path $zigCc) { $env:CC = $zigCc }
 $global:PdeDir = $env:PDE_DIR ?? "$env:USERPROFILE\PDE"
 
 
