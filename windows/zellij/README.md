@@ -34,6 +34,7 @@ setup_zellij -DryRun    # show what would change
   - `Ctrl e`: edit the scrollback in nvim. `/`: search. `r`: resize mode. `m`: move mode. `Ctrl a`: send a literal `Ctrl a`.
 - `Alt s`: scroll mode (vi keys, `q` leaves). `V` opens the scrollback in nvim (select lines with `V`, copy with `"+y`).
 - Layout `dots` (`layouts\dots.kdl`): tabs `editor` (nvim), `shell-prompt`, `coding-agent` (gemini). It mirrors `common/tmux/sessions/dots.yaml`.
+  - nvim and gemini run inside `pwsh -NoExit`. When you quit them, the pane stays open as a pwsh shell (with the profile), like in tmux. Type `nvim` or `gemini` to start them again.
 - Profile functions:
   - `z <name>`: attach to the session `<name>` if it exists. Otherwise create it, with the layout of the same name if there is one (`z dots` goes to `$HOME\PDE` first).
   - `za`: television picker of live sessions. Enter attaches. `za <name>` works like `z <name>`.
@@ -58,6 +59,7 @@ setup_zellij -DryRun    # show what would change
 - `Ctrl a`, `s` shows live sessions and switches.
 - After you quit zellij, `zellij ls` shows no exited session.
 - `Alt s`, `V` opens nvim with the scrollback.
+- `z dots`, then quit nvim (`:q`): the `editor` tab shows a pwsh prompt in the same pane. Same for gemini in `coding-agent`.
 
 ## Documentation
 
