@@ -13,7 +13,6 @@ Primary editor. The config is shared with NixOS: the source is `common/nvim/conf
   - mise, npm backend (`setup_mise`, then `mise install`): `bash-language-server`, `pyright`, `typescript`, `@vtsls/language-server`, `@vue/language-server`, `vscode-langservers-extracted` (html, css, json), `yaml-language-server`, `@biomejs/biome`, `@fsouza/prettierd`. `node` must be available in mise or on PATH.
 - `make` (scoop, in `setup_tools`): LuaSnip builds `jsregexp` with it (uses the `CC` wrapper from the profile).
 - `deno` (scoop, in `setup_tools`): builds the markdown preview plugin (peek.nvim).
-- PowerShell Editor Services (optional, see below).
 - Treesitter parsers: built with `zig` and `tree-sitter` (both in `setup_tools`). The profile sets `CC` (see below).
 
 ## Setup
@@ -38,27 +37,18 @@ nvim                    # first start: lazy.nvim installs the plugins
 
 - Same plugins, keybinds and theme as on NixOS (catppuccin latte, lazy.nvim, snacks, blink.cmp, conform, nvim-lint).
 - Language support:
-  - PowerShell: `powershell_es` (optional install).
+  - PowerShell: no language server (`powershell_es` was removed, it was unstable). Highlighting comes from treesitter.
   - bash: `bashls`. Python: `pyright`, `ruff`. TypeScript and JavaScript: `vtsls`, `biome`.
   - Vue and Pinia: `vue_ls` with `vtsls` (the Vue TypeScript plugin). Pinia needs no extra server.
   - HTML, CSS, JSON: `vscode-langservers-extracted` (`biome` formats them). Also yaml, toml, markdown, lua.
 - Windows guards in the shared config (`vim.g.is_win`, set in `lua/options.lua`):
   - The `chmod +x` keybind (`<leader>fx`) is not defined.
   - The Vue plugin path for `vtsls` is found from the mise or npm install (`$env:VUE_LS_PATH` overrides it).
-  - `powershell_es` is defined in `lsp/powershell_es.lua` and starts only when its bundle exists.
 
 ## Defaults changed
 
 - Nothing in the nvim config changes for treesitter. The compiler is set outside nvim: the profile sets `$env:CC` (see below).
 - A language server that is not installed may show an error when you open its file type. Install it (`mise install`) or ignore it.
-
-## PowerShell Editor Services (optional)
-
-1. Download `PowerShellEditorServices.zip` from https://github.com/PowerShell/PowerShellEditorServices/releases (a browser download is enough).
-2. Extract it to `$env:LOCALAPPDATA\nvim-data\powershell_es` so that `PowerShellEditorServices\Start-EditorServices.ps1` exists there. Or set `$env:POWERSHELL_ES_PATH` to another folder.
-3. Open a `.ps1` file. `:checkhealth vim.lsp` shows `powershell_es`.
-
-Without the bundle the server stays off.
 
 ## Treesitter (parsers built with zig)
 
