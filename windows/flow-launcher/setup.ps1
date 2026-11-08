@@ -3,6 +3,7 @@
 # Flow Launcher must have run once, so that Settings.json exists.
 
 $ErrorActionPreference = "Stop"
+. "$PSScriptRoot/../scripts/lib.ps1"
 
 # Scoop installs the portable build (UserData next to the app).
 # The installer build uses %APPDATA%\FlowLauncher.
@@ -68,10 +69,11 @@ $settings = Get-Content $settingsPath -Raw -Encoding UTF8 | ConvertFrom-Json
 foreach ($key in $values.Keys) {
     $settings | Add-Member -NotePropertyName $key -NotePropertyValue $values[$key] -Force
 }
-Copy-Item $settingsPath "$settingsPath.bak" -Force
+Copy-Item $settingsPath "$settingsPath.bak-$(Get-PdeTimestamp)" -Force
+Remove-PdeOldBackups -Target $settingsPath
 $settings | ConvertTo-Json -Depth 100 | Set-Content $settingsPath -Encoding UTF8
 
-Write-Host "Applied to $dataDir (backup: Settings.json.bak)."
+Write-Host "Applied to $dataDir (backup: Settings.json.bak-<timestamp>)."
 
 if ($exe) {
     Start-Process $exe

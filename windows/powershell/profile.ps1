@@ -8,6 +8,8 @@ $localScript = Join-Path (Split-Path $PROFILE) "local.ps1"
 if (Test-Path $localScript) { . $localScript }
 
 # ENV VARS
+# Tools that support XDG read their config from ~\.config (nvim, git, mise ...). setup_nvim sets it for the user too.
+$env:XDG_CONFIG_HOME = "$env:USERPROFILE\.config"
 $env:EDITOR = "nvim"
 $env:VISUAL = "nvim"
 $env:BAT_THEME = "Catppuccin Latte"
@@ -193,6 +195,11 @@ function za {
 # INTEGRATIONS (only if the tool is installed)
 if (Get-Command starship -ErrorAction SilentlyContinue) {
     Invoke-Expression (&starship init powershell)
+}
+# mise: puts the tools of the current directory in PATH (after starship: both wrap the prompt).
+# Programs that do not start from this shell find the same tools through the shims dir in the user PATH (setup_mise).
+if (Get-Command mise -ErrorAction SilentlyContinue) {
+    mise activate pwsh | Out-String | Invoke-Expression
 }
 # zoxide replaces cd (zsh: --cmd cd)
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {

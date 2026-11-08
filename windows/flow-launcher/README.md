@@ -14,7 +14,7 @@ Application launcher with a plugin ecosystem.
 setup_flow
 ```
 
-- The script stops Flow Launcher (it writes `Settings.json` on exit), changes only the keys listed below, backs up the file to `Settings.json.bak`, and starts Flow Launcher again.
+- The script stops Flow Launcher (it writes `Settings.json` on exit), changes only the keys listed below, backs up the file to `Settings.json.bak-<timestamp>`, and starts Flow Launcher again.
 
 ## Configured features
 
@@ -87,12 +87,12 @@ The config mirrors `nixos/fuzzel`. It has one file:
 
    - finds the data directory: `%USERPROFILE%\scoop\persist\flow-launcher\UserData` (Scoop, portable build) or `%APPDATA%\FlowLauncher` (installer build).
    - stops Flow Launcher, because it writes `Settings.json` when it exits.
-   - saves a backup as `Settings.json.bak`, then writes the new values.
+   - saves a backup as `Settings.json.bak-<timestamp>`, then writes the new values.
    - starts Flow Launcher again.
 
 4. Press `Alt D`.
 
-Run the script again after you change the values in it. To undo, stop Flow Launcher and restore `Settings.json.bak`.
+Run the script again after you change the values in it. To undo, stop Flow Launcher and restore `Settings.json.bak-<timestamp>`.
 
 ### What is the same as fuzzel
 

@@ -20,14 +20,17 @@ Primary editor. The config is shared with NixOS: the source is `common/nvim/conf
 
 ```powershell
 setup_nvim -DryRun
-setup_nvim              # install the config to %LOCALAPPDATA%\nvim
+setup_nvim              # install the config to ~\.config\nvim and set XDG_CONFIG_HOME
 setup_mise              # copy mise\pde.toml to ~\.config\mise\conf.d\pde.toml
 mise install            # language servers (npm backend)
 nvim                    # first start: lazy.nvim installs the plugins
 ```
 
-- The old `%LOCALAPPDATA%\nvim` is moved to `nvim.bak-<timestamp>`. Old and new files never mix. To get an old setting back, read the backup.
-- Plugin data stays in `%LOCALAPPDATA%\nvim-data` and is not touched.
+- nvim reads `$XDG_CONFIG_HOME\nvim`, so the config lives in `~\.config\nvim`. `setup_nvim` sets the user variable `XDG_CONFIG_HOME` to `~\.config` (a warning shows if it already has another value, and it is not changed). Open a new terminal after the first run.
+- An existing `~\.config\nvim` is moved to `nvim.bak-<timestamp>`. Old and new files never mix. Only the 5 newest backups are kept.
+- Your old config in `%LOCALAPPDATA%\nvim` is not touched. It is no longer read once `XDG_CONFIG_HOME` is set. Delete it when you do not need it.
+- Side effect of `XDG_CONFIG_HOME`: every tool that follows XDG reads `~\.config` too (git, mise, gh and others). If a company tool keeps its config in `%APPDATA%` (for example `gh`), check it still finds its config. To undo: `[Environment]::SetEnvironmentVariable("XDG_CONFIG_HOME", $null, "User")`.
+- Plugin data stays in `%LOCALAPPDATA%\nvim-data` (`XDG_DATA_HOME` is not set) and is not touched.
 - If you run `:Lazy sync`, `lazy-lock.json` changes. The next `setup_nvim` sees a difference and makes a new backup.
 - `setup_mise` writes a new file in `conf.d`. Your `~\.config\mise\config.toml` is not changed.
 

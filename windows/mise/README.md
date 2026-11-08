@@ -19,6 +19,9 @@ mise install            # needs the company npm registry (npm config is not chan
 
 ## Configured features
 
+- Shell: the profile runs `mise activate pwsh` (after starship). In a directory with a `mise.toml` the project tools are in PATH, and `node`, `python` and the others are the mise versions.
+- Other programs: `setup_mise` adds the shims folder (`%LOCALAPPDATA%\mise\shims`, or `$MISE_DATA_DIR\shims`) to the front of the user PATH and runs `mise reshim`. Programs that do not start from pwsh (nvim started from a launcher, GUI apps, python `subprocess` calls, other terminals) find the same tools through the shims.
+
 - `pde.toml` installs `lazysql` (GitHub release, command `lazysql`) and the neovim language servers and formatters (npm backend): bash-language-server, pyright, typescript, vtsls, vue language server, vscode-langservers-extracted, yaml-language-server, biome, prettierd. See `nvim/README.md`.
 
 ## Defaults changed
@@ -27,6 +30,7 @@ mise install            # needs the company npm registry (npm config is not chan
 
 ## Manual tests
 
+- In a new terminal: `Get-Command node` shows a path in the mise folder. In `cmd.exe` (not pwsh) `where node` shows the shim.
 - `mise ls` lists the tools after `mise install`. `lazysql --version` works. If the GitHub download is blocked, run `scoop search lazysql` or download the release by hand. `bash-language-server --version` works.
 
 ## Role in the stack

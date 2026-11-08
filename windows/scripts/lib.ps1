@@ -20,6 +20,19 @@ function Test-PdeSame {
     return $true
 }
 
+# Keep only the newest $Keep backups (<target>.bak-<timestamp>) of a target. Default 5, or $env:PDE_KEEP_BACKUPS.
+function Remove-PdeOldBackups {
+    param([Parameter(Mandatory)][string]$Target, [int]$Keep = $(if ($env:PDE_KEEP_BACKUPS) { [int]$env:PDE_KEEP_BACKUPS } else { 5 }))
+    $dir = Split-Path $Target
+    if (-not (Test-Path $dir)) { return }
+    $old = Get-ChildItem -Path $dir -Filter "$(Split-Path $Target -Leaf).bak-*" -Force |
+        Sort-Object Name -Descending | Select-Object -Skip $Keep
+    foreach ($item in $old) {
+        Remove-Item $item.FullName -Recurse -Force
+        Write-Host "removed old backup $($item.FullName)"
+    }
+}
+
 # Copy a file or a directory from the repo to its place on this machine.
 # - Same content: nothing happens (no backup noise).
 # - Different content: the old target is first copied to <target>.bak-<timestamp>.
@@ -51,4 +64,5 @@ function Install-PdeConfig {
         Copy-Item (Join-Path $Source "*") $Target -Recurse -Force
     }
     Write-Host "installed   $Target$(if ($backup) { " (backup: $backup)" })"
+    if ($backup) { Remove-PdeOldBackups -Target $Target }
 }

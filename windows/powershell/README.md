@@ -7,7 +7,7 @@ PowerShell 7 profile. Mirrors the zsh setup (`common/zsh`): environment, line ed
 - `pwsh` 7 (scoop: `scoop install pwsh`). The profile uses `??`, which needs PowerShell 7.
 - `git`: needed to clone and update this repo.
 - `scoop`: the package manager. `setup_tools` installs the rest.
-- Optional, each one is skipped when missing: `starship`, `zoxide`, `fzf`, `eza`, `zellij`, `tv`, `nvim`.
+- Optional, each one is skipped when missing: `starship`, `mise`, `zoxide`, `fzf`, `eza`, `zellij`, `tv`, `nvim`.
 - Execution policy `RemoteSigned` or looser (scripts from a git clone are local, so they run).
 
 ## First install (once)
@@ -21,6 +21,22 @@ setup_all        # every config below
 ```
 
 - The repo must be at `$HOME\PDE`. Set `$env:PDE_DIR` before the profile loads for another path.
+
+## Where each config goes
+
+Rule: `~\.config` when the tool supports it (through its default, an environment variable of the profile, or `XDG_CONFIG_HOME`). Otherwise the default path of the tool.
+
+- `~\.config`: zellij (`ZELLIJ_CONFIG_DIR`), starship (default), git (`~\.config\git\config`), television (`TELEVISION_CONFIG`), bat (`BAT_CONFIG_PATH`), ripgrep (`RIPGREP_CONFIG_PATH`), nvim (`XDG_CONFIG_HOME`), mise (`conf.d`), the Chrome scroll script, the zig wrapper.
+- Tool default path (no XDG support, or company managed):
+  - alacritty: `%APPDATA%\alacritty` (Windows has no XDG in alacritty).
+  - glazewm and zebar: `~\.glzr` (only a command line option exists).
+  - gemini: `~\.gemini` (company managed).
+  - Flow Launcher: its own data folder.
+  - the PowerShell profile: `$PROFILE` (fixed by PowerShell).
+
+## Backups
+
+Every `setup_*` command that replaces a file first copies the old one to `<name>.bak-<timestamp>`. Only the 5 newest backups of each file are kept. Change the number with `$env:PDE_KEEP_BACKUPS = 10`.
 
 ## Local settings (proxy, not in git)
 
@@ -56,7 +72,7 @@ setup_all        # or one tool, for example setup_zellij
 
 ## Configured features
 
-- Environment: `CC` = `~\.config\zig-cc\zig-cc.cmd` when that file exists (treesitter parsers, see `nvim/README.md`), `EDITOR` and `VISUAL` = nvim, `BAT_THEME` = Catppuccin Latte, `ZELLIJ_CONFIG_DIR`, `TELEVISION_CONFIG`.
+- Environment: `XDG_CONFIG_HOME` = `~\.config`, `CC` = `~\.config\zig-cc\zig-cc.cmd` when that file exists (treesitter parsers, see `nvim/README.md`), `EDITOR` and `VISUAL` = nvim, `BAT_THEME` = Catppuccin Latte, `ZELLIJ_CONFIG_DIR`, `TELEVISION_CONFIG`.
 - Line editing like zsh: Emacs keys, history predictions, `Ctrl+y` accepts a suggestion, `Ctrl+o` next word, `Ctrl+p` and `Ctrl+n` search history by prefix, `Ctrl+e` edit the command in the editor, `Ctrl+Space` accept and run, `Tab` menu completion.
 - Catppuccin Latte syntax colors (PSReadLine).
 - Aliases: git (`gst`, `gaa`, `gcmsg`, ...), eza (`ls`, `ll`, `la`, `lt`, `tree`), `e`, `c`, `..`, `croot`, `dotconf`, `reload`.

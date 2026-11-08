@@ -9,6 +9,7 @@ param(
 )
 $ErrorActionPreference = "Stop"
 $here = $PSScriptRoot
+. "$here/../scripts/lib.ps1"
 $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
 
 function Read-Json($path, $default) {
@@ -21,7 +22,7 @@ function Read-Json($path, $default) {
 function Save-Json($path, $data, $changed, $label) {
     if (-not $changed) { Write-Host "$label : unchanged"; return }
     if ($DryRun) { Write-Host "$label : would change (dry run)"; return }
-    if (Test-Path $path) { Copy-Item $path "$path.bak-$stamp" }
+    if (Test-Path $path) { Copy-Item $path "$path.bak-$stamp"; Remove-PdeOldBackups -Target $path }
     New-Item -ItemType Directory -Force -Path (Split-Path $path) | Out-Null
     $json = $data | ConvertTo-Json -Depth 20
     Set-Content -Path $path -Value $json -Encoding utf8NoBOM
