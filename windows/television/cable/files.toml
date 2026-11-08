@@ -1,0 +1,22 @@
+[metadata]
+name = "files"
+description = "Select files (fd, bat preview)"
+requirements = ["fd", "bat"]
+
+[source]
+command = [
+  { name = "Default", run = "fd -t f" },
+  { name = "Hidden",  run = "fd -t f -H" },
+]
+
+[preview]
+command = "bat -n --color=always \"{}\""
+
+[keybindings]
+shortcut = "f1"
+f12 = "actions:edit"
+
+[actions.edit]
+description = "Open the selected file in the editor"
+command = "nvim {}"
+mode = "execute"

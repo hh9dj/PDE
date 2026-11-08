@@ -51,6 +51,11 @@ Set-PSReadLineKeyHandler -Chord Ctrl+Spacebar -ScriptBlock {
     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 }
 
+# tv: Ctrl+f smart autocomplete (tv init also binds Ctrl+r, fzf rebinds it below)
+if (Get-Command tv -ErrorAction SilentlyContinue) {
+    Invoke-Expression (tv init power-shell | Out-String)
+}
+
 # fzf: Ctrl+r history search (file: windows/fzf/fzf.ps1, copy it next to the profile)
 $fzfScript = Join-Path (Split-Path $PROFILE) "fzf.ps1"
 if (Test-Path $fzfScript) { . $fzfScript }

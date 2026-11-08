@@ -1,0 +1,16 @@
+[metadata]
+name = "dirs"
+description = "Select directories (fd, eza preview)"
+requirements = ["fd", "eza"]
+
+[source]
+command = [
+  { name = "Default", run = "fd -t d" },
+  { name = "Hidden",  run = "fd -t d --hidden" },
+]
+
+[preview]
+command = "eza -la --color=always \"{}\""
+
+[keybindings]
+shortcut = "f2"
