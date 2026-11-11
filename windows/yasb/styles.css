@@ -51,11 +51,8 @@
     color: #d20f39;
 }
 
-.glazewm-tiling-direction .btn {
-    border: none;
-    background-color: transparent;
+.window-state-widget .label {
     color: #1e66f5;
-    padding: 0 4px;
 }
 
 .active-window-widget .label {
@@ -77,16 +74,10 @@
     color: #7c7f93;
 }
 
-.notification-widget .label.new-notification,
-.notification-widget .icon.new-notification {
-    color: #1e66f5;
-}
-
-/* popups (calendar, audio menu, language menu, notifications menu) */
+/* popups (calendar, audio menu, language menu) */
 .clock-popup,
 .audio-menu,
 .language-menu,
-.notification-menu,
 .context-menu {
     background-color: #eff1f5;
     border: 1px solid #ccd0da;

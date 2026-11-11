@@ -34,9 +34,9 @@ bars:
       bottom: 0
       right: 0
     widgets:
-      left: ["glazewm_workspaces", "glazewm_tiling", "active_window"]
+      left: ["glazewm_workspaces", "active_window", "window_state"]
       center: ["clock"]
-      right: ["cpu", "memory", "language", "volume", "notifications"]
+      right: ["cpu", "memory", "language", "volume"]
 
 widgets:
   glazewm_workspaces:
@@ -51,23 +51,33 @@ widgets:
       focused_populated_label: "{name}"
       focused_empty_label: "{name}"
 
-  glazewm_tiling:
-    type: "glazewm.tiling_direction.GlazewmTilingDirectionWidget"
-    options:
-      horizontal_label: "\U000F0DE1"
-      vertical_label: "\U000F0DE2"
-
   active_window:
     type: "yasb.active_window.ActiveWindowWidget"
     options:
-      label: "{win[title]}"
+      # icon only (empty label). Click: process name.
+      label: ""
       label_alt: "{win[process][name]}"
       label_no_window: ""
       label_icon: true
       label_icon_size: 14
-      max_length: 60
-      max_length_ellipsis: "..."
       monitor_exclusive: true
+
+  # State of the focused window: tiling, floating, fullscreen or minimized.
+  # YASB has no widget for it: it polls `glazewm query focused` (one-line JSON:
+  # {"data":{"focused":{"type":"window","state":{"type":"tiling"}}},...}). With no focused window
+  # (empty workspace) the key does not exist and the widget may show an error text.
+  window_state:
+    type: "yasb.custom.CustomWidget"
+    options:
+      label: "{data[data][focused][state][type]}"
+      label_placeholder: ""
+      class_name: "window-state-widget"
+      exec_options:
+        run_cmd: "glazewm query focused"
+        run_interval: 1000
+        return_format: "json"
+        hide_empty: true
+        use_shell: false
 
   clock:
     type: "yasb.clock.ClockWidget"
@@ -110,15 +120,3 @@ widgets:
         "30": "\U000F057F"
         "60": "\U000F0580"
         "100": "\U000F057E"
-
-  notifications:
-    type: "yasb.notifications.NotificationsWidget"
-    options:
-      label: "<span>{icon}</span> {count}"
-      label_alt: "{count} notifications"
-      hide_empty: false
-      icons:
-        new: "\U000F009E"
-        default: "\U000F009A"
-        dnd_on: "\U000F009B"
-        dnd_off: "\U000F009A"
