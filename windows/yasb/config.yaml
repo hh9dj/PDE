@@ -62,22 +62,20 @@ widgets:
       label_icon_size: 14
       monitor_exclusive: true
 
-  # State of the focused window: tiling, floating, fullscreen or minimized.
-  # YASB has no widget for it: it polls `glazewm query focused` (one-line JSON:
-  # {"data":{"focused":{"type":"window","state":{"type":"tiling"}}},...}). With no focused window
-  # (empty workspace) the key does not exist and the widget may show an error text.
+  # State of the focused window: [F] floating, [T] otherwise (tiling, also fullscreen and empty workspace).
+  # YASB has no widget for it: cmd runs `glazewm query focused` (one-line JSON with "state":{"type":"..."})
+  # and findstr looks for the floating state. findstr is case-sensitive, so "prevState" never matches.
   window_state:
     type: "yasb.custom.CustomWidget"
     options:
-      label: "{data[data][focused][state][type]}"
+      label: "{data}"
       label_placeholder: ""
       class_name: "window-state-widget"
       exec_options:
-        run_cmd: "glazewm query focused"
+        run_cmd: 'glazewm query focused | findstr /c:"\"state\":{\"type\":\"floating\"" >nul && echo [F] || echo [T]'
         run_interval: 1000
-        return_format: "json"
-        hide_empty: true
-        use_shell: false
+        return_format: "string"
+        use_shell: true
 
   clock:
     type: "yasb.clock.ClockWidget"

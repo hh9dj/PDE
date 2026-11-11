@@ -12,7 +12,7 @@ Status bar. Light theme (Catppuccin Latte), integrated with GlazeWM.
 
 ## Widgets
 
-- Left: GlazeWM workspaces (focused one in blue), icon of the focused app, its state (`tiling`, `floating`, `fullscreen`, read every second from `glazewm query focused`).
+- Left: GlazeWM workspaces (focused one in blue), icon of the focused app, its state `[F]` floating or `[T]` tiling (read every second from `glazewm query focused`).
 - Center: date and time (click: calendar).
 - Right: CPU, memory, keyboard layout, volume (click: audio menu).
 - The bar reserves its space (`windows_app_bar`), so windows do not overlap it.
