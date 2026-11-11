@@ -3,6 +3,8 @@
 # Needs node in the global mise config or on PATH. Installed with: mise install
 # Other tools (ruff, stylua, shfmt, taplo, marksman, lua-language-server) come from scoop (see powershell/install.ps1).
 [tools]
+# Terminal diff viewer (hunk). Windows binary comes with the npm package.
+"npm:hunkdiff" = "latest"
 # SQL TUI. No mise registry entry: downloaded from the GitHub release.
 "github:jorgerojas26/lazysql" = "latest"
 "npm:bash-language-server" = "latest"

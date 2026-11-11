@@ -16,6 +16,6 @@ Your `~\.config\mise\config.toml` is not changed.
 
 ## Configured features
 
-- `pde.toml`: `lazysql` (GitHub release) and the nvim language servers and formatters (npm backend).
+- `pde.toml`: `hunk` (`npm:hunkdiff`), `lazysql` (GitHub release) and the nvim language servers and formatters (npm backend).
 - pwsh: `mise activate pwsh` in the profile.
 - Other programs (GUI apps, `cmd.exe`, python subprocesses): the shims dir (`%LOCALAPPDATA%\mise\shims`) is first in the user PATH.

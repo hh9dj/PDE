@@ -25,7 +25,7 @@ Update: `pde_pull`, then `setup_all`. List the commands: `setup_list`. Details: 
 - Shell: `powershell` (profile, setup commands), `starship`, `fzf`, `television`, `zoxide`.
 - Terminal and multiplexer: `alacritty`, `zellij`.
 - Editor and agent: `nvim`, `gemini`.
-- CLI: `git` (with `delta`), `bat`, `eza`, `fd`, `ripgrep`, `jq`, `btop`, `yazi`.
+- CLI: `git` (with `delta`), `hunk` (diff viewer, gemini skill), `bat`, `eza`, `fd`, `ripgrep`, `jq`, `btop`, `yazi`.
 - Runtimes: `mise` (scoop for the rest).
 - Desktop: `glazewm`, `yasb`, `flow-launcher`, `chrome` (scroll keys).
 - Clipboard history: `Win+V`.

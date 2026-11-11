@@ -142,6 +142,7 @@ $global:PdeSetupScripts = [ordered]@{
     nvim       = "nvim\setup.ps1"
     glazewm    = "glazewm\setup.ps1"
     yasb       = "yasb\setup.ps1"
+    hunk       = "hunk\setup.ps1"
     flow       = "flow-launcher\setup.ps1"
     chrome     = "chrome\setup.ps1"
     tools      = "powershell\install.ps1"
