@@ -18,6 +18,7 @@ Run it again after a company update resets the files.
 - `ctrl+y`: accept completion (the default YOLO toggle on `ctrl+y` is removed).
 - `ctrl+n` / `ctrl+p`: down / up in lists and dialogs.
 - `ctrl+alt+u` / `ctrl+alt+d`: scroll the output.
+- `ctrl+e`: open the prompt in nvim, like `Ctrl+e` in pwsh (the default end-of-line on `ctrl+e` is removed, `End` still works).
 - Defaults kept: `ctrl+g` prompt in nvim, `shift+tab` approval modes.
 
 ## Not changed

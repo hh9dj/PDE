@@ -6,5 +6,7 @@
   { "command": "nav.dialog.down", "keys": ["ctrl+n"] },
   { "command": "nav.dialog.up", "keys": ["ctrl+p"] },
   { "command": "-app.toggleYolo", "key": "ctrl+y" },
-  { "command": "suggest.accept", "key": "ctrl+y" }
+  { "command": "suggest.accept", "key": "ctrl+y" },
+  { "command": "-cursor.end", "key": "ctrl+e" },
+  { "command": "input.openExternalEditor", "key": "ctrl+e" }
 ]
