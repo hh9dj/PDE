@@ -4,7 +4,7 @@ Tiling window manager. Mirrors `nixos/hyprland` with `Alt` as the modifier (Wind
 
 ## Dependencies
 
-- `glazewm`, `zebar`, `alacritty`, `yazi`, Chrome.
+- `glazewm`, `yasb`, `alacritty`, `yazi`, Chrome.
 
 ## Setup
 
@@ -27,4 +27,4 @@ Start GlazeWM once before the first setup. Reload: `Alt Shift R`. Set Chrome as 
 
 - Gaps: inner 10px, outer 30px. Raise `top` if windows touch the bar.
 - Workspaces 1 to 10, no scratch workspace (`Alt s` belongs to zellij).
-- `focus_follows_cursor: false`. zebar starts with GlazeWM.
+- `focus_follows_cursor: false`. YASB starts and stops with GlazeWM.

@@ -1,0 +1,124 @@
+# YASB status bar. Installed to ~/.config/yasb by setup_yasb. GlazeWM starts it (startup_commands).
+# Icons: JetBrainsMono Nerd Font (scoop JetBrainsMono-NF). Docs: https://github.com/amnweb/yasb/wiki
+watch_stylesheet: true
+watch_config: true
+debug: false
+update_check: false
+
+glazewm:
+  start_command: "glazewm.exe start"
+  stop_command: "glazewm.exe command wm-exit"
+  reload_command: "glazewm.exe command wm-exit && glazewm.exe start"
+
+bars:
+  main:
+    enabled: true
+    screens: ['*']
+    class_name: "yasb-bar"
+    alignment:
+      position: "top"
+      align: "center"
+    blur_effect:
+      enabled: false
+    window_flags:
+      always_on_top: false
+      windows_app_bar: true      # reserve the space, GlazeWM tiles below the bar
+      hide_on_fullscreen: true
+      auto_hide: false
+    dimensions:
+      width: "100%"
+      height: 32
+    padding:
+      top: 0
+      left: 0
+      bottom: 0
+      right: 0
+    widgets:
+      left: ["glazewm_workspaces", "glazewm_tiling", "active_window"]
+      center: ["clock"]
+      right: ["cpu", "memory", "language", "volume", "notifications"]
+
+widgets:
+  glazewm_workspaces:
+    type: "glazewm.workspaces.GlazewmWorkspacesWidget"
+    options:
+      offline_label: "GlazeWM offline"
+      hide_if_offline: false
+      populated_label: "{name}"
+      empty_label: "{name}"
+      active_populated_label: "{name}"
+      active_empty_label: "{name}"
+      focused_populated_label: "{name}"
+      focused_empty_label: "{name}"
+
+  glazewm_tiling:
+    type: "glazewm.tiling_direction.GlazewmTilingDirectionWidget"
+    options:
+      horizontal_label: "\U000F0DE1"
+      vertical_label: "\U000F0DE2"
+
+  active_window:
+    type: "yasb.active_window.ActiveWindowWidget"
+    options:
+      label: "{win[title]}"
+      label_alt: "{win[process][name]}"
+      label_no_window: ""
+      label_icon: true
+      label_icon_size: 14
+      max_length: 60
+      max_length_ellipsis: "..."
+      monitor_exclusive: true
+
+  clock:
+    type: "yasb.clock.ClockWidget"
+    options:
+      label: "{%a %d %b  %H:%M}"
+      label_alt: "{%Y-%m-%d %H:%M:%S}"
+      update_interval: 1000
+
+  cpu:
+    type: "yasb.cpu.CpuWidget"
+    options:
+      label: "<span></span> {info[percent][total]}%"
+      label_alt: "<span></span> {info[freq][current]} MHz"
+      update_interval: 2000
+      hide_decimal: true
+
+  memory:
+    type: "yasb.memory.MemoryWidget"
+    options:
+      label: "<span></span> {virtual_mem_percent}%"
+      label_alt: "<span></span> {virtual_mem_used}/{virtual_mem_total}"
+      update_interval: 5000
+      hide_decimal: true
+
+  language:
+    type: "yasb.language.LanguageWidget"
+    options:
+      label: "<span></span> {lang[language_code]}-{lang[country_code]}"
+      label_alt: "{lang[full_name]}"
+      update_interval: 5
+
+  volume:
+    type: "yasb.volume.VolumeWidget"
+    options:
+      label: "<span>{icon}</span> {level}"
+      label_alt: "{volume}"
+      icons:
+        muted: "\U000F0581"
+        "10": "\U000F057F"
+        "30": "\U000F057F"
+        "60": "\U000F0580"
+        "100": "\U000F057E"
+
+  notifications:
+    type: "yasb.notifications.NotificationsWidget"
+    options:
+      label: "<span>{icon}</span> {count}"
+      label_alt: "{count} notifications"
+      hide_empty: false
+      icons:
+        new: "\U000F009E"
+        default: "\U000F009A"
+        dnd_on: "\U000F009B"
+        dnd_off: "\U000F009A"

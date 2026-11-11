@@ -23,7 +23,7 @@ Proxy (not in git): copy `local.example.ps1` to `local.ps1` next to `$PROFILE` a
 
 ## Commands
 
-- `setup_<tool>`: profile, zellij, starship, alacritty, git, television, gemini, bat, ripgrep, mise, nvim, glazewm, flow, chrome. `-DryRun` shows the changes.
+- `setup_<tool>`: profile, zellij, starship, alacritty, git, television, gemini, bat, ripgrep, mise, nvim, glazewm, yasb, flow, chrome. `-DryRun` shows the changes.
 - `setup_all`: all of them. `setup_tools`: scoop apps (`install.ps1`). `setup_list`, `pde_pull`.
 - Backups: `<name>.bak-<timestamp>`, the 5 newest are kept (`$env:PDE_KEEP_BACKUPS` changes it).
 
@@ -37,8 +37,8 @@ Proxy (not in git): copy `local.example.ps1` to `local.ps1` next to `$PROFILE` a
 
 ## Config locations
 
-- `~\.config`: zellij, starship, git, television, bat, ripgrep, nvim, mise (`conf.d`), chrome script, zig wrapper.
-- Tool default (no XDG support or company managed): alacritty `%APPDATA%`, glazewm and zebar `~\.glzr`, gemini `~\.gemini`, Flow Launcher, `$PROFILE`.
+- `~\.config`: yasb, zellij, starship, git, television, bat, ripgrep, nvim, mise (`conf.d`), chrome script, zig wrapper.
+- Tool default (no XDG support or company managed): alacritty `%APPDATA%`, glazewm `~\.glzr`, gemini `~\.gemini`, Flow Launcher, `$PROFILE`.
 
 ## Defaults changed
 

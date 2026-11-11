@@ -1,0 +1,93 @@
+/* YASB light theme: Catppuccin Latte (same palette as PSReadLine, gemini and nvim).
+   base #eff1f5  text #4c4f69  subtext #6c6f85  overlay #7c7f93  surface0 #ccd0da
+   blue #1e66f5  red #d20f39 */
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 13px;
+    color: #4c4f69;
+}
+
+.yasb-bar {
+    background-color: #eff1f5;
+    border-bottom: 1px solid #ccd0da;
+}
+
+.widget {
+    padding: 0 8px;
+    margin: 0;
+}
+
+.widget .label {
+    padding: 0 2px;
+}
+
+.widget .label.alt {
+    color: #6c6f85;
+}
+
+/* GlazeWM workspaces. focused_* must come after active_* */
+.glazewm-workspaces .ws-btn {
+    border: none;
+    border-radius: 4px;
+    margin: 4px 2px;
+    padding: 0 8px;
+    background-color: transparent;
+    color: #4c4f69;
+}
+.glazewm-workspaces .ws-btn.empty {
+    color: #7c7f93;
+}
+.glazewm-workspaces .ws-btn.active_populated,
+.glazewm-workspaces .ws-btn.active_empty {
+    background-color: #ccd0da;
+}
+.glazewm-workspaces .ws-btn.focused_populated,
+.glazewm-workspaces .ws-btn.focused_empty {
+    background-color: #1e66f5;
+    color: #eff1f5;
+}
+.glazewm-workspaces .offline-status {
+    color: #d20f39;
+}
+
+.glazewm-tiling-direction .btn {
+    border: none;
+    background-color: transparent;
+    color: #1e66f5;
+    padding: 0 4px;
+}
+
+.active-window-widget .label {
+    color: #6c6f85;
+}
+
+.clock-widget .label {
+    font-weight: bold;
+}
+
+.cpu-widget .label.status-high,
+.cpu-widget .label.status-critical,
+.memory-widget .label.status-high,
+.memory-widget .label.status-critical {
+    color: #d20f39;
+}
+
+.volume-widget .label.muted {
+    color: #7c7f93;
+}
+
+.notification-widget .label.new-notification,
+.notification-widget .icon.new-notification {
+    color: #1e66f5;
+}
+
+/* popups (calendar, audio menu, language menu, notifications menu) */
+.clock-popup,
+.audio-menu,
+.language-menu,
+.notification-menu,
+.context-menu {
+    background-color: #eff1f5;
+    border: 1px solid #ccd0da;
+}

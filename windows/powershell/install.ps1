@@ -63,6 +63,7 @@ $apps = @(
 
     # desktop
     "glazewm"
+    "yasb"
     "flow-launcher"
     "autohotkey"
 )

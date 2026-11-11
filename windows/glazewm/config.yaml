@@ -6,9 +6,9 @@
 # so the win key cannot be used for hjkl navigation.
 
 general:
-  # Example: ['shell-exec zebar']
-  startup_commands: ['shell-exec zebar']
-  shutdown_commands: []
+  # YASB status bar (windows/yasb)
+  startup_commands: ['shell-exec yasbc start']
+  shutdown_commands: ['shell-exec yasbc stop']
   config_reload_commands: []
   focus_follows_cursor: false
   toggle_workspace_on_refocus: false
@@ -19,8 +19,7 @@ general:
   show_all_in_taskbar: false
 
 # hyprland: gaps_in = 10, gaps_out = 30
-# Vanilla zebar docks to the top edge and reserves its own space.
-# If the bar and the windows touch, raise the top gap.
+# YASB reserves its own space at the top (windows_app_bar), so the top gap stays 30px.
 # For an ultra wide monitor use: setup_glazewm -Ultrawide
 gaps:
   scale_with_dpi: true
@@ -85,7 +84,7 @@ workspaces:
 window_rules:
   - commands: ['ignore']
     match:
-      - window_process: { equals: 'zebar' }
+      - window_process: { equals: 'yasb' }
       - window_process: { equals: 'Flow.Launcher' }
       - window_title: { regex: '[Pp]icture.in.[Pp]icture' }
         window_class: { regex: 'Chrome_WidgetWin_1|MozillaDialogClass' }

@@ -102,6 +102,7 @@ keybinds clear-defaults=true {
     }
     // tmux copy-mode equivalent (vi keys)
     scroll {
+        bind "Ctrl a" { SwitchToMode "normal"; }
         bind "e" { EditScrollback; SwitchToMode "locked"; }
         // Zellij has no keyboard line selection. Open the scrollback in nvim,
         // then use V to select lines and "+y to copy.

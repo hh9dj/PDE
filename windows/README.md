@@ -27,5 +27,5 @@ Update: `pde_pull`, then `setup_all`. List the commands: `setup_list`. Details: 
 - Editor and agent: `nvim`, `gemini`.
 - CLI: `git` (with `delta`), `bat`, `eza`, `fd`, `ripgrep`, `jq`, `btop`, `yazi`.
 - Runtimes: `mise` (scoop for the rest).
-- Desktop: `glazewm`, `zebar`, `flow-launcher`, `chrome` (scroll keys).
+- Desktop: `glazewm`, `yasb`, `flow-launcher`, `chrome` (scroll keys).
 - Clipboard history: `Win+V`.
