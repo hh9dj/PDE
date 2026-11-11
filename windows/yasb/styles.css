@@ -1,11 +1,11 @@
 /* YASB light theme: Catppuccin Latte (same palette as PSReadLine, gemini and nvim).
-   base #eff1f5  text #4c4f69  subtext #6c6f85  overlay #7c7f93  surface0 #ccd0da
-   blue #1e66f5  red #d20f39 */
+   base #eff1f5  text #4c4f69 (darkened to #1f2033 for contrast)  surface0 #ccd0da  blue #1e66f5  red #d20f39 */
 
 * {
     font-family: "JetBrainsMono Nerd Font";
-    font-size: 13px;
-    color: #4c4f69;
+    font-size: 14px;
+    font-weight: bold;
+    color: #1f2033;
 }
 
 .yasb-bar {
@@ -23,7 +23,7 @@
 }
 
 .widget .label.alt {
-    color: #6c6f85;
+    color: #4c4f69;
 }
 
 /* GlazeWM workspaces. focused_* must come after active_* */
@@ -33,10 +33,10 @@
     margin: 4px 2px;
     padding: 0 8px;
     background-color: transparent;
-    color: #4c4f69;
+    color: #1f2033;
 }
 .glazewm-workspaces .ws-btn.empty {
-    color: #7c7f93;
+    color: #6c6f85;
 }
 .glazewm-workspaces .ws-btn.active_populated,
 .glazewm-workspaces .ws-btn.active_empty {
@@ -56,11 +56,11 @@
 }
 
 .active-window-widget .label {
-    color: #6c6f85;
+    color: #1f2033;
 }
 
 .clock-widget .label {
-    font-weight: bold;
+    font-size: 15px;
 }
 
 .cpu-widget .label.status-high,
@@ -71,7 +71,7 @@
 }
 
 .volume-widget .label.muted {
-    color: #7c7f93;
+    color: #6c6f85;
 }
 
 /* popups (calendar, audio menu, language menu) */

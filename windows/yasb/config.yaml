@@ -27,7 +27,7 @@ bars:
       auto_hide: false
     dimensions:
       width: "100%"
-      height: 32
+      height: 40
     padding:
       top: 0
       left: 0
