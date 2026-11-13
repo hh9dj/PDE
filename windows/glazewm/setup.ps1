@@ -1,7 +1,7 @@
 # Install the GlazeWM config to ~/.glzr/glazewm (old file backed up). Reload GlazeWM afterwards.
 # -Ultrawide: big left and right gaps, so the windows stay in the middle of the screen.
 # -SideGap: the left and right gap in pixels for -Ultrawide (default 700, for a 3440 px wide screen).
-param([switch]$DryRun, [switch]$Ultrawide, [int]$SideGap = 700)
+param([switch]$DryRun, [switch]$Ultrawide, [int]$SideGap = 1200)
 $ErrorActionPreference = "Stop"
 . "$PSScriptRoot/../scripts/lib.ps1"
 

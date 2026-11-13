@@ -25,6 +25,7 @@ Proxy (not in git): copy `local.example.ps1` to `local.ps1` next to `$PROFILE` a
 
 - `setup_<tool>`: profile, zellij, starship, alacritty, git, television, gemini, bat, ripgrep, mise, nvim, glazewm, yasb, hunk, flow, chrome. `-DryRun` shows the changes.
 - `setup_all`: all of them. `setup_tools`: scoop apps (`install.ps1`). `setup_list`, `pde_pull`.
+- `keep_awake [-Display] [-Minutes n]`: blocks Windows sleep (`scripts\keep-awake.ps1`). Run it in its own zellij pane and keep the pwsh process alive. Detaching zellij is fine. Ctrl+C releases it. Check with `powercfg /requests`. Administrator sleep policies are not bypassed.
 - Backups: `<name>.bak-<timestamp>`, the 5 newest are kept (`$env:PDE_KEEP_BACKUPS` changes it).
 
 ## Configured features
