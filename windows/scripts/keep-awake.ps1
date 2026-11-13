@@ -17,7 +17,8 @@ public class PdePower {
 "@
 }
 
-$ES_CONTINUOUS = [uint32]0x80000000
+# 0x80000000 is parsed as a negative Int32 in PowerShell, so a [uint32] cast fails. Use the decimal value.
+$ES_CONTINUOUS = [uint32]2147483648
 $ES_SYSTEM_REQUIRED = [uint32]0x00000001
 $ES_DISPLAY_REQUIRED = [uint32]0x00000002
 
