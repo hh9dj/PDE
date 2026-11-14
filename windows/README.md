@@ -149,6 +149,12 @@ tmux replacement with the same prefix and keys as `common/tmux/tmux.conf`.
 
 - Dependencies: `zellij`, `pwsh` 7, `nvim` (scrollback editor), `fzf` (`Ctrl a`, `s`), `tv` (`za`).
 - `setup_zellij`: copies `zellij\config.kdl` and `layouts\` to `~\.config\zellij` (the profile sets `ZELLIJ_CONFIG_DIR`). Check: `zellij setup --check`.
+- Tab notifications: plugin [zellij-attention](https://github.com/KiryuuLight/zellij-attention) v0.3.1 (background, no pane, `load_plugins` in `config.kdl`).
+  - zellij downloads it from the pinned release URL in `config.kdl` on the first start and caches it. Behind the proxy, zellij needs `HTTPS_PROXY` in its environment (set it as a user variable if zellij starts outside the profile). Errors are in the zellij log.
+  - `setup_zellij` copies `zellij\attention.ps1` to `~\.config\zellij`. The gemini hooks call it (see gemini). The tab name gets `⏳` (gemini waits for a tool approval) or `✅` (gemini is done). Focusing the pane clears it. No icon for the pane that has focus.
+  - First start: accept the plugin permission prompt.
+  - Manual test: `zellij pipe --name "zellij-attention::waiting::<pane id>"` from another pane.
+  - New plugin version: change the URL in `config.kdl`.
 - Prefix `Ctrl a`, then one key. Zellij goes back to `locked` (normal typing) after the action.
   - Panes: `Ctrl h/j/k/l` focus, `|` / `_` split, `x` close, `z` fullscreen, `p` floating panes, `f` float or embed.
   - Tabs: `c` new, `h` / `l` previous / next, `1..9` go to, `,` rename, `q` close.
@@ -225,13 +231,14 @@ Terminal diff viewer for agent-authored changes. Config: `common/hunk/config.tom
 - `setup_gemini` (runs `gemini\apply.ps1`, `-DryRun` works). The source files are in `common/gemini` (shared with NixOS): `settings.json`, `keybindings.json`, `catppuccin-latte.json`. It merges into `~\.gemini` and never replaces company config:
   - `settings.json`: only `ui.customThemes.CatppuccinLatte`, `ui.theme` and `general.preferredEditor` (values from `common/gemini/settings.json`).
   - `keybindings.json`: adds the missing entries of `common/gemini/keybindings.json`.
+  - `hooks`: merges `gemini\hooks.json` (Windows only). `AfterAgent` and `Notification` (`ToolPermission`) run `~\.config\zellij\attention.ps1` for the zellij tab notifications. Needs `setup_zellij`. PDE hook groups (command with `zellij\attention.ps1`) are replaced, company hook groups stay.
 - Run it again after a company update resets the files.
 - Keys:
   - `ctrl+y`: accept completion (the default YOLO toggle on `ctrl+y` is removed).
   - `ctrl+n` / `ctrl+p`: down / up in lists and dialogs.
   - `ctrl+e`: open the prompt in nvim, like `Ctrl+e` in pwsh (the default end-of-line on `ctrl+e` is removed, `End` still works).
   - Defaults kept: `ctrl+g` prompt in nvim, `shift+tab` approval modes.
-- Not changed: `policies/`, `extensions/`, `.env`, auth, security, telemetry, `mcp` settings.
+- Not changed: `policies/`, `extensions/`, `.env`, auth, security, telemetry, `mcp` settings, company hooks.
 
 ## glazewm
 

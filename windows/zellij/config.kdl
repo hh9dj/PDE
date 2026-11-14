@@ -1,6 +1,7 @@
 // Minimal Zellij config. Mirrors common/tmux/tmux.conf.
 // Install: see windows/README.md (copy to %USERPROFILE%\.config\zellij and set ZELLIJ_CONFIG_DIR).
-// No external plugins: only the built-in compact-bar.
+// One external plugin: zellij-attention (background, no pane). It adds an icon to the tab name
+// when gemini waits or is done (hooks: windows/gemini/hooks.json). zellij downloads it from the URL and caches it.
 
 // SETTINGS
 default_shell "pwsh"
@@ -22,6 +23,16 @@ show_release_notes false
 ui {
     pane_frames {
         hide_session_name false
+    }
+}
+
+// PLUGINS
+// Tab icons: waiting = needs input, completed = task done. Focusing the pane clears it.
+// Pinned version in the URL. Behind a proxy zellij needs HTTPS_PROXY in its environment.
+load_plugins {
+    "https://github.com/KiryuuLight/zellij-attention/releases/download/v0.3.1/zellij-attention.wasm" {
+        waiting_icon "⏳"
+        completed_icon "✅"
     }
 }
 

@@ -6,3 +6,5 @@ $ErrorActionPreference = "Stop"
 $dir = Join-Path $HOME ".config/zellij"
 Install-PdeConfig -Source "$PSScriptRoot/config.kdl" -Target "$dir/config.kdl" -DryRun:$DryRun
 Install-PdeConfig -Source "$PSScriptRoot/layouts" -Target "$dir/layouts" -DryRun:$DryRun
+Install-PdeConfig -Source "$PSScriptRoot/attention.ps1" -Target "$dir/attention.ps1" -DryRun:$DryRun
+

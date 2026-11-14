@@ -1,5 +1,6 @@
 # Merge the PDE gemini-cli settings into ~/.gemini WITHOUT replacing company config.
 # - settings.json: sets only ui.customThemes.<name>, ui.theme and general.preferredEditor (values from common/gemini). All other keys stay.
+#   Also merges the hook groups of hooks.json (zellij tab notifications, needs setup_zellij). Company hooks stay.
 # - keybindings.json: adds the entries of common/gemini/keybindings.json that are missing.
 # A backup (*.bak-<timestamp>) is written before any change. Run again after a company update resets files.
 # Usage: pwsh apply.ps1 [-GeminiDir <dir>] [-DryRun]
@@ -44,7 +45,19 @@ $changed = ($old -ne $new) -or ($settings["ui"]["theme"] -ne $want.ui.theme) -or
 $settings["ui"]["customThemes"][$theme.name] = $theme
 $settings["ui"]["theme"] = $want.ui.theme
 $settings["general"]["preferredEditor"] = $want.general.preferredEditor
-Save-Json $settingsPath $settings $changed "settings.json (theme, preferredEditor)"
+
+# hooks: zellij tab notifications (windows/gemini/hooks.json). Company hook groups stay.
+# Groups that call zellij\attention.ps1 are PDE groups: they are removed, then the groups of hooks.json are added.
+$pdeHooks = Get-Content -Raw (Join-Path $here "hooks.json") | ConvertFrom-Json -AsHashtable -Depth 20
+if (-not $settings.ContainsKey("hooks")) { $settings["hooks"] = @{} }
+$oldHooks = $settings["hooks"] | ConvertTo-Json -Depth 20 -Compress
+$isPde = { param($group) @($group["hooks"] | Where-Object { "$($_["command"])" -like '*zellij\attention.ps1*' }).Count -gt 0 }
+foreach ($hookEvent in $pdeHooks.Keys) {
+    $groups = @($settings["hooks"][$hookEvent] | Where-Object { $_ -and -not (& $isPde $_) })
+    $settings["hooks"][$hookEvent] = @($groups + $pdeHooks[$hookEvent])
+}
+$changed = $changed -or ($oldHooks -ne ($settings["hooks"] | ConvertTo-Json -Depth 20 -Compress))
+Save-Json $settingsPath $settings $changed "settings.json (theme, preferredEditor, hooks)"
 
 # keybindings.json: add missing entries
 $kbPath = Join-Path $GeminiDir "keybindings.json"

@@ -1,0 +1,23 @@
+{
+    "AfterAgent": [
+        {
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "pwsh -NoProfile -ExecutionPolicy Bypass -File \"$HOME\\.config\\zellij\\attention.ps1\" completed"
+                }
+            ]
+        }
+    ],
+    "Notification": [
+        {
+            "matcher": "ToolPermission",
+            "hooks": [
+                {
+                    "type": "command",
+                    "command": "pwsh -NoProfile -ExecutionPolicy Bypass -File \"$HOME\\.config\\zellij\\attention.ps1\" waiting"
+                }
+            ]
+        }
+    ]
+}
