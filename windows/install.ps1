@@ -1,6 +1,9 @@
-# Install the Windows PDE tools with Scoop (user space, no administrator rights).
-# Usage: pwsh -ExecutionPolicy Bypass -File .\install.ps1
-# Safe to run again: installed apps are skipped.
+# Install the Windows PDE tools (user space, no administrator rights).
+# - Scoop: apps and fonts (list below).
+# - mise: the tools of mise\pde.toml (hunk, lazysql, nvim language servers and formatters).
+# Usage: pwsh -ExecutionPolicy Bypass -File .\install.ps1 [-SkipMise]
+# Safe to run again: installed apps are skipped. Configs are installed with setup_all (see README.md).
+param([switch]$SkipMise)
 
 $ErrorActionPreference = "Stop"
 
@@ -68,8 +71,13 @@ $apps = @(
     "autohotkey"
 )
 
+$installed = scoop list | ForEach-Object { $_.Name }
 $failed = @()
 foreach ($app in $apps) {
+    if ($app -in $installed) {
+        Write-Host "up to date  $app"
+        continue
+    }
     scoop install $app
     if ($LASTEXITCODE -ne 0) {
         $failed += $app
@@ -88,8 +96,25 @@ foreach ($name in $userEnv.Keys) {
     [Environment]::SetEnvironmentVariable($name, $userEnv[$name], "User")
 }
 
+# mise tools. Needs node in the global mise config (npm backend, company registry).
+# setup.ps1 installs pde.toml and the shims dir. It runs again after the install to create the new shims.
+if (-not $SkipMise) {
+    $setupMise = Join-Path $PSScriptRoot "mise\setup.ps1"
+    if (-not (Get-Command mise -ErrorAction SilentlyContinue)) {
+        Write-Warning "mise not found in this session. Open a new terminal and run install.ps1 again."
+    } else {
+        & $setupMise
+        mise install
+        if ($LASTEXITCODE -ne 0) {
+            $failed += "mise tools"
+        } else {
+            & $setupMise
+        }
+    }
+}
+
 if ($failed.Count -gt 0) {
-    Write-Warning "Not installed: $($failed -join ', '). Check proxy access or use the fallback in each tool README."
+    Write-Warning "Not installed: $($failed -join ', '). Check proxy access or the notes in README.md."
     exit 1
 }
-Write-Host "Done. Open a new terminal."
+Write-Host "Done. Open a new terminal, then run setup_all."

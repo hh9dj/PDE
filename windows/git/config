@@ -1,6 +1,9 @@
 ; Extra global Git config, read from ~/.config/git/config.
 ; Git reads this file before ~/.gitconfig, so company settings in ~/.gitconfig win.
-; No identity, credential, proxy or url settings here on purpose.
+; Only the user name is set. No email, credential, proxy or url settings here on purpose.
+
+[user]
+	name = khalil hadji
 
 [merge]
 	conflictstyle = diff3

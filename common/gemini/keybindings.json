@@ -1,0 +1,13 @@
+[
+    { "command": "nav.down", "keys": ["ctrl+n"] },
+    { "command": "nav.up", "keys": ["ctrl+p"] },
+    { "command": "nav.dialog.down", "keys": ["ctrl+n"] },
+    { "command": "nav.dialog.up", "keys": ["ctrl+p"] },
+    { "command": "-app.toggleYolo", "key": "ctrl+y" },
+    { "command": "suggest.accept", "key": "ctrl+y" },
+    { "command": "input.newline", "key": "shift+enter" },
+    { "command": "input.openExternalEditor", "key": "ctrl+e" },
+    { "command": "-cursor.end", "key": "ctrl+e" },
+    { "command": "history.previous", "key": "ctrl+p" },
+    { "command": "history.next", "key": "ctrl+n" }
+]

@@ -1,5 +1,5 @@
 # PowerShell 7 profile. Mirrors common/zsh (env vars, aliases, line editing).
-# First install: copy this file to $PROFILE once. After that, use setup_profile (see README.md).
+# First install: copy this file to $PROFILE once. After that, use setup_profile (see windows/README.md).
 # The PDE repo must be in $HOME\PDE (or set $env:PDE_DIR before the profile loads).
 
 # LOCAL (not in git): proxy and other private settings. Template: windows/powershell/local.example.ps1
@@ -17,7 +17,7 @@ $env:BAT_CONFIG_PATH = "$env:USERPROFILE\.config\bat\config"
 $env:RIPGREP_CONFIG_PATH = "$env:USERPROFILE\.config\ripgrep\config"
 $env:ZELLIJ_CONFIG_DIR = "$env:USERPROFILE\.config\zellij"
 $env:TELEVISION_CONFIG = "$env:USERPROFILE\.config\television"
-# C compiler for treesitter parsers (zig cc through a wrapper, see windows/nvim/README.md)
+# C compiler for treesitter parsers (zig cc through a wrapper, see the nvim section of windows/README.md)
 $zigCc = "$env:USERPROFILE\.config\zig-cc\zig-cc.cmd"
 if (Test-Path $zigCc) { $env:CC = $zigCc }
 $global:PdeDir = $env:PDE_DIR ?? "$env:USERPROFILE\PDE"
@@ -145,9 +145,9 @@ $global:PdeSetupScripts = [ordered]@{
     glazewm    = "glazewm\setup.ps1"
     yasb       = "yasb\setup.ps1"
     hunk       = "hunk\setup.ps1"
+    yazi       = "yazi\setup.ps1"
     flow       = "flow-launcher\setup.ps1"
-    chrome     = "chrome\setup.ps1"
-    tools      = "powershell\install.ps1"
+    tools      = "install.ps1"
 }
 foreach ($tool in $global:PdeSetupScripts.Keys) {
     $path = Join-Path $global:PdeDir "windows\$($global:PdeSetupScripts[$tool])"

@@ -1,5 +1,5 @@
 # GlazeWM v3 config. Mirrors nixos/hyprland (lib/keybinds.lua, lib/conf.lua).
-# Install: see README.md (copy to %USERPROFILE%\.glzr\glazewm\config.yaml).
+# Install: see windows/README.md (copy to %USERPROFILE%\.glzr\glazewm\config.yaml).
 #
 # Modifier: hyprland SUPER -> alt.
 # Windows reserves most win+<key> shortcuts (win+l always locks the session),

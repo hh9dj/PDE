@@ -23,5 +23,5 @@ if ($IsWindows) {
     }
 }
 
-# C compiler wrapper for treesitter (zig cc). The profile sets CC to it (see README.md).
+# C compiler wrapper for treesitter (zig cc). The profile sets CC to it (see windows/README.md).
 Install-PdeConfig -Source "$PSScriptRoot/zig-cc.cmd" -Target (Join-Path $HOME ".config/zig-cc/zig-cc.cmd") -DryRun:$DryRun

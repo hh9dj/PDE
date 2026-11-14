@@ -1,6 +1,6 @@
 # Merge the PDE gemini-cli settings into ~/.gemini WITHOUT replacing company config.
-# - settings.json: sets only ui.customThemes.<name>, ui.theme and general.preferredEditor. All other keys stay.
-# - keybindings.json: adds the entries of ./keybindings.json that are missing.
+# - settings.json: sets only ui.customThemes.<name>, ui.theme and general.preferredEditor (values from common/gemini). All other keys stay.
+# - keybindings.json: adds the entries of common/gemini/keybindings.json that are missing.
 # A backup (*.bak-<timestamp>) is written before any change. Run again after a company update resets files.
 # Usage: pwsh apply.ps1 [-GeminiDir <dir>] [-DryRun]
 param(
@@ -9,6 +9,7 @@ param(
 )
 $ErrorActionPreference = "Stop"
 $here = $PSScriptRoot
+$shared = Join-Path $here "../../common/gemini"   # source files shared with NixOS
 . "$here/../scripts/lib.ps1"
 $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
 
@@ -29,25 +30,26 @@ function Save-Json($path, $data, $changed, $label) {
     Write-Host "$label : updated"
 }
 
-# settings.json: theme only
+# settings.json: theme and editor only (values from common/gemini/settings.json)
+$want = Get-Content -Raw (Join-Path $shared "settings.json") | ConvertFrom-Json -AsHashtable -Depth 20
 $settingsPath = Join-Path $GeminiDir "settings.json"
 $settings = Read-Json $settingsPath @{}
-$theme = Get-Content -Raw (Join-Path $here "catppuccin-latte.json") | ConvertFrom-Json -AsHashtable -Depth 20
+$theme = Get-Content -Raw (Join-Path $shared "catppuccin-latte.json") | ConvertFrom-Json -AsHashtable -Depth 20
 if (-not $settings.ContainsKey("ui")) { $settings["ui"] = @{} }
 if (-not $settings["ui"].ContainsKey("customThemes")) { $settings["ui"]["customThemes"] = @{} }
 $old = $settings["ui"]["customThemes"][$theme.name] | ConvertTo-Json -Depth 20 -Compress
 $new = $theme | ConvertTo-Json -Depth 20 -Compress
 if (-not $settings.ContainsKey("general")) { $settings["general"] = @{} }
-$changed = ($old -ne $new) -or ($settings["ui"]["theme"] -ne $theme.name) -or ($settings["general"]["preferredEditor"] -ne "neovim")
+$changed = ($old -ne $new) -or ($settings["ui"]["theme"] -ne $want.ui.theme) -or ($settings["general"]["preferredEditor"] -ne $want.general.preferredEditor)
 $settings["ui"]["customThemes"][$theme.name] = $theme
-$settings["ui"]["theme"] = $theme.name
-$settings["general"]["preferredEditor"] = "neovim"
+$settings["ui"]["theme"] = $want.ui.theme
+$settings["general"]["preferredEditor"] = $want.general.preferredEditor
 Save-Json $settingsPath $settings $changed "settings.json (theme, preferredEditor)"
 
 # keybindings.json: add missing entries
 $kbPath = Join-Path $GeminiDir "keybindings.json"
 $existing = @(Read-Json $kbPath @())
-$wanted = @(Get-Content -Raw (Join-Path $here "keybindings.json") | ConvertFrom-Json -AsHashtable -Depth 20)
+$wanted = @(Get-Content -Raw (Join-Path $shared "keybindings.json") | ConvertFrom-Json -AsHashtable -Depth 20)
 $sig = { param($e) ($e | ConvertTo-Json -Compress -Depth 5) }
 $have = @($existing | ForEach-Object { & $sig $_ })
 $kbChanged = $false

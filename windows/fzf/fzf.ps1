@@ -1,6 +1,6 @@
 # fzf integration for PowerShell 7: Ctrl+r searches the shell history.
 # Mirrors the zsh fzf integration (Home Manager). No extra module needed.
-# Loaded from the profile (see README.md). Needs fzf in PATH.
+# Loaded from the profile (see windows/README.md). Needs fzf in PATH.
 
 if (-not (Get-Command fzf -ErrorAction SilentlyContinue)) { return }
 

@@ -19,6 +19,7 @@
         ./devenv
         ./direnv
         ./fastfetch
+        ./gemini
         ./ghostty
         ./git
         ./glow

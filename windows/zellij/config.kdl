@@ -1,5 +1,5 @@
 // Minimal Zellij config. Mirrors common/tmux/tmux.conf.
-// Install: see README.md (copy to %USERPROFILE%\.config\zellij and set ZELLIJ_CONFIG_DIR).
+// Install: see windows/README.md (copy to %USERPROFILE%\.config\zellij and set ZELLIJ_CONFIG_DIR).
 // No external plugins: only the built-in compact-bar.
 
 // SETTINGS

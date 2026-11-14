@@ -1,0 +1,8 @@
+{
+    "ui": {
+        "theme": "CatppuccinLatte"
+    },
+    "general": {
+        "preferredEditor": "neovim"
+    }
+}
