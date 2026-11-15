@@ -145,6 +145,7 @@ $global:PdeSetupScripts = [ordered]@{
     glazewm    = "glazewm\setup.ps1"
     yasb       = "yasb\setup.ps1"
     hunk       = "hunk\setup.ps1"
+    worktrunk  = "worktrunk\setup.ps1"
     yazi       = "yazi\setup.ps1"
     flow       = "flow-launcher\setup.ps1"
     tools      = "install.ps1"
@@ -200,6 +201,14 @@ if (Get-Command starship -ErrorAction SilentlyContinue) {
 # Programs that do not start from this shell find the same tools through the shims dir in the user PATH (setup_mise).
 if (Get-Command mise -ErrorAction SilentlyContinue) {
     mise activate pwsh | Out-String | Invoke-Expression
+}
+# worktrunk (wt): git worktrees. The wrapper function changes the directory after wt switch.
+# Windows Terminal also installs a wt.exe alias (WindowsApps): WORKTRUNK_BIN points the wrapper to the real binary.
+$wtExe = Get-Command wt -CommandType Application -All -ErrorAction SilentlyContinue |
+    Where-Object Source -notmatch 'WindowsApps' | Select-Object -First 1
+if ($wtExe) {
+    $env:WORKTRUNK_BIN = $wtExe.Source
+    Invoke-Expression (& $wtExe.Source config shell init powershell | Out-String)
 }
 # zoxide replaces cd (zsh: --cmd cd)
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {

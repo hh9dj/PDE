@@ -1,0 +1,18 @@
+[metadata]
+name = "git-refs"
+description = "A channel to select from git branches, then commits (for commands that take both)"
+requirements = ["git"]
+
+# Branches first, then commits (newest first). Ctrl+s cycles: local branches + current history, then all.
+# "a; b" runs both commands in bash and PowerShell.
+[source]
+command = [
+  { name = "Local", run = "git --no-pager branch --format=\"%(refname:short)\"; git --no-pager log --oneline -n 1000" },
+  { name = "All",   run = "git --no-pager branch --all --format=\"%(refname:short)\"; git --no-pager log --all --oneline -n 1000" },
+]
+output = "{split: :0}"
+no_sort = true
+frecency = false
+
+[preview]
+command = "git show -p --stat --pretty=fuller --color=always '{split: :0}'"

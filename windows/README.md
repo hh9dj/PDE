@@ -36,7 +36,7 @@ Update: `pde_pull`, then `setup_all`. List the commands: `setup_list`.
 
 ## Commands
 
-- `setup_<tool>`: profile, zellij, starship, alacritty, git, television, gemini, bat, ripgrep, mise, nvim, glazewm, yasb, hunk, yazi, flow. `-DryRun` shows the changes.
+- `setup_<tool>`: profile, zellij, starship, alacritty, git, television, gemini, bat, ripgrep, mise, nvim, glazewm, yasb, hunk, worktrunk, yazi, flow. `-DryRun` shows the changes.
 - `setup_all`: all of them. `setup_tools`: `install.ps1`. `setup_list`, `pde_pull`.
 - `keep_awake [-Display] [-Minutes n]`: blocks Windows sleep (`scripts\keep-awake.ps1`). Run it in its own zellij pane and keep the pwsh process alive. Detaching zellij is fine. Ctrl+C releases it. Check with `powercfg /requests`. Administrator sleep policies are not bypassed.
 - Backups: `<name>.bak-<timestamp>`, the 5 newest are kept (`$env:PDE_KEEP_BACKUPS` changes it).
@@ -47,7 +47,7 @@ Update: `pde_pull`, then `setup_all`. List the commands: `setup_list`.
 - Shell: `powershell` (profile, setup commands), `starship`, `fzf`, `television`, `zoxide`.
 - Terminal and multiplexer: `alacritty`, `zellij`.
 - Editor and agent: `nvim`, `gemini`.
-- CLI: `git` (with `delta`), `hunk` (diff viewer, gemini skill), `bat`, `eza`, `fd`, `ripgrep`, `jq`, `btop`, `yazi`.
+- CLI: `git` (with `delta`), `worktrunk` (git worktrees), `hunk` (diff viewer, gemini skill), `bat`, `eza`, `fd`, `ripgrep`, `jq`, `btop`, `yazi`.
 - Runtimes: `mise` (scoop for the rest).
 - Desktop: `glazewm`, `yasb`, `flow-launcher`.
 - Clipboard history: `Win+V`.
@@ -57,7 +57,7 @@ Shared with NixOS (source in `common/`): `nvim`, `hunk`, `gemini`.
 ## Config locations
 
 - `~\.config`: hunk, yazi, yasb, zellij, starship, git, television, bat, ripgrep, nvim, mise (`conf.d`), zig wrapper.
-- Tool default (no XDG support or company managed): alacritty `%APPDATA%`, glazewm `~\.glzr`, gemini `~\.gemini`, Flow Launcher, `$PROFILE`.
+- Tool default (no XDG support or company managed): alacritty `%APPDATA%`, worktrunk `%APPDATA%`, glazewm `~\.glzr`, gemini `~\.gemini`, Flow Launcher, `$PROFILE`.
 
 ## PowerShell
 
@@ -171,18 +171,18 @@ tmux replacement with the same prefix and keys as `common/tmux/tmux.conf`.
 
 ## television (tv)
 
-- Dependencies: `tv` (scoop: `television`), `fd`, `bat`, `eza`, `zellij`.
-- `setup_television`: copies `television\config.toml` and `cable\` to `~\.config\television` (the profile sets `TELEVISION_CONFIG`). Check: `tv list-channels`.
-- `config.toml` (from `common/television/default.nix`): `ctrl-n`/`ctrl-j` next, `ctrl-p`/`ctrl-k` previous, `esc` quits, default channel `files`.
-- Channels: `files` (fd + bat), `dirs` (fd + eza), `zellij-sessions` (live sessions, `ctrl-x` then `kill`).
-- Profile: `Ctrl+f` smart autocomplete (`tv init power-shell`, channel from the command: `cd` gives dirs, `nvim` gives files). `za` = session picker. `Ctrl+r` stays on fzf.
+- Dependencies: `tv` (scoop: `television`), `fd`, `bat`, `eza`, `zellij`, `git`.
+- `setup_television`: copies `common\television\config.toml`, the common git channels and `television\cable\` to `~\.config\television` (the profile sets `TELEVISION_CONFIG`). Check: `tv list-channels`.
+- `config.toml` is shared with Nix (`common/television/default.nix` reads it and adds the Linux-only triggers): `ctrl-n`/`ctrl-j` next, `ctrl-p`/`ctrl-k` previous, `esc` quits, default channel `files`.
+- Channels: `files` (fd + bat), `dirs` (fd + eza), `zellij-sessions` (live sessions, `ctrl-x` then `kill`), and from `common/television/cable`: `git-branch`, `git-refs`, `git-log`, `git-diff`, `git-reflog`.
+- Profile: `Ctrl+f` smart autocomplete (`tv init power-shell`, channel from the command: `cd` gives dirs, `nvim` gives files, `git push`/`git switch`/`wt switch`/`wt remove`/`wt merge` give branches, `git checkout`/`git merge`/`git rebase`/`git reset`/`git cherry-pick`/`git revert`/`git diff` give branches then commits). `Enter` inserts the branch name or the commit hash, `Ctrl+s` switches local/all. In `git-branch`, `Ctrl+x` opens the actions (checkout, merge...). `za` = session picker. `Ctrl+r` stays on fzf.
 
 ## mise
 
 - Dependencies: `mise` (scoop), `node` in your global mise config (for the npm tools).
 - `setup_mise`: copies `mise\pde.toml` to `~\.config\mise\conf.d\pde.toml` and adds the shims dir to the user PATH. `install.ps1` runs it and `mise install`. By hand: `setup_mise`, `mise install` (through the company npm registry), `setup_mise` again to create the shims of the new tools.
 - Your `~\.config\mise\config.toml` is not changed.
-- `pde.toml`: `hunk` (`npm:hunkdiff`), `lazysql` (GitHub release) and the nvim language servers and formatters (npm backend).
+- `pde.toml`: `hunk` (`npm:hunkdiff`), `lazysql` and `worktrunk` (GitHub release) and the nvim language servers and formatters (npm backend).
 - pwsh: `mise activate pwsh` in the profile.
 - Other programs (GUI apps, `cmd.exe`, python subprocesses): the shims dir (`%LOCALAPPDATA%\mise\shims`) is first in the user PATH.
 
@@ -224,6 +224,65 @@ Terminal diff viewer for agent-authored changes. Config: `common/hunk/config.tom
 - Theme `catppuccin-latte`, git, auto layout, line numbers, wrapped lines, agent notes, no untracked files.
 - Keys: `(` / `)` previous / next file, `h`/`l` scroll code, `alt+l` line numbers.
 - Gemini can drive a running hunk session with the `hunk-review` skill (`hunk session ...`). Start hunk yourself first.
+
+## worktrunk
+
+Git worktree manager (`wt`). One worktree per sub-task, each in its own zellij tab. Config: `worktrunk\config.toml`.
+
+- Dependencies: `worktrunk` (mise, GitHub release, `install.ps1`), Git for Windows (scoop `git`, hooks run with its bash), git 2.43+.
+- `setup_worktrunk`: copies `config.toml` to `%APPDATA%\worktrunk\config.toml` (worktrunk does not read `XDG_CONFIG_HOME` on Windows).
+- pwsh: the profile loads `wt config shell init powershell`. The `wt` function changes the directory after `wt switch`.
+  - Windows Terminal also has a `wt.exe` alias (`WindowsApps`). The profile sets `$env:WORKTRUNK_BIN` to the real binary.
+- Worktree path: `..\<repo>.<branch>` (default). Relative uv path dependencies (`../mylib`) still resolve.
+- User hooks (all repositories, no approval):
+  - `pre-start`: `wt step copy-ignored` copies small gitignored files (`.env`). `node_modules`, `.venv` and caches are excluded: NTFS has no reflinks, and a `.venv` contains absolute paths.
+  - `post-start` (background): `uv sync --frozen` if `uv.lock`, `pnpm install --frozen-lockfile` or `npm ci --prefer-offline` if a lockfile exists. uv hard-links from its cache. Logs: `wt config state logs`.
+
+### Workflow: parallel sub-tasks, one PR
+
+Branch model: one feature branch per PR. Each sub-task is a worktree branch based on it. Finished sub-tasks are merged into the feature branch.
+
+Start a feature (tab 1, main checkout):
+
+```powershell
+git switch main; git pull
+git switch -c feat/login          # tab 1 stays on feat/login, keep it clean
+```
+
+One tab per sub-task:
+
+- New tab `Ctrl a c`, rename it `Ctrl a ,`.
+- `wt switch -c feat/login-api --base feat/login`: creates `..\<repo>.feat-login-api`, copies `.env`, installs the dependencies in the background, changes directory.
+  - `-x gemini` at the end starts gemini in the worktree.
+- Splits `Ctrl a |` / `Ctrl a _`: `gemini` in one pane, `nvim` or `hunk` in the other. If a new pane does not start in the worktree: `wt switch feat/login-api`.
+- Same for the other sub-tasks. zellij-attention marks the tab of an agent that waits or finishes.
+- `wt list`: all worktrees and their state. `wt switch` alone: picker.
+
+Merge a finished sub-task (from its worktree, after review and tests):
+
+```powershell
+wt merge feat/login               # squash, rebase onto feat/login, fast-forward feat/login, remove the worktree
+```
+
+- One squashed commit per sub-task. `--no-squash` keeps the commits, `--no-remove` keeps the worktree.
+- A conflict with a sub-task merged before is fixed in this worktree.
+- Tab 1 must have no uncommitted changes (`feat/login` is checked out there).
+- Then close the tab: `Ctrl a q`.
+
+Open the PR (tab 1):
+
+```powershell
+hunk diff main...feat/login       # review the whole feature
+git fetch; git rebase origin/main # wt merge never fetches or pushes
+git push -u origin feat/login
+gh pr create --fill               # or the link printed by git push
+```
+
+- Review fixes: a new sub-task worktree, or a commit in tab 1. After a rebase: `git push --force-with-lease`.
+- After the PR is merged: `git switch main; git pull; git branch -d feat/login`. Leftover worktrees: `wt step prune`.
+- Do not check out `feat/login` in a second worktree (git refuses it).
+- Two dev servers at the same time need different ports (`--port`).
+- Backend + library change: same branch name in both repositories. For local tests in the backend worktree: `uv pip install -e ..\mylib.feat-login-api` (temporary, the next `uv sync` restores the lock).
 
 ## gemini
 

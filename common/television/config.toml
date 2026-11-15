@@ -1,4 +1,6 @@
-# television config. Mirrors common/television/default.nix, adapted for pwsh on Windows.
+# television config, shared by Nix (common/television/default.nix reads it with fromTOML)
+# and Windows (windows/television/setup.ps1 copies it).
+# Nix adds the Linux/macOS-only triggers (alias, env, spiders, docker-images, git-repos).
 tick_rate = 50
 default_channel = "files"
 history_size = 200
@@ -73,19 +75,29 @@ ctrl-a = "go_to_input_start"
 end = "go_to_input_end"
 ctrl-e = "go_to_input_end"
 
-# Shell integration (tv init power-shell): Ctrl+f = smart autocomplete.
-# Ctrl+r stays on fzf (windows/fzf/fzf.ps1), see the profile.
+# Shell integration: Ctrl+f = smart autocomplete, channel chosen from the command before the cursor.
+# A trigger matches when its words appear in order in the line. The first match wins,
+# so a command must not be listed under two channels.
+# Windows: Ctrl+r stays on fzf (windows/fzf/fzf.ps1), see the profile.
 [shell_integration]
 fallback_channel = "files"
 
 [shell_integration.channel_triggers]
-dirs = ["cd", "ls", "ll", "la", "lt", "z", "Set-Location", "rmdir"]
-files = ["cat", "bat", "type", "e", "nvim", "Get-Content", "cp", "mv", "rm", "Copy-Item", "Move-Item", "Remove-Item"]
-env = ["$env:"]
+dirs = ["cd", "ls", "rmdir", "z", "ll", "la", "lt", "Set-Location"]
+files = [
+  "cat", "less", "head", "tail", "vim", "nano", "bat", "cp", "mv", "rm", "touch", "chmod", "chown", "ln",
+  "tar", "zip", "unzip", "gzip", "gunzip", "xz",
+  "type", "e", "nvim", "Get-Content", "Copy-Item", "Move-Item", "Remove-Item",
+]
 git-diff = ["git add", "git restore"]
-git-branch = ["git branch", "git merge", "git rebase", "git pull", "git push", "git switch", "gsw"]
+# Commands that take only a branch name.
+git-branch = [
+  "git branch", "git pull", "git push", "git switch", "gsw",
+  "wt switch", "wt remove", "wt merge",
+]
+# Commands that take a branch or a commit.
+git-refs = ["git checkout", "git merge", "git rebase", "git reset", "git cherry-pick", "git revert", "git diff"]
 git-log = ["git log", "git show"]
-git-reflog = ["git checkout"]
 channels = ["tv"]
 
 [shell_integration.keybindings]

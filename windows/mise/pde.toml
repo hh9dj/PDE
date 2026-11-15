@@ -7,6 +7,8 @@
 "npm:hunkdiff" = "latest"
 # SQL TUI. No mise registry entry: downloaded from the GitHub release.
 "github:jorgerojas26/lazysql" = "latest"
+# git worktree manager (wt). Downloaded from the GitHub release.
+"github:max-sixty/worktrunk" = "latest"
 "npm:bash-language-server" = "latest"
 "npm:pyright" = "latest"
 "npm:typescript" = "latest"
