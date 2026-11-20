@@ -23,6 +23,7 @@ return {
       "toml",
       "nix",
       "kdl",
+      "hurl",
     })
   end,
 }
