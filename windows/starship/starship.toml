@@ -2,6 +2,8 @@
 # Install: see README.md (copy to %USERPROFILE%\.config\starship.toml).
 
 command_timeout = 1000
+# Directory scan limit (ms). The default 30 is too short while a worktree is being filled (Defender scans each new file).
+scan_timeout = 500
 palette = "catppuccin_latte"
 format = " $directory$git_branch$git_status $fill  $python$lua$nodejs$golang$rust$package$docker_context$jobs$cmd_duration$line_break$character"
 right_format = "$all"
