@@ -1,5 +1,5 @@
 // Layout "dots": same 3 windows as common/tmux/sessions/dots.yaml.
-// Start: z dots. All panes start in cwd (~ is the home folder).
+// Start: zellij -s dots -n dots. All panes start in cwd (~ is the home folder).
 
 layout {
     cwd "~/PDE"

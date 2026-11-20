@@ -76,10 +76,12 @@ keybinds clear-defaults=true {
         bind "9" { GoToTab 9; SwitchToMode "locked"; }
 
         // sessions
-        // fzf session picker in a floating pane (needs fzf in PATH)
+        // session picker: tv channel zellij-sessions (Enter switches). It opens in place of the focused pane
+        // and gives it back on exit. Not floating: a floating Run shows the whole floating layer,
+        // so hidden floating panes appear too.
         bind "s" {
-            Run "pwsh" "-NoProfile" "-Command" "$n = zellij list-sessions --short --no-formatting | Where-Object { $_ -ne $env:ZELLIJ_SESSION_NAME } | fzf --reverse --prompt='session> '; if ($n) { zellij action switch-session $n }" {
-                floating true
+            Run "tv" "zellij-sessions" {
+                in_place true
                 close_on_exit true
             }
             SwitchToMode "locked"

@@ -70,14 +70,12 @@ PowerShell 7 profile (mirrors `common/zsh`) and the `setup_*` commands.
 - PSReadLine: Emacs keys, Catppuccin Latte colors, inline history prediction. `Ctrl+y` accept suggestion, `Ctrl+Space` accept and run, `Ctrl+o` next word, `Ctrl+p`/`Ctrl+n` prefix history search, `Ctrl+e` edit in nvim, `Tab` menu completion.
 - Integrations: starship, mise (`activate`), zoxide (`cd`), tv (`Ctrl+f`), fzf (`Ctrl+r`).
 - Aliases: git (`gst`, `gaa`, `gcmsg`, `gd`, ...), eza (`ls`, `ll`, `la`, `lt`, `tree`), `cat` = bat, `grep` = rg, `rgrep`, `e`, `c`, `..`, `croot`, `dotconf`, `reload`.
-- zellij: `z <name>` attaches or creates the session (layout of the same name if any, started in the layout `cwd`). `za` picks a live session with tv. Inside zellij both switch session, never nest.
 - Defaults changed: the built-in aliases `gl`, `gp`, `ls`, `cat` are removed. `cd` is zoxide.
 
 ## fzf
 
 - Setup: `setup_profile` installs `fzf\fzf.ps1` next to `$PROFILE`. The profile loads it.
 - `Ctrl+r`: history search (newest first, no duplicates, current line as query). Replaces the PSReadLine reverse search.
-- zellij `Ctrl a`, `s`: session picker.
 
 ## zoxide
 
@@ -147,7 +145,7 @@ Prompt. Mirrors `common/starship/default.nix`.
 
 tmux replacement with the same prefix and keys as `common/tmux/tmux.conf`.
 
-- Dependencies: `zellij`, `pwsh` 7, `nvim` (scrollback editor), `fzf` (`Ctrl a`, `s`), `tv` (`za`).
+- Dependencies: `zellij`, `pwsh` 7, `nvim` (scrollback editor), `tv` (`Ctrl a`, `s` and `tv zellij-sessions`).
 - `setup_zellij`: copies `zellij\config.kdl` and `layouts\` to `~\.config\zellij` (the profile sets `ZELLIJ_CONFIG_DIR`). Check: `zellij setup --check`.
 - Tab notifications: plugin [zellij-attention](https://github.com/KiryuuLight/zellij-attention) v0.3.1 (background, no pane, `load_plugins` in `config.kdl`).
   - zellij downloads it from the pinned release URL in `config.kdl` on the first start and caches it. Behind the proxy, zellij needs `HTTPS_PROXY` in its environment (set it as a user variable if zellij starts outside the profile). Errors are in the zellij log.
@@ -158,10 +156,14 @@ tmux replacement with the same prefix and keys as `common/tmux/tmux.conf`.
 - Prefix `Ctrl a`, then one key. Zellij goes back to `locked` (normal typing) after the action.
   - Panes: `Ctrl h/j/k/l` focus, `|` / `_` split, `x` close, `z` fullscreen, `p` floating panes, `f` float or embed.
   - Tabs: `c` new, `h` / `l` previous / next, `1..9` go to, `,` rename, `q` close.
-  - Sessions: `s` fzf picker (live sessions), `d` detach, `Ctrl q` quit.
+  - Sessions: `s` session picker (`tv zellij-sessions`, in place of the focused pane, `Enter` switches, `Esc` quits), `d` detach, `Ctrl q` quit.
   - `Ctrl e` scrollback in nvim, `/` search, `r` resize, `m` move, `Ctrl a` literal `Ctrl a`.
 - `Alt s`: scroll mode (vi keys, `q` leaves). `V` opens the scrollback in nvim (no keyboard line selection in zellij).
-- Layouts in `zellij\layouts\`. Each one sets its start folder with `cwd` (`~` is the home folder), so `z <name>` works from any directory.
+- Sessions from the shell:
+  - New session with a name and a layout: `zellij -s <name> -n <layout>` (`-n` = `--new-session-with-layout`, a layout name from `layouts\` or a path to a `.kdl` file). Example: `zellij -s dots -n dots`.
+  - Inside zellij: `zellij action switch-session <name> --layout <layout>`.
+  - Existing session: `zellij attach <name>`, or `tv zellij-sessions` (Enter switches inside zellij, attaches outside).
+- Layouts in `zellij\layouts\`. Each one sets its start folder with `cwd` (`~` is the home folder), so it works from any directory.
   - `dots`: `cwd "~/PDE"`. Tabs `editor` (nvim), `shell-prompt`, `coding-agent` (gemini), bar at the bottom. nvim and gemini run in `pwsh -NoExit`: quitting them leaves a shell in the pane.
   - `template`: same tabs, `cwd "~"`. Copy it to `<name>.kdl` and set `cwd` for a new project.
 - Defaults changed:
@@ -174,8 +176,8 @@ tmux replacement with the same prefix and keys as `common/tmux/tmux.conf`.
 - Dependencies: `tv` (scoop: `television`), `fd`, `bat`, `eza`, `zellij`, `git`.
 - `setup_television`: copies `common\television\config.toml`, the common git channels and `television\cable\` to `~\.config\television` (the profile sets `TELEVISION_CONFIG`). Check: `tv list-channels`.
 - `config.toml` is shared with Nix (`common/television/default.nix` reads it and adds the Linux-only triggers): `ctrl-n`/`ctrl-j` next, `ctrl-p`/`ctrl-k` previous, `esc` quits, default channel `files`.
-- Channels: `files` (fd + bat), `dirs` (fd + eza), `zellij-sessions` (live sessions, `ctrl-x` then `kill`), and from `common/television/cable`: `git-branch`, `git-refs`, `git-log`, `git-diff`, `git-reflog`.
-- Profile: `Ctrl+f` smart autocomplete (`tv init power-shell`, channel from the command: `cd` gives dirs, `nvim` gives files, `git push`/`git switch`/`wt switch`/`wt remove`/`wt merge` give branches, `git checkout`/`git merge`/`git rebase`/`git reset`/`git cherry-pick`/`git revert`/`git diff` give branches then commits). `Enter` inserts the branch name or the commit hash, `Ctrl+s` switches local/all. In `git-branch`, `Ctrl+x` opens the actions (checkout, merge...). `za` = session picker. `Ctrl+r` stays on fzf.
+- Channels: `files` (fd + bat), `dirs` (fd + eza), `zellij-sessions` (live sessions, `Enter` switches or attaches, `ctrl-x` then `kill`), and from `common/television/cable`: `git-branch`, `git-refs`, `git-log`, `git-diff`, `git-reflog`.
+- Profile: `Ctrl+f` smart autocomplete (`tv init power-shell`, channel from the command: `cd` gives dirs, `nvim` gives files, `git push`/`git switch`/`wt switch`/`wt remove`/`wt merge` give branches, `git checkout`/`git merge`/`git rebase`/`git reset`/`git cherry-pick`/`git revert`/`git diff` give branches then commits). `Enter` inserts the branch name or the commit hash, `Ctrl+s` switches local/all. In `git-branch`, `Ctrl+x` opens the actions (checkout, merge...). `Ctrl+r` stays on fzf.
 
 ## mise
 
@@ -308,9 +310,11 @@ Tiling window manager. Mirrors `nixos/hyprland` with `Alt` as the modifier (Wind
 - Setup: start GlazeWM once, then:
 
 ```powershell
-setup_glazewm                          # config.yaml to ~\.glzr\glazewm
-setup_glazewm -Ultrawide [-SideGap 700] # left/right gaps keep windows in the middle
+setup_glazewm                           # config.yaml and toggle-ultrawide.ps1 to ~\.glzr\glazewm
+setup_glazewm -Ultrawide [-SideGap 1200] # left/right gaps keep windows in the middle
 ```
+
+- Layout switch without setup: the YASB button `[N]`/`[U]` runs `toggle-ultrawide.ps1`. It changes the left/right gaps of the installed config (30px or 1200px) and reloads GlazeWM. `setup_glazewm` resets the layout.
 
 - Reload: `Alt Shift R`. Set Chrome as default browser in Windows Settings.
 - Keys:
@@ -332,7 +336,7 @@ Status bar. Light theme (Catppuccin Latte), integrated with GlazeWM.
 - `setup_yasb`: copies `yasb\config.yaml` and `styles.css` to `~\.config\yasb`. YASB reloads them on its own. GlazeWM starts it (`yasbc start`) and stops it.
 - Left: GlazeWM workspaces (focused one in blue), icon of the focused app, its state `[F]` floating or `[T]` tiling (read every second from `glazewm query focused`).
 - Center: date and time (click: calendar).
-- Right: CPU, memory, keyboard layout, volume (click: audio menu).
+- Right: layout button `[N]` normal or `[U]` ultrawide (click: switch, see glazewm), CPU, memory, keyboard layout, battery (hidden without battery, click: time remaining), volume (click: audio menu).
 - The bar reserves its space (`windows_app_bar`), so windows do not overlap it.
 - Errors: `yasbc log`.
 

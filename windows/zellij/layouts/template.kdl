@@ -1,4 +1,4 @@
-// Copy this file to <name>.kdl, set cwd to the project folder, then start it with: z <name>
+// Copy this file to <name>.kdl, set cwd to the project folder, then start it with: zellij -s <name> -n <name>
 // All panes start in cwd (~ is the home folder).
 
 layout {

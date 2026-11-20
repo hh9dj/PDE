@@ -165,35 +165,6 @@ function setup_all {
 function setup_list { $global:PdeSetupScripts.Keys | ForEach-Object { "setup_$_" }; "setup_all" }
 function pde_pull { git -C $global:PdeDir pull --ff-only }
 
-# zellij sessions (tmux: t = tmuxp load, ta = tv tmux-sessions). Here: z = by name or layout, za = picker.
-# - The session exists: attach to it. It does not exist: create it (with the layout of the same name, if any).
-# - Already inside zellij: switch to the session. A nested zellij is never started.
-# The start directory of a layout is its cwd (in layouts\<name>.kdl).
-function Enter-ZellijSession {
-    param([Parameter(Mandatory)][string]$Name)
-    $hasLayout = Test-Path (Join-Path $env:ZELLIJ_CONFIG_DIR "layouts\$Name.kdl")
-    $exists = [bool](zellij list-sessions --short --no-formatting 2>$null | Where-Object { $_ -eq $Name })
-    if ($env:ZELLIJ) {
-        $extra = @()
-        if (-not $exists -and $hasLayout) { $extra += @("--layout", $Name) }
-        zellij action switch-session $Name @extra
-        return
-    }
-    if ($exists) { zellij attach $Name }
-    elseif ($hasLayout) { zellij --session $Name --new-session-with-layout $Name }
-    else { zellij attach --create $Name }
-}
-function z {
-    param([Parameter(Mandatory)][string]$Name)
-    Enter-ZellijSession $Name
-}
-# za: pick a live session with tv. za <name>: same as z <name>.
-function za {
-    param([string]$Name)
-    if (-not $Name) { $Name = tv zellij-sessions }
-    if ($Name) { Enter-ZellijSession $Name.Trim() }
-}
-
 # INTEGRATIONS (only if the tool is installed)
 if (Get-Command starship -ErrorAction SilentlyContinue) {
     Invoke-Expression (&starship init powershell)

@@ -1,10 +1,20 @@
 [metadata]
 name = "zellij-sessions"
-description = "List live zellij sessions (Enter prints the name, the za function attaches or switches)"
+description = "List live zellij sessions (Enter switches inside zellij, attaches outside)"
 requirements = ["zellij"]
 
 [source]
 command = "zellij list-sessions --short --no-formatting"
+
+[keybindings]
+enter = "actions:switch"
+
+# tv on Windows runs actions with Windows PowerShell, quotes {} and runs "execute" as "fork".
+[actions.switch]
+description = "Switch to the selected session (attach when outside zellij)"
+command = "if ($env:ZELLIJ) { zellij action switch-session {} } else { zellij attach {} }"
+shell = "powershell"
+mode = "fork"
 
 [actions.kill]
 description = "Kill the selected session"
