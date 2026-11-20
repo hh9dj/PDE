@@ -235,8 +235,9 @@ Git worktree manager (`wt`). One worktree per sub-task, each in its own zellij t
   - Windows Terminal also has a `wt.exe` alias (`WindowsApps`). The profile sets `$env:WORKTRUNK_BIN` to the real binary.
 - Worktree path: `..\<repo>.<branch>` (default). Relative uv path dependencies (`../mylib`) still resolve.
 - User hooks (all repositories, no approval):
-  - `pre-start`: `wt step copy-ignored` copies small gitignored files (`.env`). `node_modules`, `.venv` and caches are excluded: NTFS has no reflinks, and a `.venv` contains absolute paths.
-  - `post-start` (background): `uv sync --frozen` if `uv.lock`, `pnpm install --frozen-lockfile` or `npm ci --prefer-offline` if a lockfile exists. uv hard-links from its cache. Logs: `wt config state logs`.
+  - `pre-start`: `wt step copy-ignored` copies gitignored files (`.env`, `node_modules`, `.venv`). Build output (`dist/`) and caches are excluded. NTFS has no reflinks, so every file is a full copy. A copied `.venv` contains absolute paths.
+  - `post-start` (background): `uv sync --frozen` if `uv.lock`, `pnpm install --frozen-lockfile` or `npm install --prefer-offline` if a lockfile exists. These steps sync the copied dependencies. Logs: `wt config state logs`.
+  - `post-switch` (background): inside zellij, `zellij action rename-tab` names the current tab after the branch.
 
 ### Workflow: parallel sub-tasks, one PR
 

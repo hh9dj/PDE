@@ -3,13 +3,11 @@
 # Default worktree path: ../<repo>.<branch> (siblings of the repository).
 # Relative uv path dependencies such as ../mylib keep working from a worktree.
 
-# wt step copy-ignored: copy only small gitignored files (.env, local config).
-# NTFS has no reflinks, so every file is a full copy. Dependencies are installed instead (post-start).
-# .venv cannot be copied: it contains absolute paths.
+# wt step copy-ignored: copy gitignored files (.env, local config, node_modules, .venv).
+# NTFS has no reflinks, so every file is a full copy. This is slow for large trees.
+# A copied .venv contains absolute paths. post-start runs uv sync to repair it.
 [step.copy-ignored]
 exclude = [
-    "node_modules/",
-    ".venv/",
     "dist/",
     "__pycache__/",
     ".pytest_cache/",
@@ -17,16 +15,22 @@ exclude = [
     ".mypy_cache/",
 ]
 
-# Blocking: the small files exist before gemini and nvim start.
+# Blocking: the copied files exist before gemini and nvim start.
 [pre-start]
 copy = "wt step copy-ignored"
 
-# Background: install the dependencies from the local caches. Logs: wt config state logs.
-# uv hard-links from its cache on Windows (cache and worktrees must be on the same drive).
-# npm copies from its cache. pnpm hard-links from its store.
+# Background: sync the copied dependencies with the lockfiles. Logs: wt config state logs.
+# npm install (not npm ci) reuses the copied node_modules. npm ci would delete it first.
 [post-start]
 deps = """
 if [ -f uv.lock ]; then uv sync --frozen; fi
 if [ -f pnpm-lock.yaml ]; then pnpm install --frozen-lockfile
-elif [ -f package-lock.json ]; then npm ci --prefer-offline --no-audit --no-fund; fi
+elif [ -f package-lock.json ]; then npm install --prefer-offline --no-audit --no-fund; fi
+"""
+
+# Background, after every wt switch: name the current zellij tab after the branch.
+# Does nothing outside zellij. zellij-attention adds its status icon to the new name.
+[post-switch]
+zellij-tab = """
+if [ -n "$ZELLIJ" ]; then zellij action rename-tab "{{ branch }}"; fi
 """
