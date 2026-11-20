@@ -119,6 +119,7 @@ function pbench { hyperfine --warmup 5 "pwsh -NoLogo -Command exit" }
 function reload { . $PROFILE }
 # keep_awake [-Display] [-Minutes n]: block Windows sleep while the command runs (Ctrl+C stops it)
 function keep_awake { & "$global:PdeDir\windows\scripts\keep-awake.ps1" @args }
+function task { & $env:EDITOR "$env:USERPROFILE\task.md" }
 
 # go to the Git repository root
 function croot {
