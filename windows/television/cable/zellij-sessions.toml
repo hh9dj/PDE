@@ -8,8 +8,9 @@ requirements = ["zellij"]
 command = "zellij list-sessions --short --no-formatting 2>$null; exit 0"
 shell = "powershell"
 
+# Run the action, then quit: in "fork" mode tv goes back to its UI after the action.
 [keybindings]
-enter = "actions:switch"
+enter = ["actions:switch", "quit"]
 
 # tv on Windows runs actions with Windows PowerShell, quotes {} and runs "execute" as "fork".
 [actions.switch]
