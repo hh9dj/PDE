@@ -4,7 +4,9 @@ description = "List live zellij sessions (Enter switches inside zellij, attaches
 requirements = ["zellij"]
 
 [source]
-command = "zellij list-sessions --short --no-formatting"
+# No session: zellij prints "No active zellij sessions found." on stderr and exits 1. Show an empty list instead.
+command = "zellij list-sessions --short --no-formatting 2>$null; exit 0"
+shell = "powershell"
 
 [keybindings]
 enter = "actions:switch"
