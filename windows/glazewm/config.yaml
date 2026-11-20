@@ -21,6 +21,7 @@ general:
 # hyprland: gaps_in = 10, gaps_out = 30
 # YASB reserves its own space at the top (windows_app_bar), so the top gap stays 30px.
 # For an ultra wide monitor use: setup_glazewm -Ultrawide
+# or click the YASB layout button ([N]/[U], toggle-ultrawide.ps1).
 gaps:
   scale_with_dpi: true
   inner_gap: '10px'

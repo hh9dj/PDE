@@ -36,7 +36,7 @@ bars:
     widgets:
       left: ["glazewm_workspaces", "active_window", "window_state"]
       center: ["clock"]
-      right: ["cpu", "memory", "language", "volume"]
+      right: ["layout_toggle", "cpu", "memory", "language", "battery", "volume"]
 
 widgets:
   glazewm_workspaces:
@@ -76,6 +76,24 @@ widgets:
         run_interval: 1000
         return_format: "string"
         use_shell: true
+
+  # GlazeWM layout button: [N] normal, [U] ultrawide (big left/right gaps, windows in the middle).
+  # The state is read from the installed GlazeWM config. A click runs toggle-ultrawide.ps1
+  # (installed by setup_glazewm), which changes the gaps and reloads GlazeWM.
+  layout_toggle:
+    type: "yasb.custom.CustomWidget"
+    options:
+      label: "{data}"
+      label_alt: "{data}"
+      label_placeholder: ""
+      class_name: "layout-toggle-widget"
+      exec_options:
+        run_cmd: 'findstr /c:"left: ''30px''" "%USERPROFILE%\.glzr\glazewm\config.yaml" >nul && echo [N] || echo [U]'
+        run_interval: 2000
+        return_format: "string"
+        use_shell: true
+      callbacks:
+        on_left: 'exec cmd /c pwsh -NoProfile -WindowStyle Hidden -File "%USERPROFILE%\.glzr\glazewm\toggle-ultrawide.ps1"'
 
   clock:
     type: "yasb.clock.ClockWidget"
@@ -118,3 +136,29 @@ widgets:
         "30": "\U000F057F"
         "60": "\U000F0580"
         "100": "\U000F057E"
+
+  # Hidden on machines without a battery (hide_unsupported). Click: time remaining.
+  battery:
+    type: "yasb.battery.BatteryWidget"
+    options:
+      label: "<span>{icon}</span> {percent}%"
+      label_alt: "<span>{icon}</span> {percent}% | {time_remaining}"
+      update_interval: 5000
+      time_remaining_natural: true
+      hide_unsupported: true
+      charging_options:
+        icon_format: "{charging_icon} {icon}"
+        blink_charging_icon: false
+      status_thresholds:
+        critical: 10
+        low: 25
+        medium: 75
+        high: 95
+        full: 100
+      status_icons:
+        icon_charging: "\uf0e7"
+        icon_critical: "\uf244"
+        icon_low: "\uf243"
+        icon_medium: "\uf242"
+        icon_high: "\uf241"
+        icon_full: "\uf240"

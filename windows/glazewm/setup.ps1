@@ -1,6 +1,7 @@
 # Install the GlazeWM config to ~/.glzr/glazewm (old file backed up). Reload GlazeWM afterwards.
 # -Ultrawide: big left and right gaps, so the windows stay in the middle of the screen.
-# -SideGap: the left and right gap in pixels for -Ultrawide (default 700, for a 3440 px wide screen).
+# -SideGap: the left and right gap in pixels for -Ultrawide (default 1200, for a 3440 px wide screen).
+# Also installs toggle-ultrawide.ps1 (YASB layout button: switches the layout without setup).
 param([switch]$DryRun, [switch]$Ultrawide, [int]$SideGap = 1200)
 $ErrorActionPreference = "Stop"
 . "$PSScriptRoot/../scripts/lib.ps1"
@@ -14,3 +15,4 @@ if ($Ultrawide) {
     Set-Content -Path $source -Value $text -NoNewline -Encoding utf8NoBOM
 }
 Install-PdeConfig -Source $source -Target (Join-Path $HOME ".glzr/glazewm/config.yaml") -DryRun:$DryRun
+Install-PdeConfig -Source "$PSScriptRoot/toggle-ultrawide.ps1" -Target (Join-Path $HOME ".glzr/glazewm/toggle-ultrawide.ps1") -DryRun:$DryRun

@@ -51,7 +51,8 @@
     color: #d20f39;
 }
 
-.window-state-widget .label {
+.window-state-widget .label,
+.layout-toggle-widget .label {
     color: #1e66f5;
 }
 
@@ -68,6 +69,17 @@
 .memory-widget .label.status-high,
 .memory-widget .label.status-critical {
     color: #d20f39;
+}
+
+.battery-widget .label.status-critical,
+.battery-widget .label.status-low,
+.battery-widget .icon.status-critical,
+.battery-widget .icon.status-low {
+    color: #d20f39;
+}
+.battery-widget .label.status-charging,
+.battery-widget .icon.status-charging {
+    color: #40a02b;
 }
 
 .volume-widget .label.muted {
