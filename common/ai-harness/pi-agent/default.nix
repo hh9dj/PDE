@@ -39,18 +39,12 @@
       tuiMode = "fullscreen";
       packages = [
         "npm:@narumitw/pi-tool"
-        "git:github.com/jonjonrankin/pi-caveman"
-        "git:github.com/DietrichGebert/ponytail"
-        "git:github.com/hh9dj/pi-agent-extensions"
-        "npm:pi-opencode-bridge"
         "npm:pi-context-view"
         "npm:pi-zentui"
-        # ask_user_question tool, used by the question prompt
-        "npm:@juicesharp/rpiv-ask-user-question"
-        # antigravity provider: run /login antigravity once (credentials stay out of Nix)
         "npm:pi-antigravity"
+
+        "git:github.com/hh9dj/pi-agent-extensions"
       ];
-      lastChangelogVersion = "0.84.0";
       theme = "light";
     };
     keybindings = {
