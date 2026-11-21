@@ -21,6 +21,11 @@
     zsh.enable = true;
   };
   services = {
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
     displayManager.ly.enable = true;
     upower.enable = true;
     tailscale.enable = true;
@@ -63,6 +68,14 @@
     networkmanager = {
       enable = true;
       wifi.backend = "iwd";
+    };
+    firewall = {
+      allowedUDPPortRanges = [
+        {
+          from = 32768;
+          to = 60999;
+        }
+      ];
     };
   };
 
