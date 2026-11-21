@@ -14,13 +14,11 @@
     };
     users.khalil = {
       imports = [
+        ./ai-harness
         ./alacritty
-        ./antigravity
-        ./claude
         ./devenv
         ./direnv
         ./fastfetch
-        ./gemini
         ./ghostty
         ./git
         ./glow
@@ -30,8 +28,6 @@
         ./mise
         ./nh
         ./nvim
-        ./opencode
-        ./pi-agent
         ./podman
         ./ssh
         ./starship

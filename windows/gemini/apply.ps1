@@ -1,7 +1,7 @@
 # Merge the PDE gemini-cli settings into ~/.gemini WITHOUT replacing company config.
-# - settings.json: sets only ui.customThemes.<name>, ui.theme and general.preferredEditor (values from common/gemini). All other keys stay.
+# - settings.json: sets only ui.customThemes.<name>, ui.theme and general.preferredEditor (values from common/ai-harness/gemini). All other keys stay.
 #   Also merges the hook groups of hooks.json (zellij tab notifications, needs setup_zellij). Company hooks stay.
-# - keybindings.json: adds the entries of common/gemini/keybindings.json that are missing.
+# - keybindings.json: adds the entries of common/ai-harness/gemini/keybindings.json that are missing.
 # A backup (*.bak-<timestamp>) is written before any change. Run again after a company update resets files.
 # Usage: pwsh apply.ps1 [-GeminiDir <dir>] [-DryRun]
 param(
@@ -10,7 +10,7 @@ param(
 )
 $ErrorActionPreference = "Stop"
 $here = $PSScriptRoot
-$shared = Join-Path $here "../../common/gemini"   # source files shared with NixOS
+$shared = Join-Path $here "../../common/ai-harness/gemini"   # source files shared with NixOS
 . "$here/../scripts/lib.ps1"
 $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
 
@@ -31,7 +31,7 @@ function Save-Json($path, $data, $changed, $label) {
     Write-Host "$label : updated"
 }
 
-# settings.json: theme and editor only (values from common/gemini/settings.json)
+# settings.json: theme and editor only (values from common/ai-harness/gemini/settings.json)
 $want = Get-Content -Raw (Join-Path $shared "settings.json") | ConvertFrom-Json -AsHashtable -Depth 20
 $settingsPath = Join-Path $GeminiDir "settings.json"
 $settings = Read-Json $settingsPath @{}

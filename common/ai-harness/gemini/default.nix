@@ -13,18 +13,11 @@ in
 {
   home = {
     packages = [
-      pkgs.rtk
-      pkgs.htmlq
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.gemini-cli
     ];
     file = {
-      ".gemini/GEMINI.md".source = ./GEMINI.md;
       ".gemini/keybindings.json".source = ./keybindings.json;
       ".gemini/settings.json".text = builtins.toJSON settings;
-      ".gemini/skills" = {
-        source = ./skills;
-        recursive = true;
-      };
     };
   };
 }

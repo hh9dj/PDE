@@ -9,8 +9,8 @@
     "${config.programs.pi-coding-agent.configDir}/clipboard.json".text = builtins.toJSON {
       enabled = true;
     };
-    "${config.programs.pi-coding-agent.configDir}/skills" = {
-      source = ./skills;
+    "${config.programs.pi-coding-agent.configDir}/prompts" = {
+      source = ./prompts;
       recursive = true;
     };
   };
@@ -45,6 +45,10 @@
         "npm:pi-opencode-bridge"
         "npm:pi-context-view"
         "npm:pi-zentui"
+        # ask_user_question tool, used by the question prompt
+        "npm:@juicesharp/rpiv-ask-user-question"
+        # antigravity provider: run /login antigravity once (credentials stay out of Nix)
+        "npm:pi-antigravity"
       ];
       lastChangelogVersion = "0.84.0";
       theme = "light";

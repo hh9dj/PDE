@@ -294,9 +294,9 @@ gh pr create --fill               # or the link printed by git push
 ## gemini
 
 - Dependencies: `gemini` (company install, checked with 0.67.0), `pwsh` 7, `nvim`.
-- `setup_gemini` (runs `gemini\apply.ps1`, `-DryRun` works). The source files are in `common/gemini` (shared with NixOS): `settings.json`, `keybindings.json`, `catppuccin-latte.json`. It merges into `~\.gemini` and never replaces company config:
-  - `settings.json`: only `ui.customThemes.CatppuccinLatte`, `ui.theme` and `general.preferredEditor` (values from `common/gemini/settings.json`).
-  - `keybindings.json`: adds the missing entries of `common/gemini/keybindings.json`.
+- `setup_gemini` (runs `gemini\apply.ps1`, `-DryRun` works). The source files are in `common/ai-harness/gemini` (shared with NixOS): `settings.json`, `keybindings.json`, `catppuccin-latte.json`. It merges into `~\.gemini` and never replaces company config:
+  - `settings.json`: only `ui.customThemes.CatppuccinLatte`, `ui.theme` and `general.preferredEditor` (values from `common/ai-harness/gemini/settings.json`).
+  - `keybindings.json`: adds the missing entries of `common/ai-harness/gemini/keybindings.json`.
   - `hooks`: merges `gemini\hooks.json` (Windows only). `AfterAgent` and `Notification` (`ToolPermission`) run `~\.config\zellij\attention.ps1` for the zellij tab notifications. Needs `setup_zellij`. PDE hook groups (command with `zellij\attention.ps1`) are replaced, company hook groups stay.
 - Run it again after a company update resets the files.
 - Keys:
