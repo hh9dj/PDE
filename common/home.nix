@@ -15,6 +15,7 @@
     users.khalil = {
       imports = [
         ./alacritty
+        ./antigravity
         ./claude
         ./devenv
         ./direnv
