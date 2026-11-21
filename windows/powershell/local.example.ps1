@@ -10,3 +10,7 @@ $env:NO_PROXY    = "localhost,127.0.0.1,.example.com"
 $env:http_proxy  = $env:HTTP_PROXY
 $env:https_proxy = $env:HTTPS_PROXY
 $env:no_proxy    = $env:NO_PROXY
+
+# Optional: per-directory mise tools and env vars (mise activate). Slower: one mise process at each prompt.
+# Without it, the mise shims in the user PATH give the tools. After a change, run pde_init_cache.
+# $env:PDE_MISE_ACTIVATE = "1"

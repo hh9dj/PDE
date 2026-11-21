@@ -37,7 +37,7 @@ Update: `pde_pull`, then `setup_all`. List the commands: `setup_list`.
 ## Commands
 
 - `setup_<tool>`: profile, zellij, starship, alacritty, git, television, gemini, bat, ripgrep, mise, nvim, glazewm, yasb, hunk, worktrunk, yazi, flow. `-DryRun` shows the changes.
-- `setup_all`: all of them. `setup_tools`: `install.ps1`. `setup_list`, `pde_pull`.
+- `setup_all`: all of them. `setup_tools`: `install.ps1`. `setup_list`, `pde_pull`, `pde_init_cache` (PowerShell init cache).
 - `keep_awake [-Display] [-Minutes n]`: blocks Windows sleep (`scripts\keep-awake.ps1`). Run it in its own zellij pane and keep the pwsh process alive. Detaching zellij is fine. Ctrl+C releases it. Check with `powercfg /requests`. Administrator sleep policies are not bypassed.
 - Backups: `<name>.bak-<timestamp>`, the 5 newest are kept (`$env:PDE_KEEP_BACKUPS` changes it).
 - Shared helpers for the setup scripts: `scripts\lib.ps1` (`Install-PdeConfig`).
@@ -68,7 +68,10 @@ PowerShell 7 profile (mirrors `common/zsh`) and the `setup_*` commands.
 - Proxy (not in git): copy `powershell\local.example.ps1` to `local.ps1` next to `$PROFILE` and set the values. The profile loads it first.
 - Environment: `XDG_CONFIG_HOME`, `EDITOR`/`VISUAL` = nvim, `BAT_THEME`, `BAT_CONFIG_PATH`, `RIPGREP_CONFIG_PATH`, `ZELLIJ_CONFIG_DIR`, `TELEVISION_CONFIG`, `CC` (zig wrapper, see nvim).
 - PSReadLine: Emacs keys, Catppuccin Latte colors, inline history prediction. `Ctrl+y` accept suggestion, `Ctrl+Space` accept and run, `Ctrl+o` next word, `Ctrl+p`/`Ctrl+n` prefix history search, `Ctrl+e` edit in nvim, `Tab` menu completion.
-- Integrations: starship, mise (`activate`), zoxide (`cd`), tv (`Ctrl+f`), fzf (`Ctrl+r`).
+- Integrations: starship, mise (`activate`, opt-in), worktrunk (`wt`), zoxide (`cd`), tv (`Ctrl+f`), fzf (`Ctrl+r`).
+- Init cache: the profile does not run `<tool> init` at each start. `powershell\init-cache.ps1` writes the init scripts once to `%LOCALAPPDATA%\pde\init` (`$env:PDE_INIT_CACHE` changes it), and the profile dot-sources them. A missing tool has no file and is skipped.
+  - Created at the first start, and by `setup_profile` and `setup_television` (the tv init script holds the `Ctrl+f` keybinding of the tv config). Run `pde_init_cache` again after a tool upgrade (scoop, mise) or a change of `$env:PDE_MISE_ACTIVATE`.
+  - Startup time: `pbench` (hyperfine).
 - Aliases: git (`gst`, `gaa`, `gcmsg`, `gd`, ...), eza (`ls`, `ll`, `la`, `lt`, `tree`), `cat` = bat, `grep` = rg, `rgrep`, `e`, `c`, `..`, `croot`, `dotconf`, `reload`.
 - Defaults changed: the built-in aliases `gl`, `gp`, `ls`, `cat` are removed. `cd` is zoxide.
 
@@ -79,7 +82,7 @@ PowerShell 7 profile (mirrors `common/zsh`) and the `setup_*` commands.
 
 ## zoxide
 
-No config. The profile runs `zoxide init powershell --cmd cd` last, so `cd` jumps to ranked directories.
+No config. The profile loads `zoxide init powershell --cmd cd` (init cache) last, so `cd` jumps to ranked directories.
 
 ## eza
 
@@ -132,6 +135,7 @@ Prompt. Mirrors `common/starship/default.nix`.
 - `setup_starship`: copies `starship\starship.toml` to `~\.config\starship.toml`.
 - Palette `catppuccin_latte`. Two lines: directory, git, fill, languages and duration on the right, prompt character below.
 - `command_timeout = 1000`. gcloud module off. Emoji git status symbols.
+- pwsh: the profile loads `starship init powershell --print-full-init` from the init cache (see PowerShell).
 
 ## alacritty
 
@@ -177,7 +181,7 @@ tmux replacement with the same prefix and keys as `common/tmux/tmux.conf`.
 - `setup_television`: copies `common\television\config.toml`, the common git channels and `television\cable\` to `~\.config\television` (the profile sets `TELEVISION_CONFIG`). Check: `tv list-channels`.
 - `config.toml` is shared with Nix (`common/television/default.nix` reads it and adds the Linux-only triggers): `ctrl-n`/`ctrl-j` next, `ctrl-p`/`ctrl-k` previous, `esc` quits, default channel `files`.
 - Channels: `files` (fd + bat), `dirs` (fd + eza), `zellij-sessions` (live sessions, `Enter` switches or attaches, `ctrl-x` then `kill`), and from `common/television/cable`: `git-branch`, `git-refs`, `git-log`, `git-diff`, `git-reflog`.
-- Profile: `Ctrl+f` smart autocomplete (`tv init power-shell`, channel from the command: `cd` gives dirs, `nvim` gives files, `git push`/`git switch`/`wt switch`/`wt remove`/`wt merge` give branches, `git checkout`/`git merge`/`git rebase`/`git reset`/`git cherry-pick`/`git revert`/`git diff` give branches then commits). `Enter` inserts the branch name or the commit hash, `Ctrl+s` switches local/all. In `git-branch`, `Ctrl+x` opens the actions (checkout, merge...). `Ctrl+r` stays on fzf.
+- Profile: `Ctrl+f` smart autocomplete (`tv init power-shell`, from the init cache, channel from the command: `cd` gives dirs, `nvim` gives files, `git push`/`git switch`/`wt switch`/`wt remove`/`wt merge` give branches, `git checkout`/`git merge`/`git rebase`/`git reset`/`git cherry-pick`/`git revert`/`git diff` give branches then commits). `Enter` inserts the branch name or the commit hash, `Ctrl+s` switches local/all. In `git-branch`, `Ctrl+x` opens the actions (checkout, merge...). `Ctrl+r` stays on fzf.
 
 ## mise
 
@@ -185,7 +189,7 @@ tmux replacement with the same prefix and keys as `common/tmux/tmux.conf`.
 - `setup_mise`: copies `mise\pde.toml` to `~\.config\mise\conf.d\pde.toml` and adds the shims dir to the user PATH. `install.ps1` runs it and `mise install`. By hand: `setup_mise`, `mise install` (through the company npm registry), `setup_mise` again to create the shims of the new tools.
 - Your `~\.config\mise\config.toml` is not changed.
 - `pde.toml`: `hunk` (`npm:hunkdiff`), `lazysql` and `worktrunk` (GitHub release) and the nvim language servers and formatters (npm backend).
-- pwsh: `mise activate pwsh` in the profile.
+- pwsh: the shims dir in the user PATH gives the tools. Optional: set `$env:PDE_MISE_ACTIVATE = "1"` in `local.ps1`, then `pde_init_cache`, to load `mise activate pwsh` (per-directory tools and env vars of `mise.toml`). It runs `mise hook-env` at each prompt, so the prompt is slower.
 - Other programs (GUI apps, `cmd.exe`, python subprocesses): the shims dir (`%LOCALAPPDATA%\mise\shims`) is first in the user PATH.
 
 ## nvim
@@ -233,8 +237,8 @@ Git worktree manager (`wt`). One worktree per sub-task, each in its own zellij t
 
 - Dependencies: `worktrunk` (mise, GitHub release, `install.ps1`), Git for Windows (scoop `git`, hooks run with its bash), git 2.43+.
 - `setup_worktrunk`: copies `config.toml` to `%APPDATA%\worktrunk\config.toml` (worktrunk does not read `XDG_CONFIG_HOME` on Windows).
-- pwsh: the profile loads `wt config shell init powershell`. The `wt` function changes the directory after `wt switch`.
-  - Windows Terminal also has a `wt.exe` alias (`WindowsApps`). The profile sets `$env:WORKTRUNK_BIN` to the real binary.
+- pwsh: the profile loads `wt config shell init powershell` (init cache). The `wt` function changes the directory after `wt switch`.
+  - Windows Terminal also has a `wt.exe` alias (`WindowsApps`). The init cache sets `$env:WORKTRUNK_BIN` to the real binary. After a worktrunk upgrade that changes its path, run `pde_init_cache`.
 - Worktree path: `..\<repo>.<branch>` (default). Relative uv path dependencies (`../mylib`) still resolve.
 - User hooks (all repositories, no approval):
   - `pre-start`: `wt step copy-ignored` copies gitignored files (`.env`, `node_modules`, `.venv`). Build output (`dist/`) and caches are excluded. NTFS has no reflinks, so every file is a full copy. A copied `.venv` contains absolute paths.

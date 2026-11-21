@@ -6,3 +6,5 @@ $ErrorActionPreference = "Stop"
 
 Install-PdeConfig -Source "$PSScriptRoot/profile.ps1" -Target $PROFILE -DryRun:$DryRun
 Install-PdeConfig -Source "$PSScriptRoot/../fzf/fzf.ps1" -Target (Join-Path (Split-Path $PROFILE) "fzf.ps1") -DryRun:$DryRun
+# Init scripts of the shell integrations (the profile dot-sources them)
+& "$PSScriptRoot/init-cache.ps1" -DryRun:$DryRun

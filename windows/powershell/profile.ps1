@@ -21,6 +21,10 @@ $env:TELEVISION_CONFIG = "$env:USERPROFILE\.config\television"
 $zigCc = "$env:USERPROFILE\.config\zig-cc\zig-cc.cmd"
 if (Test-Path $zigCc) { $env:CC = $zigCc }
 $global:PdeDir = $env:PDE_DIR ?? "$env:USERPROFILE\PDE"
+# Init scripts of tv, starship, mise, wt and zoxide, written by pde_init_cache (powershell\init-cache.ps1).
+# Dot-sourcing them is much faster than running "<tool> init" at each start. First start: create them.
+$global:PdeInitCache = $env:PDE_INIT_CACHE ?? "$env:LOCALAPPDATA\pde\init"
+if (-not (Test-Path $global:PdeInitCache)) { & "$global:PdeDir\windows\powershell\init-cache.ps1" }
 
 
 # LINE EDITING (zsh: emacs keymap + autosuggestions)
@@ -64,9 +68,8 @@ Set-PSReadLineKeyHandler -Chord Ctrl+Spacebar -ScriptBlock {
 }
 
 # tv: Ctrl+f smart autocomplete (tv init also binds Ctrl+r, fzf rebinds it below)
-if (Get-Command tv -ErrorAction SilentlyContinue) {
-    Invoke-Expression (tv init power-shell | Out-String)
-}
+$initScript = Join-Path $global:PdeInitCache "tv.ps1"
+if (Test-Path $initScript) { . $initScript }
 
 # fzf: Ctrl+r history search (file: windows/fzf/fzf.ps1, copy it next to the profile)
 $fzfScript = Join-Path (Split-Path $PROFILE) "fzf.ps1"
@@ -164,25 +167,16 @@ function setup_all {
 }
 function setup_list { $global:PdeSetupScripts.Keys | ForEach-Object { "setup_$_" }; "setup_all" }
 function pde_pull { git -C $global:PdeDir pull --ff-only }
+# Write the init scripts again (after a tool upgrade, or after a change of $env:PDE_MISE_ACTIVATE)
+function pde_init_cache { & "$global:PdeDir\windows\powershell\init-cache.ps1" @args }
 
-# INTEGRATIONS (only if the tool is installed)
-if (Get-Command starship -ErrorAction SilentlyContinue) {
-    Invoke-Expression (&starship init powershell)
-}
-# mise: puts the tools of the current directory in PATH (after starship: both wrap the prompt).
-# Programs that do not start from this shell find the same tools through the shims dir in the user PATH (setup_mise).
-if (Get-Command mise -ErrorAction SilentlyContinue) {
-    mise activate pwsh | Out-String | Invoke-Expression
-}
-# worktrunk (wt): git worktrees. The wrapper function changes the directory after wt switch.
-# Windows Terminal also installs a wt.exe alias (WindowsApps): WORKTRUNK_BIN points the wrapper to the real binary.
-$wtExe = Get-Command wt -CommandType Application -All -ErrorAction SilentlyContinue |
-    Where-Object Source -notmatch 'WindowsApps' | Select-Object -First 1
-if ($wtExe) {
-    $env:WORKTRUNK_BIN = $wtExe.Source
-    Invoke-Expression (& $wtExe.Source config shell init powershell | Out-String)
-}
-# zoxide replaces cd (zsh: --cmd cd)
-if (Get-Command zoxide -ErrorAction SilentlyContinue) {
-    Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
+# INTEGRATIONS (cached init scripts, only present if the tool is installed)
+# - starship: prompt.
+# - mise (opt-in, $env:PDE_MISE_ACTIVATE in local.ps1): puts the tools of the current directory in PATH
+#   (after starship: both wrap the prompt). Without it, the shims dir in the user PATH gives the tools (setup_mise).
+# - wt (worktrunk): git worktrees. The wrapper function changes the directory after wt switch.
+# - zoxide: replaces cd. Last, because it wraps the prompt too.
+foreach ($name in "starship", "mise", "wt", "zoxide") {
+    $initScript = Join-Path $global:PdeInitCache "$name.ps1"
+    if (Test-Path $initScript) { . $initScript }
 }

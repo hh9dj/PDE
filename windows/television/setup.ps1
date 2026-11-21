@@ -12,3 +12,5 @@ foreach ($channel in "git-branch", "git-refs", "git-log", "git-diff", "git-reflo
 }
 # Windows channels last: dirs and files replace nothing from common (not installed above).
 Install-PdeConfig -Source "$PSScriptRoot/cable" -Target "$dir/cable" -DryRun:$DryRun
+# The cached "tv init" script holds the shell_integration keybindings of config.toml: write it again.
+& "$PSScriptRoot/../powershell/init-cache.ps1" -DryRun:$DryRun
