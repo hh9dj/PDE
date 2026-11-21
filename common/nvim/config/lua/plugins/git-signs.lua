@@ -57,5 +57,19 @@ return {
       end,
       desc = "[G]it [P]review [D]iff",
     },
+    {
+      "<leader>nh",
+      function()
+        require("gitsigns").nav_hunk("next")
+      end,
+      desc = "[N]ext git [H]unk",
+    },
+    {
+      "<leader>ph",
+      function()
+        require("gitsigns").nav_hunk("prev")
+      end,
+      desc = "[P]revious git [H]unk",
+    },
   },
 }
