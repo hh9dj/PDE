@@ -1,21 +1,16 @@
 # Pi packages to try
 
-context / token efficiency
-https://pi.dev/packages/@mrclrchtr/supi-context
-https://pi.dev/packages/@hypabolic/pi-hypa
-https://pi.dev/packages/pi-cache-optimizer
-https://pi.dev/packages/@danypops/pi-lector
-https://pi.dev/packages/pi-caveman
-https://pi.dev/packages/pi-reasonix
-https://pi.dev/packages/pi-observational-memory
-https://pi.dev/packages/@mrclrchtr/supi-cache
+## Context and token efficiency
 
-search:
-https://pi.dev/packages/pi-deepseek-search
-https://pi.dev/packages/donsetch
-https://pi.dev/packages/@houndmcp/hound-mcp-pi
-https://pi.dev/packages/pi-smart-fetch
-https://pi.dev/packages/@mrclrchtr/supi-web
-https://pi.dev/packages/dripline
-web search : donsetch
-browser automation : bladebro
+- https://pi.dev/packages/pi-observational-memory - background observations and reflections for long, multi-compaction sessions
+- https://pi.dev/packages/pi-cache-optimizer - in-place skill list compression, proxy cache keys, and footer cache stats
+
+## DeepSeek
+
+- https://pi.dev/packages/pi-reasonix - DeepSeek prefix stabilization, tool-call repair, and head/tail tool-result compaction
+- https://pi.dev/packages/pi-deepseek-search - DeepSeek Search and Fetch APIs (uses DEEPSEEK_API_KEY)
+
+## Web and browser
+
+- https://pi.dev/packages/donsetch - local Rust binary for keyless web search, JS/PDF fetch, focused reads, crawl, and screenshots
+- https://pi.dev/packages/bladebro - local Rust Chromium browser automation (act, see, state, run, vision)
