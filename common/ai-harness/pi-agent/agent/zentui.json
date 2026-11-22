@@ -34,16 +34,6 @@
             "spinner": "braille",
             "textAnimation": "disabled",
             "colorSource": "terminal",
-            "messages": {
-                "custom": true,
-                "values": [
-                    "Working :-)",
-                    "Cooking :)",
-                    "Boiling Water :(",
-                    "67ning...",
-                    "Six Sevening..."
-                ]
-            },
             "segments": {
                 "tool": false,
                 "elapsed": false,
