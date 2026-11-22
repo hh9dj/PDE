@@ -1,20 +1,50 @@
-# Language servers and formatters for neovim, installed by mise (npm backend uses the company npm registry).
-# Also deno is installed by scoop (setup_tools).
+# PDE CLI tools and neovim tools, language servers, formatters, and linters (mirrors common/nvim/).
+# Installed by mise: registry/github releases for prebuilt Windows binaries, npm backend (company registry) for Node tools.
 # Needs node in the global mise config or on PATH. Installed with: mise install
-# Other tools (ruff, stylua, shfmt, taplo, marksman, lua-language-server) come from scoop (see powershell/install.ps1).
+# Omitted (Nix-only or no prebuilt Windows binary without Go/Python/Rust toolchains):
+#   nixd, nixfmt, statix, gopls, golines, goimports, asmfmt, beautysh, prettypst, rustfmt.
 [tools]
+# --- CLI tools ---
 # Terminal diff viewer (hunk). Windows binary comes with the npm package.
 "npm:hunkdiff" = "latest"
 # SQL TUI. No mise registry entry: downloaded from the GitHub release.
 "github:jorgerojas26/lazysql" = "latest"
 # git worktree manager (wt). Downloaded from the GitHub release.
 "github:max-sixty/worktrunk" = "latest"
+
+# --- Neovim tools ---
+deno = "latest"
+tree-sitter = "latest"
+just = "latest"
+
+# --- Neovim language servers ---
+lua-language-server = "latest"
+"github:terror/just-lsp" = "latest"
+harper-ls = "latest"
+tinymist = "latest"
+ruff = "latest"
+marksman = "latest"
+taplo = "latest"
 "npm:bash-language-server" = "latest"
+"npm:dockerfile-language-server-nodejs" = "latest"
 "npm:pyright" = "latest"
 "npm:typescript" = "latest"
-"npm:@vtsls/language-server" = "latest"
+# Provides tsgo (>= 7.0) for nvim-lspconfig's tsc server.
+"npm:@typescript/native-preview" = "latest"
 "npm:@vue/language-server" = "latest"
 "npm:vscode-langservers-extracted" = "latest"
 "npm:yaml-language-server" = "latest"
 "npm:@biomejs/biome" = "latest"
+
+# --- Neovim formatters ---
+stylua = "latest"
+shfmt = "latest"
+yamlfmt = "latest"
+gofumpt = "latest"
+"github:hougesen/kdlfmt" = "latest"
 "npm:@fsouza/prettierd" = "latest"
+"npm:@cpp-linter/clang-format" = "latest"
+"npm:@reteps/dockerfmt" = "latest"
+
+# --- Neovim linters ---
+"npm:eslint_d" = "latest"

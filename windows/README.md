@@ -188,7 +188,7 @@ tmux replacement with the same prefix and keys as `common/tmux/tmux.conf`.
 - Dependencies: `mise` (scoop), `node` in your global mise config (for the npm tools).
 - `setup_mise`: copies `mise\pde.toml` to `~\.config\mise\conf.d\pde.toml` and adds the shims dir to the user PATH. `install.ps1` runs it and `mise install`. By hand: `setup_mise`, `mise install` (through the company npm registry), `setup_mise` again to create the shims of the new tools.
 - Your `~\.config\mise\config.toml` is not changed.
-- `pde.toml`: `hunk` (`npm:hunkdiff`), `lazysql` and `worktrunk` (GitHub release) and the nvim language servers and formatters (npm backend).
+- `pde.toml`: `hunk` (`npm:hunkdiff`), `lazysql` and `worktrunk` (GitHub release), and the nvim tools, language servers, formatters, and linters (mise registry, GitHub releases, and npm backend).
 - pwsh: the shims dir in the user PATH gives the tools. Optional: set `$env:PDE_MISE_ACTIVATE = "1"` in `local.ps1`, then `pde_init_cache`, to load `mise activate pwsh` (per-directory tools and env vars of `mise.toml`). It runs `mise hook-env` at each prompt, so the prompt is slower.
 - Other programs (GUI apps, `cmd.exe`, python subprocesses): the shims dir (`%LOCALAPPDATA%\mise\shims`) is first in the user PATH.
 
@@ -197,9 +197,11 @@ tmux replacement with the same prefix and keys as `common/tmux/tmux.conf`.
 Config source: `common/nvim/config` (shared with NixOS).
 
 - Dependencies: `nvim` 0.12+, `git`, `rg`, `fd`, `make`, `deno`, `zig`, `tree-sitter` (scoop, `install.ps1`).
-- Language servers and formatters:
-  - scoop: `lua-language-server`, `marksman`, `stylua`, `shfmt`, `taplo`, `ruff`.
-  - mise (needs `node`): bash-language-server, pyright, typescript, vtsls, vue language server, vscode-langservers-extracted, yaml-language-server, biome, prettierd.
+- Tools, language servers, formatters, and linters (`mise\pde.toml`, needs `node` for npm packages):
+  - tools: `deno`, `tree-sitter`, `just`.
+  - language servers: `lua-language-server`, `just-lsp`, `harper-ls`, `tinymist`, `ruff`, `marksman`, `taplo`, `bash-language-server`, `dockerfile-language-server-nodejs`, `pyright`, `typescript`, `@typescript/native-preview` (`tsgo`), `@vue/language-server`, `vscode-langservers-extracted`, `yaml-language-server`, `biome`.
+  - formatters and linters: `stylua`, `shfmt`, `yamlfmt`, `gofumpt`, `kdlfmt`, `prettierd`, `clang-format`, `dockerfmt`, `eslint_d`.
+  - omitted (Nix-only or require Go/Python/Rust toolchains): `nixd`, `nixfmt`, `statix`, `gopls`, `golines`, `goimports`, `asmfmt`, `beautysh`, `prettypst`, `rustfmt`.
 - Every server listed in `lua/plugins/lsp-config.lua` must be installed. A missing one shows an error when you open its file type.
 - Setup:
 
@@ -214,9 +216,9 @@ nvim           # lazy.nvim installs the plugins
 - `XDG_CONFIG_HOME` also moves the config of other XDG tools (for example `gh`). Undo: `[Environment]::SetEnvironmentVariable("XDG_CONFIG_HOME", $null, "User")`.
 - An existing `~\.config\nvim` is moved to `nvim.bak-<timestamp>`.
 - Treesitter: no MSVC on the laptop, so parsers are built with zig. `zig cc` alone fails (`unable to parse target query x86_64-pc-windows-msvc`). The wrapper `zig-cc.cmd` changes the target to `x86_64-windows-gnu`. The profile sets `$env:CC` to it. Then `:TSInstall <lang>` works.
-- Languages: bash, python, typescript/javascript, vue + pinia (`vue_ls` + `vtsls`), html, css, json, yaml, toml, markdown, lua. PowerShell: treesitter only (no language server).
+- Languages: bash, python, typescript/javascript (`tsc` via `tsgo`), vue (`vue_ls`), html, css, json, yaml, toml, markdown, typst, just, dockerfile, kdl, lua. PowerShell: treesitter only (no language server).
 - Completion: `Ctrl+Space` or `Ctrl+l`.
-- Windows code (`vim.g.is_win`): no `chmod +x` keybind, Vue plugin path from the mise or npm install (`$env:VUE_LS_PATH` overrides it).
+- Windows code (`vim.g.is_win`): no `chmod +x` keybind.
 
 ## hunk
 
