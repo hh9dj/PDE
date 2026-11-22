@@ -3,6 +3,11 @@
 # Needs node in the global mise config or on PATH. Installed with: mise install
 # Omitted (Nix-only or no prebuilt Windows binary without Go/Python/Rust toolchains):
 #   nixd, nixfmt, statix, gopls, golines, goimports, asmfmt, beautysh, prettypst, rustfmt.
+
+[settings]
+# Use the host npm CLI instead of embedded aube (avoids aube dependency resolution failures on packages like @vue/language-server).
+npm.package_manager = "npm"
+
 [tools]
 # --- CLI tools ---
 # Terminal diff viewer (hunk). Windows binary comes with the npm package.
@@ -29,8 +34,8 @@ taplo = "latest"
 "npm:dockerfile-language-server-nodejs" = "latest"
 "npm:pyright" = "latest"
 "npm:typescript" = "latest"
-# Provides tsgo (>= 7.0) for nvim-lspconfig's tsc server.
-"npm:@typescript/native-preview" = "latest"
+# Provides tsgo (>= 7.0) for nvim-lspconfig's tsc server. Only publishes 7.0.0-dev.* prereleases.
+"npm:@typescript/native-preview" = { version = "latest", prerelease = true }
 "npm:@vue/language-server" = "latest"
 "npm:vscode-langservers-extracted" = "latest"
 "npm:yaml-language-server" = "latest"
