@@ -3,3 +3,4 @@ venv
 .direnv
 node_modules
 .opencode
+.plan

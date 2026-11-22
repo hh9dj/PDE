@@ -1,4 +1,5 @@
 {
+  inputs,
   pkgs,
   config,
   ...
@@ -13,6 +14,8 @@
       source = ./prompts;
       recursive = true;
     };
+    "${config.programs.pi-coding-agent.configDir}/extensions/rtk.ts".source =
+      "${pkgs.rtk.src}/hooks/pi/rtk.ts";
   };
 
   xdg = {
@@ -29,8 +32,10 @@
 
   programs.pi-coding-agent = {
     enable = true;
+    package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.pi;
     extraPackages = [
       pkgs.nodejs
+      pkgs.rtk
     ];
     settings = {
       defaultProvider = "antigravity";

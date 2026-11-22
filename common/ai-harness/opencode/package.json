@@ -1,8 +1,0 @@
-{
-  "name": "opencode-config",
-  "private": true,
-  "type": "module",
-  "devDependencies": {
-    "@opencode-ai/plugin": "1.18.13"
-  }
-}
