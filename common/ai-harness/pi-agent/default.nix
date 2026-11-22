@@ -23,10 +23,6 @@
       "ponytail/config.json".text = builtins.toJSON {
         defaultMode = "full";
       };
-      "pi/agent/caveman.json".text = builtins.toJSON {
-        defaultLevel = "lite";
-        showStatus = true;
-      };
     };
   };
 
