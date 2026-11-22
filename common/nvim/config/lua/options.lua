@@ -2,6 +2,7 @@
 -- See `:help mapleader`
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+vim.g.is_win = vim.fn.has("win32") == 1
 vim.o.clipboard = "unnamedplus"
 vim.o.number = true
 vim.o.autowriteall = true
