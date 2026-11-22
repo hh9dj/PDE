@@ -36,6 +36,7 @@
       defaultProvider = "antigravity";
       defaultModel = "gemini-4-neon";
       defaultThinkingLevel = "high";
+      defaultTools = [ "+codemode" ];
       tuiMode = "fullscreen";
       packages = [
         "npm:@narumitw/pi-tool"
