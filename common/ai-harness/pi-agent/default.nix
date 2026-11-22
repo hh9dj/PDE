@@ -33,8 +33,8 @@
       pkgs.nodejs
     ];
     settings = {
-      defaultProvider = "deepseek";
-      defaultModel = "deepseek-v4-flash";
+      defaultProvider = "antigravity";
+      defaultModel = "gemini-4-neon";
       defaultThinkingLevel = "high";
       tuiMode = "fullscreen";
       packages = [
@@ -77,6 +77,8 @@
         "ctrl+y"
       ];
       "tui.input.newLine" = "shift+enter";
+      "tui.altScreen.halfPageUp" = "ctrl+alt+u";
+      "tui.altScreen.halfPageDown" = "ctrl+alt+d";
     };
   };
 }
