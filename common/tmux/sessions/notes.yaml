@@ -9,4 +9,4 @@ windows:
     focus: true
   - window_name: "shell"
   - window_name: "coding-agent"
-    shell_command_before: opencode
+    shell_command_before: $CODING_AGENT

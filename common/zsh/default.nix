@@ -19,6 +19,7 @@
     VISUAL = "nvim";
     SUDO_EDITOR = "nvim";
     FCEDIT = "nvim";
+    CODING_AGENT = "pi";
   };
 
   programs = {
