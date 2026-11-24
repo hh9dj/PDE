@@ -9,6 +9,7 @@ let
     "${dir}/rtfm".source = ./skills/rtfm;
     "${dir}/hunk-review".source = "${pkgs.hunk}/skills/hunk-review";
     "${dir}/hunk-extensions".source = "${pkgs.hunk}/skills/hunk-extensions";
+    "${dir}/hunk-review-plan".source = ./skills/hunk-review-plan;
   };
 in
 {

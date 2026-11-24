@@ -15,3 +15,6 @@ transparent_background = false
 "hunk.review.scrollCodeLeft" = ["h", "H"]
 "hunk.review.scrollCodeRight" = ["l", "L"]
 "hunk.view.toggleLineNumbers" = "alt+l"
+"hunk-review-plan.toggle-notes" = "alt+n"
+"hunk-review-plan.toggle-only" = "alt+o"
+"hunk-review-plan.clear-plan" = false
