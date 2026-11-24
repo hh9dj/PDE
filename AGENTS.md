@@ -3,6 +3,7 @@
 ## Principles & Tooling
 
 - **Tooling Preferences**: Prioritize lightweight, free, open-source, and simple tools.
+
 - **Design Philosophy**: Avoid visual embellishments ("eye candy") unless explicitly requested.
 - **Core Priority**: Prioritize stability and reproducibility above all else.
 
