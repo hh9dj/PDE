@@ -13,7 +13,3 @@ windows:
     shell_command_before:
       - cmd: $CODING_AGENT
         sleep_before: 1
-  - window_name: "claude"
-    shell_command_before:
-      - cmd: claude
-        sleep_before: 1
