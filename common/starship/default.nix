@@ -12,8 +12,17 @@
         format = "[gcloud]($style)";
       };
       nix_shell = {
-        disabled = false;
+        disabled = true;
+      };
+      env_var.DEVENV_ROOT = {
+        format = "[devenv-shell]($style)";
+        style = "bold blue";
+      };
+      custom.nix_shell = {
+        when = ''test -n "$IN_NIX_SHELL" && test -z "$DEVENV_ROOT"'';
+        shell = [ "sh" ];
         format = "[nix-shell]($style)";
+        style = "bold blue";
       };
       fill = {
         symbol = "─";
