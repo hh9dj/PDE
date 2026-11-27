@@ -6,6 +6,7 @@ let
   # one link per skill: other skills in the dir (cloud-synced, tool-managed) stay put
   skillsIn = dir: {
     "${dir}/rtfm".source = ./skills/rtfm;
+    "${dir}/audit".source = ./skills/audit;
   };
 in
 {
