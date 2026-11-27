@@ -1,10 +1,6 @@
 return {
   "lewis6991/gitsigns.nvim",
   event = "VeryLazy",
-  -- staged sign
-  -- sign counts
-  -- stage / unstage hunk
-  -- preview_hunk inline
   -- change base revision for diff picker
 
   opts = {
@@ -21,6 +17,20 @@ return {
   },
   keys = {
     {
+      "<leader>gab",
+      function()
+        require("gitsigns").stage_buffer()
+      end,
+      desc = "[G]it [F]ile [S]tage",
+    },
+    {
+      "<leader>gah",
+      function()
+        require("gitsigns").stage_hunk()
+      end,
+      desc = "[G]it [H]unk [S]tage",
+    },
+    {
       "<leader>gbl",
       function()
         require("gitsigns").blame_line()
@@ -35,11 +45,18 @@ return {
       desc = "[G]it [B]lame [B]uffer",
     },
     {
-      "<leader>gpd",
+      "<leader>gpD",
       function()
         require("gitsigns").preview_hunk()
       end,
       desc = "[G]it [P]review [D]iff",
+    },
+    {
+      "<leader>gpd",
+      function()
+        require("gitsigns").preview_hunk_inline()
+      end,
+      desc = "[G]it [P]review [D]iff Inline",
     },
     {
       "<leader>nh",

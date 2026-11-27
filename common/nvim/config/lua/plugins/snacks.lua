@@ -189,41 +189,19 @@ return {
       desc = "Find Projects",
     },
     {
-      "<leader>gl",
-      function()
-        Snacks.picker.git_log()
-      end,
-      desc = "Git Log",
-    },
-    {
-      "<leader>gL",
-      function()
-        Snacks.picker.git_log_line()
-      end,
-      desc = "Git Log Line",
-    },
-    {
       "<leader>gs",
       function()
         Snacks.picker.git_status()
       end,
-      desc = "Git Status",
+      desc = "Git Status Picker",
     },
     {
       "<leader>gd",
       function()
         Snacks.picker.git_diff()
       end,
-      desc = "Git Diff",
+      desc = "Git Diff Picker",
     },
-    {
-      "<leader>gf",
-      function()
-        Snacks.picker.git_log_file()
-      end,
-      desc = "Git Log File",
-    },
-
     {
       "<leader>s/",
       function()
@@ -293,13 +271,6 @@ return {
         Snacks.bufdelete()
       end,
       desc = "Delete current Buffer",
-    },
-    {
-      "<leader>gbL",
-      function()
-        Snacks.git.blame_line()
-      end,
-      desc = "[G]it [B]lame [L]ine",
     },
     {
       "<leader>go",
