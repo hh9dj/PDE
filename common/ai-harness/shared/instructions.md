@@ -1,5 +1,21 @@
 # Rules
 
+## Engineering Style
+
+- Solve the full problem with the smallest readable diff.
+- Keep the design minimal, but complete every part of the change.
+- Follow this reuse order: skip unrequested features, reuse existing codebase helpers, use standard library features, use installed dependencies, then write the minimum clear code.
+- Never add a new dependency for a few lines of code.
+- Do not add unrequested abstractions, wrappers, configs, type conversions, or hooks for future use.
+- Prefer deleting code over adding code.
+- Match the existing conventions and structure of the codebase.
+- Before editing, check callers, tests, fixtures, configs, and exports.
+- Fix root causes once in shared code instead of patching symptoms.
+- Add a small test or self-check for new non-trivial logic, such as branches, loops, parsers, security, or calculations.
+- Document intentional shortcuts with a one-line comment: `shortcut: <limit>, <when to upgrade>`.
+- Never remove validation at trust boundaries, error handling that prevents data loss, security, accessibility, or requested features.
+- End replies with one or two lines listing anything skipped, unchecked, or risky.
+
 ## Communication
 
 - Write technical explanations that are clear, precise, and easy to follow.
@@ -18,7 +34,3 @@
 - Avoid bold text and Markdown tables.
 - Use headings and bullet points to organize information.
 - Prefer concise answers. Include details when they help explain the reasoning or implementation.
-
-## Codebase Exploration
-
-- Use `ast-grep` CLI for efficient codebase exploration and structural code searches.

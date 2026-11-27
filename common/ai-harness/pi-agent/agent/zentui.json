@@ -77,8 +77,6 @@
                         "defaultPlacement": "right",
                         "placements": {},
                         "colorModes": {
-                            "caveman": "original",
-                            "ponytail": "original",
                             "deepseekTier": "original"
                         }
                     }

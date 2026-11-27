@@ -10,20 +10,8 @@
     "${config.programs.pi-coding-agent.configDir}/clipboard.json".text = builtins.toJSON {
       enabled = true;
     };
-    "${config.programs.pi-coding-agent.configDir}/prompts" = {
-      source = ./prompts;
-      recursive = true;
-    };
     "${config.programs.pi-coding-agent.configDir}/extensions/rtk.ts".source =
       "${pkgs.rtk.src}/hooks/pi/rtk.ts";
-  };
-
-  xdg = {
-    configFile = {
-      "ponytail/config.json".text = builtins.toJSON {
-        defaultMode = "full";
-      };
-    };
   };
 
   programs.pi-coding-agent = {
@@ -45,7 +33,14 @@
         "npm:pi-zentui"
         "npm:pi-antigravity"
 
-        "git:github.com/hh9dj/pi-agent-extensions"
+        {
+          source = "git:github.com/hh9dj/pi-agent-extensions";
+          extensions = [
+            "extensions/plan-mode/index.ts"
+            "extensions/skeptic-agent/index.ts"
+            "extensions/deepseek-tier/index.ts"
+          ];
+        }
       ];
       theme = "light";
     };

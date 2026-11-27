@@ -1,6 +1,6 @@
 # Install the Windows PDE tools (user space, no administrator rights).
 # - Scoop: apps and fonts (list below).
-# - mise: the tools of mise\pde.toml (hunk, lazysql, worktrunk, nvim language servers and formatters).
+# - mise: the tools of mise\pde.toml (lazysql, worktrunk, nvim language servers and formatters).
 # Usage: pwsh -ExecutionPolicy Bypass -File .\install.ps1 [-SkipMise]
 # Safe to run again: installed apps are skipped. Configs are installed with setup_all (see README.md).
 param([switch]$SkipMise)

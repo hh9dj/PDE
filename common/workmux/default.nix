@@ -1,6 +1,12 @@
-{ pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   workmux = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.workmux;
+  piDir = config.programs.pi-coding-agent.configDir;
 in
 {
   home.packages = [ workmux ];
@@ -27,6 +33,29 @@ in
       recursive = true;
     };
     ".claude/skills/worktree" = {
+      source = "${workmux.src}/skills/worktree";
+      recursive = true;
+    };
+
+    "${piDir}/extensions/workmux-status.ts".source =
+      "${workmux.src}/resources/pi/extensions/workmux-status.ts";
+    "${piDir}/skills/merge" = {
+      source = "${workmux.src}/skills/merge";
+      recursive = true;
+    };
+    "${piDir}/skills/open-pr" = {
+      source = "${workmux.src}/skills/open-pr";
+      recursive = true;
+    };
+    "${piDir}/skills/rebase" = {
+      source = "${workmux.src}/skills/rebase";
+      recursive = true;
+    };
+    "${piDir}/skills/workmux" = {
+      source = "${workmux.src}/skills/workmux";
+      recursive = true;
+    };
+    "${piDir}/skills/worktree" = {
       source = "${workmux.src}/skills/worktree";
       recursive = true;
     };

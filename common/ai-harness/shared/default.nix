@@ -5,11 +5,7 @@ let
 
   # one link per skill: other skills in the dir (cloud-synced, tool-managed) stay put
   skillsIn = dir: {
-    "${dir}/ast-grep".source = ./skills/ast-grep;
     "${dir}/rtfm".source = ./skills/rtfm;
-    "${dir}/hunk-review".source = "${pkgs.hunk}/skills/hunk-review";
-    "${dir}/hunk-extensions".source = "${pkgs.hunk}/skills/hunk-extensions";
-    "${dir}/hunk-review-plan".source = ./skills/hunk-review-plan;
   };
 in
 {

@@ -3,7 +3,7 @@ theme:
   scheme: obsidian-pop
   mode: light
 mode: session
-agent: opencode
+agent: pi
 worktree_dir: "~/workmux/{project}"
 worktree_naming: full
 windows:

@@ -10,8 +10,6 @@ npm.package_manager = "npm"
 
 [tools]
 # --- CLI tools ---
-# Terminal diff viewer (hunk). Windows binary comes with the npm package.
-"npm:hunkdiff" = "latest"
 # SQL TUI. No mise registry entry: downloaded from the GitHub release.
 "github:jorgerojas26/lazysql" = "latest"
 # git worktree manager (wt). Downloaded from the GitHub release.

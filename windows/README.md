@@ -36,7 +36,7 @@ Update: `pde_pull`, then `setup_all`. List the commands: `setup_list`.
 
 ## Commands
 
-- `setup_<tool>`: profile, zellij, starship, alacritty, git, television, gemini, bat, ripgrep, mise, nvim, glazewm, yasb, hunk, worktrunk, yazi, flow. `-DryRun` shows the changes.
+- `setup_<tool>`: profile, zellij, starship, alacritty, git, television, gemini, bat, ripgrep, mise, nvim, glazewm, yasb, worktrunk, yazi, flow. `-DryRun` shows the changes.
 - `setup_all`: all of them. `setup_tools`: `install.ps1`. `setup_list`, `pde_pull`, `pde_init_cache` (PowerShell init cache).
 - `keep_awake [-Display] [-Minutes n]`: blocks Windows sleep (`scripts\keep-awake.ps1`). Run it in its own zellij pane and keep the pwsh process alive. Detaching zellij is fine. Ctrl+C releases it. Check with `powercfg /requests`. Administrator sleep policies are not bypassed.
 - Backups: `<name>.bak-<timestamp>`, the 5 newest are kept (`$env:PDE_KEEP_BACKUPS` changes it).
@@ -47,16 +47,16 @@ Update: `pde_pull`, then `setup_all`. List the commands: `setup_list`.
 - Shell: `powershell` (profile, setup commands), `starship`, `fzf`, `television`, `zoxide`.
 - Terminal and multiplexer: `alacritty`, `zellij`.
 - Editor and agent: `nvim`, `gemini`.
-- CLI: `git` (with `delta`), `worktrunk` (git worktrees), `hunk` (diff viewer, gemini skill), `bat`, `eza`, `fd`, `ripgrep`, `jq`, `btop`, `yazi`.
+- CLI: `git` (with `delta`), `worktrunk` (git worktrees), `bat`, `eza`, `fd`, `ripgrep`, `jq`, `btop`, `yazi`.
 - Runtimes: `mise` (scoop for the rest).
 - Desktop: `glazewm`, `yasb`, `flow-launcher`.
 - Clipboard history: `Win+V`.
 
-Shared with NixOS (source in `common/`): `nvim`, `hunk`, `gemini`.
+Shared with NixOS (source in `common/`): `nvim`, `gemini`.
 
 ## Config locations
 
-- `~\.config`: hunk, yazi, yasb, zellij, starship, git, television, bat, ripgrep, nvim, mise (`conf.d`), zig wrapper.
+- `~\.config`: yazi, yasb, zellij, starship, git, television, bat, ripgrep, nvim, mise (`conf.d`), zig wrapper.
 - Tool default (no XDG support or company managed): alacritty `%APPDATA%`, worktrunk `%APPDATA%`, glazewm `~\.glzr`, gemini `~\.gemini`, Flow Launcher, `$PROFILE`.
 
 ## PowerShell
@@ -188,7 +188,7 @@ tmux replacement with the same prefix and keys as `common/tmux/tmux.conf`.
 - Dependencies: `mise` (scoop), `node` in your global mise config (for the npm tools).
 - `setup_mise`: copies `mise\pde.toml` to `~\.config\mise\conf.d\pde.toml` and adds the shims dir to the user PATH. `install.ps1` runs it and `mise install`. By hand: `setup_mise`, `mise install` (through the company npm registry), `setup_mise` again to create the shims of the new tools.
 - Your `~\.config\mise\config.toml` is not changed.
-- `pde.toml`: `hunk` (`npm:hunkdiff`), `lazysql` and `worktrunk` (GitHub release), and the nvim tools, language servers, formatters, and linters (mise registry, GitHub releases, and npm backend).
+- `pde.toml`: `lazysql` and `worktrunk` (GitHub release), and the nvim tools, language servers, formatters, and linters (mise registry, GitHub releases, and npm backend).
 - pwsh: the shims dir in the user PATH gives the tools. Optional: set `$env:PDE_MISE_ACTIVATE = "1"` in `local.ps1`, then `pde_init_cache`, to load `mise activate pwsh` (per-directory tools and env vars of `mise.toml`). It runs `mise hook-env` at each prompt, so the prompt is slower.
 - Other programs (GUI apps, `cmd.exe`, python subprocesses): the shims dir (`%LOCALAPPDATA%\mise\shims`) is first in the user PATH.
 
@@ -220,21 +220,6 @@ nvim           # lazy.nvim installs the plugins
 - Completion: `Ctrl+Space` or `Ctrl+l`.
 - Windows code (`vim.g.is_win`): no `chmod +x` keybind.
 
-## hunk
-
-Terminal diff viewer for agent-authored changes. Config: `common/hunk/config.toml` (shared with NixOS).
-
-- Dependencies: `hunk` (mise, npm backend: `npm:hunkdiff`, installed by `install.ps1`), `gemini` for the skill.
-- `setup_hunk`:
-  - copies `config.toml` to `~\.config\hunk` (hunk reads `$XDG_CONFIG_HOME\hunk`).
-  - copies `common/hunk/extensions/hunk-review-plan` to `~\.config\hunk\extensions\hunk-review-plan`.
-  - copies `common/ai-harness/shared/skills/hunk-review-plan` to `~\.gemini\skills\hunk-review-plan`.
-  - copies the bundled `hunk-review` skill (path from `hunk skill path hunk-review`) to `~\.gemini\skills\hunk-review`. Run it again after a hunk upgrade.
-- Not installed: `hunk-backup` and the `hunk-extensions` skill.
-- Theme `catppuccin-latte`, git, auto layout, line numbers, wrapped lines, agent notes, no untracked files.
-- Keys: `(` / `)` previous / next file, `h`/`l` scroll code, `alt+l` line numbers, `alt+n` review notes pane, `alt+o` toggle planned files only.
-- Gemini can order files and attach per-file notes with `hunk-review-plan` (`hunk plan ...`), and drive a running hunk session with `hunk-review` (`hunk session ...`). Start hunk yourself first.
-
 ## worktrunk
 
 Git worktree manager (`wt`). One worktree per sub-task, each in its own zellij tab. Config: `worktrunk\config.toml`.
@@ -265,7 +250,7 @@ One tab per sub-task:
 - New tab `Ctrl a c`, rename it `Ctrl a ,`.
 - `wt switch -c feat/login-api --base feat/login`: creates `..\<repo>.feat-login-api`, copies `.env`, installs the dependencies in the background, changes directory.
   - `-x gemini` at the end starts gemini in the worktree.
-- Splits `Ctrl a |` / `Ctrl a _`: `gemini` in one pane, `nvim` or `hunk` in the other. If a new pane does not start in the worktree: `wt switch feat/login-api`.
+- Splits `Ctrl a |` / `Ctrl a _`: `gemini` in one pane, `nvim` in the other. If a new pane does not start in the worktree: `wt switch feat/login-api`.
 - Same for the other sub-tasks. zellij-attention marks the tab of an agent that waits or finishes.
 - `wt list`: all worktrees and their state. `wt switch` alone: picker.
 
@@ -283,7 +268,6 @@ wt merge feat/login               # squash, rebase onto feat/login, fast-forward
 Open the PR (tab 1):
 
 ```powershell
-hunk diff main...feat/login       # review the whole feature
 git fetch; git rebase origin/main # wt merge never fetches or pushes
 git push -u origin feat/login
 gh pr create --fill               # or the link printed by git push

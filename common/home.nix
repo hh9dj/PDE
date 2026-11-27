@@ -22,7 +22,6 @@
         ./ghostty
         ./git
         ./glow
-        ./hunk
         ./jnv
         ./jqp
         ./mise
