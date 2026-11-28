@@ -42,10 +42,6 @@
       };
 
       completionInit = ''
-        fpath+=(
-          "${pkgs.zsh-completions}/share/zsh/site-functions"
-          "${pkgs.gh}/share/zsh/site-functions"
-        )
         zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
         zstyle ':completion:*' menu select
       '';
