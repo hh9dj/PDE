@@ -16,15 +16,12 @@
         {
             "context": "Global",
             "bindings": {
-                "ctrl+r": null,
-                "ctrl+t": null,
                 "ctrl+o": "app:toggleTranscript"
             }
         },
         {
             "context": "Scroll",
             "bindings": {
-                "ctrl+end": null,
                 "ctrl+g": "scroll:bottom",
                 "ctrl+alt+d": "scroll:pageDown",
                 "ctrl+alt+u": "scroll:pageUp"
