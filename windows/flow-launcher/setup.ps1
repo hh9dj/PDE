@@ -1,6 +1,7 @@
 # Apply the Flow Launcher config. Mirrors nixos/fuzzel (layout, font, colors, keys).
-# Usage: pwsh -File .\setup.ps1
+# Usage: pwsh -File .\setup.ps1 [-DryRun]
 # Flow Launcher must have run once, so that Settings.json exists.
+param([switch]$DryRun)
 
 $ErrorActionPreference = "Stop"
 . "$PSScriptRoot/../scripts/lib.ps1"
@@ -16,14 +17,6 @@ if (-not $dataDir) {
     throw "Settings.json not found in: $($candidates -join ', '). Start Flow Launcher once, then run this script again."
 }
 $settingsPath = "$dataDir\Settings\Settings.json"
-
-# Flow Launcher writes Settings.json when it exits, so stop it first.
-$flow = Get-Process -Name "Flow.Launcher" -ErrorAction SilentlyContinue
-$exe = $flow | Select-Object -First 1 -ExpandProperty Path
-if ($flow) {
-    $flow | Stop-Process -Force
-    $flow | Wait-Process -Timeout 10 -ErrorAction SilentlyContinue
-}
 
 # Settings (only these keys change, the rest of the file is kept)
 $values = [ordered]@{
@@ -66,14 +59,34 @@ $values = [ordered]@{
 }
 
 $settings = Get-Content $settingsPath -Raw -Encoding UTF8 | ConvertFrom-Json
+$changed = @($values.Keys | Where-Object { $settings.$_ -cne $values[$_] })
+if ($changed.Count -eq 0) {
+    Write-Host "up to date  $settingsPath"
+    return
+}
+if ($DryRun) {
+    Write-Host "would update $settingsPath ($($changed -join ', '))"
+    return
+}
+
+# Flow Launcher writes Settings.json when it exits, so stop it first.
+$flow = Get-Process -Name "Flow.Launcher" -ErrorAction SilentlyContinue
+$exe = $flow | Select-Object -First 1 -ExpandProperty Path
+if ($flow) {
+    $flow | Stop-Process -Force
+    $flow | Wait-Process -Timeout 10 -ErrorAction SilentlyContinue
+}
+
+$settings = Get-Content $settingsPath -Raw -Encoding UTF8 | ConvertFrom-Json
 foreach ($key in $values.Keys) {
     $settings | Add-Member -NotePropertyName $key -NotePropertyValue $values[$key] -Force
 }
-Copy-Item $settingsPath "$settingsPath.bak-$(Get-PdeTimestamp)" -Force
+$backup = "$settingsPath.bak-$(Get-PdeTimestamp)"
+Copy-Item $settingsPath $backup -Force
 Remove-PdeOldBackups -Target $settingsPath
 $settings | ConvertTo-Json -Depth 100 | Set-Content $settingsPath -Encoding UTF8
 
-Write-Host "Applied to $dataDir (backup: Settings.json.bak-<timestamp>)."
+Write-Host "Applied to $dataDir (backup: $(Split-Path $backup -Leaf))."
 
 if ($exe) {
     Start-Process $exe
