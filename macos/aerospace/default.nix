@@ -133,8 +133,8 @@
           alt-b = "exec-and-forget open -n -b com.brave.Browser";
 
           # Screenshots (save + open in Preview for annotation)
-          alt-c = "exec-and-forget screencapture /tmp/screenshot.png && open -a Preview /tmp/screenshot.png";
-          alt-shift-c = "exec-and-forget screencapture -i /tmp/screenshot.png && open -a Preview /tmp/screenshot.png";
+          alt-c = "exec-and-forget rm -f /tmp/screenshot.png && screencapture /tmp/screenshot.png && [ -s /tmp/screenshot.png ] && open -a Preview /tmp/screenshot.png";
+          alt-shift-c = "exec-and-forget rm -f /tmp/screenshot.png && screencapture -i /tmp/screenshot.png && [ -s /tmp/screenshot.png ] && open -a Preview /tmp/screenshot.png";
 
           # Enter service mode for advanced ops
           alt-shift-semicolon = "mode service";
