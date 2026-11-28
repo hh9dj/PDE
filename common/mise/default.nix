@@ -1,4 +1,4 @@
-{ lib, ... }: {
+{
   programs.mise = {
     enable = false;
     globalConfig.settings = {

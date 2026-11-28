@@ -4,6 +4,7 @@ return {
   -- change base revision for diff picker
 
   opts = {
+    -- TODO: fix on_attach leak
     on_attach = function()
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "gitsigns-blame",

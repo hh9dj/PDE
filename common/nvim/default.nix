@@ -33,7 +33,6 @@ in
       pyright
       ruff
       lua-language-server
-      neovim
       nixd
       nixfmt
       nodejs
@@ -44,7 +43,6 @@ in
       tinymist
       tree-sitter
       vscode-langservers-extracted
-      vtsls
       vue-language-server
       yaml-language-server
       yamlfmt

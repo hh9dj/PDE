@@ -7,7 +7,6 @@ return {
       { path = "${3rd}/luv/library", words = { "vim%.uv" } },
       { path = "snacks.nvim", words = { "Snacks" } },
       { path = "nvim-lspconfig", words = { "lspconfig" } },
-      { path = "wezterm-types", mods = { "wezterm" } },
     },
   },
 }

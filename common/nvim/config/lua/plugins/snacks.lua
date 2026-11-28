@@ -91,25 +91,11 @@ return {
       desc = "Goto Implementation",
     },
     {
-      "<leader>sD",
-      function()
-        Snacks.picker.diagnostics()
-      end,
-      desc = "Diagnostics",
-    },
-    {
       "<leader>sd",
       function()
         Snacks.picker.diagnostics_buffer()
       end,
       desc = "Buffer Diagnostics",
-    },
-    {
-      "cft",
-      function()
-        Snacks.picker.lsp_type_definitions()
-      end,
-      desc = "Goto T[y]pe Definition",
     },
     {
       "<leader>ss",
