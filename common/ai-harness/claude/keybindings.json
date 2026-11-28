@@ -9,8 +9,8 @@
                 "ctrl+s": null,
                 "ctrl+e": "chat:externalEditor",
                 "ctrl+l": "chat:modelPicker",
-                "ctrl+r": "command:resume",
-                "ctrl+t": "chat:thinkingToggle",
+                "ctrl+s r": "command:resume",
+                "ctrl+s r": "chat:thinkingToggle",
                 "shift+enter": "chat:newline"
             }
         },
