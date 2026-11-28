@@ -30,15 +30,26 @@ function M.setup_resize_binds()
     hl.bind("escape", hl.dsp.submap("reset"))
 end
 
+local VOXTYPE_VOL_FILE = '"${XDG_RUNTIME_DIR:-/tmp}/voxtype-vol"'
+
 function M.start_transcribing()
     hl.exec_cmd("voxtype record toggle")
-    hl.exec_cmd("wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -c 9- > /tmp/voxtype-vol; wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%")
+    hl.exec_cmd(
+        "wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2}' > "
+            .. VOXTYPE_VOL_FILE
+            .. "; wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%"
+    )
     hl.dispatch(hl.dsp.submap(vars.submap.transcribing))
 end
 
 function M.stop_transcribing()
     hl.exec_cmd("voxtype record toggle")
-    hl.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ $(cat /tmp/voxtype-vol)")
+    hl.exec_cmd(
+        "vol=$(cat "
+            .. VOXTYPE_VOL_FILE
+            .. ' 2>/dev/null); [ -n "$vol" ] && wpctl set-volume @DEFAULT_AUDIO_SINK@ "$vol"; rm -f '
+            .. VOXTYPE_VOL_FILE
+    )
     hl.dispatch(hl.dsp.submap("reset"))
 end
 
