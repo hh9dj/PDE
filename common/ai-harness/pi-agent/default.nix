@@ -76,6 +76,7 @@
       "tui.input.newLine" = "shift+enter";
       "tui.altScreen.halfPageUp" = "ctrl+alt+u";
       "tui.altScreen.halfPageDown" = "ctrl+alt+d";
+      "tui.altScreen.bottom" = "ctrl+g";
     };
   };
 }

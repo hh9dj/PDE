@@ -5,10 +5,11 @@
         {
             "context": "Chat",
             "bindings": {
+                "ctrl+g": null,
                 "ctrl+s": null,
-                "ctrl+s e": "chat:externalEditor",
-                "ctrl+s m": "chat:modelPicker",
-                "ctrl+s u": "chat:undo",
+                "ctrl+e": "chat:externalEditor",
+                "ctrl+l": "chat:modelPicker",
+                "ctrl+r": "command:resume",
                 "ctrl+t": "chat:thinkingToggle",
                 "shift+enter": "chat:newline"
             }
@@ -16,18 +17,18 @@
         {
             "context": "Global",
             "bindings": {
+                "ctrl+r": null,
                 "ctrl+t": null,
-                "ctrl+s o": "app:toggleTranscript",
-                "ctrl+s d": "app:toggleTodos",
-                "ctrl+s q": "app:exit"
+                "ctrl+o": "app:toggleTranscript"
             }
         },
         {
             "context": "Scroll",
             "bindings": {
+                "ctrl+end": null,
+                "ctrl+g": "scroll:bottom",
                 "ctrl+alt+d": "scroll:pageDown",
-                "ctrl+alt+u": "scroll:pageUp",
-                "ctrl+s y": "selection:copy"
+                "ctrl+alt+u": "scroll:pageUp"
             }
         }
     ]
