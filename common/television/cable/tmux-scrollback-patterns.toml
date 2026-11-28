@@ -1,7 +1,7 @@
 [metadata]
 name = "tmux-scrollback-patterns"
 description = "Pick entries from the current tmux window scrollback"
-requirements = ["tmux", "xre", "wl-copy"]
+requirements = ["tmux", "xre"]
 
 [source]
 [[source.command]]

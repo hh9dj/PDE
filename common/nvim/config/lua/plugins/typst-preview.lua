@@ -12,5 +12,5 @@ return {
       desc = "Typst Preview Toggle",
     },
   },
-  opts = { open_cmd = "brave %s --new-window" },
+  opts = { open_cmd = vim.fn.executable("brave") == 1 and "brave %s --new-window" or nil },
 }

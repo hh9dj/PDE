@@ -11,8 +11,8 @@
       source = ./scripts/md_preview;
       executable = true;
     };
-    "tmux/scripts/vim_edit" = {
-      source = ./scripts/vim_edit;
+    "tmux/scripts/scrollback_edit" = {
+      source = ./scripts/scrollback_edit;
       executable = true;
     };
     "tmux/scripts/floating-pane" = {

@@ -27,7 +27,7 @@ if [[ ! -f "$KEY" ]]; then
     fail "input does not look like a private key"
     exit 1
   fi
-  printf '%s\n' "$key" >"$KEY"
+  (umask 077; printf '%s\n' "$key" >"$KEY")
   chmod 600 "$KEY"
   info "wrote: $KEY (mode 600)"
 else
