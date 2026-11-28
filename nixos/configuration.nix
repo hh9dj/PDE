@@ -73,12 +73,11 @@
       wifi.backend = "iwd";
     };
     firewall = {
-      allowedUDPPortRanges = [
-        {
-          from = 32768;
-          to = 60999;
-        }
-      ];
+      # Google Cast discovery: Brave/Chrome sends mDNS queries to 224.0.0.251:5353
+      # from an ephemeral UDP port, and the TV replies unicast from source port 5353.
+      extraCommands = ''
+        iptables -A nixos-fw -s 192.168.1.0/24 -p udp --sport 5353 --dport 32768:60999 -j nixos-fw-accept
+      '';
     };
   };
 
