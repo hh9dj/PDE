@@ -28,7 +28,10 @@
     };
     displayManager.ly.enable = true;
     upower.enable = true;
-    tailscale.enable = true;
+    tailscale = {
+      enable = true;
+      openFirewall = true;
+    };
     power-profiles-daemon.enable = true;
     pipewire = {
       enable = true;
