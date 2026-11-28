@@ -52,6 +52,7 @@ return {
     },
     default_format_opts = {
       lsp_format = "fallback",
+      timeout_ms = vim.g.is_win and 3000 or nil,
     },
   },
 }
