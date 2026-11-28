@@ -9,18 +9,26 @@ if [ -z "$VOLUME" ]; then
     VOLUME=$(osascript -e 'output volume of (get volume settings)' 2>/dev/null)
 fi
 
-if [ "$MUTED" = "true" ] || [ "$VOLUME" = "0" ]; then
+if [[ ! "$VOLUME" =~ ^[0-9]+$ ]]; then
     ICON=󰝟
     ICON_COLOR=$GREY
+    LABEL="--"
+elif [ "$MUTED" = "true" ] || [ "$VOLUME" = "0" ]; then
+    ICON=󰝟
+    ICON_COLOR=$GREY
+    LABEL="${VOLUME}%"
 elif [ "$VOLUME" -le 33 ]; then
     ICON=󰕿
     ICON_COLOR=$BLACK
+    LABEL="${VOLUME}%"
 elif [ "$VOLUME" -le 66 ]; then
     ICON=󰖀
     ICON_COLOR=$BLACK
+    LABEL="${VOLUME}%"
 else
     ICON=󰕾
     ICON_COLOR=$BLACK
+    LABEL="${VOLUME}%"
 fi
 
-sketchybar --set $NAME icon=$ICON icon.color=$ICON_COLOR label="${VOLUME}%"
+sketchybar --set "$NAME" icon="$ICON" icon.color="$ICON_COLOR" label="$LABEL"
