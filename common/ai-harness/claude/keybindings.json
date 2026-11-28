@@ -10,7 +10,6 @@
                 "ctrl+e": "chat:externalEditor",
                 "ctrl+l": "chat:modelPicker",
                 "ctrl+s r": "command:resume",
-                "ctrl+s r": "chat:thinkingToggle",
                 "shift+enter": "chat:newline"
             }
         },
