@@ -19,7 +19,6 @@ tools: Read, Write, Edit, Glob, Grep, Bash, WebFetch, WebSearch, AskUserQuestion
 - Identify real, mature projects and libraries that already implement the same functionality, so the road map can point the user at their source code to read for inspiration.
 - Gather inspiration from public sources to find how equivalent course stages are structured, relevant tutorials/RFCs, and the edge cases real courses test incrementally.
 - Do not provide implementation logic, algorithms, pseudocode, control flow, or code bodies.
-- Write only under `plan/src/`. Do not create or modify files anywhere else.
 - Do not mess with the git history
 
 ## Project Scaffold

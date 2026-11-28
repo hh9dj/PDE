@@ -61,37 +61,7 @@ in
     };
   };
 
-  xdg.configFile = {
-    "workmux/config.yaml".source = ./config.yaml;
-
-    "opencode/plugins/workmux-status.ts".source =
-      "${workmux.src}/resources/opencode/plugins/workmux-status.ts";
-
-    "opencode/skills/coordinator" = {
-      source = "${workmux.src}/skills/coordinator";
-      recursive = true;
-    };
-    "opencode/skills/merge" = {
-      source = "${workmux.src}/skills/merge";
-      recursive = true;
-    };
-    "opencode/skills/open-pr" = {
-      source = "${workmux.src}/skills/open-pr";
-      recursive = true;
-    };
-    "opencode/skills/rebase" = {
-      source = "${workmux.src}/skills/rebase";
-      recursive = true;
-    };
-    "opencode/skills/workmux" = {
-      source = "${workmux.src}/skills/workmux";
-      recursive = true;
-    };
-    "opencode/skills/worktree" = {
-      source = "${workmux.src}/skills/worktree";
-      recursive = true;
-    };
-  };
+  xdg.configFile."workmux/config.yaml".source = ./config.yaml;
 
   programs.claude-code = {
     marketplaces.workmux = workmux.src;

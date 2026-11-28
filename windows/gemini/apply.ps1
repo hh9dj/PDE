@@ -1,7 +1,8 @@
 # Merge the PDE gemini-cli settings into ~/.gemini WITHOUT replacing company config.
-# - settings.json: sets only ui.customThemes.<name>, ui.theme and general.preferredEditor (values from common/ai-harness/gemini). All other keys stay.
+# - settings.json: sets only ui.customThemes.<name>, ui.theme and general.preferredEditor (values from settings.json). All other keys stay.
 #   Also merges the hook groups of hooks.json (zellij tab notifications, needs setup_zellij). Company hooks stay.
-# - keybindings.json: adds the entries of common/ai-harness/gemini/keybindings.json that are missing.
+# - keybindings.json: adds the entries of keybindings.json that are missing.
+# - GEMINI.md (from AGENTS.md) and skills/: copied from common/ai-harness (one folder per skill; other skills stay).
 # A backup (*.bak-<timestamp>) is written before any change. Run again after a company update resets files.
 # Usage: pwsh apply.ps1 [-GeminiDir <dir>] [-DryRun]
 param(
@@ -10,7 +11,7 @@ param(
 )
 $ErrorActionPreference = "Stop"
 $here = $PSScriptRoot
-$shared = Join-Path $here "../../common/ai-harness/gemini"   # source files shared with NixOS
+$shared = Join-Path $here "../../common/ai-harness"          # AGENTS.md and skills shared with NixOS
 . "$here/../scripts/lib.ps1"
 $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
 
@@ -31,11 +32,11 @@ function Save-Json($path, $data, $changed, $label) {
     Write-Host "$label : updated"
 }
 
-# settings.json: theme and editor only (values from common/ai-harness/gemini/settings.json)
-$want = Get-Content -Raw (Join-Path $shared "settings.json") | ConvertFrom-Json -AsHashtable -Depth 20
+# settings.json: theme and editor only (values from settings.json)
+$want = Get-Content -Raw (Join-Path $here "settings.json") | ConvertFrom-Json -AsHashtable -Depth 20
 $settingsPath = Join-Path $GeminiDir "settings.json"
 $settings = Read-Json $settingsPath @{}
-$theme = Get-Content -Raw (Join-Path $shared "catppuccin-latte.json") | ConvertFrom-Json -AsHashtable -Depth 20
+$theme = Get-Content -Raw (Join-Path $here "catppuccin-latte.json") | ConvertFrom-Json -AsHashtable -Depth 20
 if (-not $settings.ContainsKey("ui")) { $settings["ui"] = @{} }
 if (-not $settings["ui"].ContainsKey("customThemes")) { $settings["ui"]["customThemes"] = @{} }
 $old = $settings["ui"]["customThemes"][$theme.name] | ConvertTo-Json -Depth 20 -Compress
@@ -62,7 +63,7 @@ Save-Json $settingsPath $settings $changed "settings.json (theme, preferredEdito
 # keybindings.json: add missing entries
 $kbPath = Join-Path $GeminiDir "keybindings.json"
 $existing = @(Read-Json $kbPath @())
-$wanted = @(Get-Content -Raw (Join-Path $shared "keybindings.json") | ConvertFrom-Json -AsHashtable -Depth 20)
+$wanted = @(Get-Content -Raw (Join-Path $here "keybindings.json") | ConvertFrom-Json -AsHashtable -Depth 20)
 $sig = { param($e) ($e | ConvertTo-Json -Compress -Depth 5) }
 $have = @($existing | ForEach-Object { & $sig $_ })
 $kbChanged = $false
@@ -77,3 +78,18 @@ foreach ($w in $wanted) {
     if ($have -notcontains (& $sig $w)) { $existing += $w; $kbChanged = $true }
 }
 Save-Json $kbPath $existing $kbChanged "keybindings.json"
+
+# GEMINI.md and skills/ (shared with NixOS in common/ai-harness).
+Install-PdeConfig -Source (Join-Path $shared "AGENTS.md") -Target (Join-Path $GeminiDir "GEMINI.md") -DryRun:$DryRun
+# One folder per skill so company or other skills in ~/.gemini/skills stay put.
+# Backups go in $GeminiDir (not skills/) so gemini-cli does not load backup folders as skills.
+foreach ($skill in Get-ChildItem (Join-Path $shared "skills") -Directory) {
+    $target = Join-Path $GeminiDir "skills" $skill.Name
+    if (Test-PdeSame $skill.FullName $target) { Write-Host "up to date  $target"; continue }
+    $backup = if (Test-Path $target) { Join-Path $GeminiDir "skill-$($skill.Name).bak-$stamp" }
+    if ($DryRun) { Write-Host "would copy  $($skill.FullName) -> $target$(if ($backup) { " (backup: $backup)" })"; continue }
+    if ($backup) { Move-Item $target $backup; Remove-PdeOldBackups -Target (Join-Path $GeminiDir "skill-$($skill.Name)") }
+    New-Item -ItemType Directory -Force -Path $target | Out-Null
+    Copy-Item (Join-Path $skill.FullName "*") $target -Recurse -Force
+    Write-Host "installed   $target$(if ($backup) { " (backup: $backup)" })"
+}

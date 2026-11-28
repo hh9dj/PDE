@@ -52,7 +52,7 @@ Update: `pde_pull`, then `setup_all`. List the commands: `setup_list`.
 - Desktop: `glazewm`, `yasb`, `flow-launcher`.
 - Clipboard history: `Win+V`.
 
-Shared with NixOS (source in `common/`): `nvim`, `gemini`.
+Shared with NixOS (source in `common/`): `nvim`, `gemini` (instructions and skills).
 
 ## Config locations
 
@@ -282,10 +282,11 @@ gh pr create --fill               # or the link printed by git push
 ## gemini
 
 - Dependencies: `gemini` (company install, checked with 0.67.0), `pwsh` 7, `nvim`.
-- `setup_gemini` (runs `gemini\apply.ps1`, `-DryRun` works). The source files are in `common/ai-harness/gemini` (shared with NixOS): `settings.json`, `keybindings.json`, `catppuccin-latte.json`. It merges into `~\.gemini` and never replaces company config:
-  - `settings.json`: only `ui.customThemes.CatppuccinLatte`, `ui.theme` and `general.preferredEditor` (values from `common/ai-harness/gemini/settings.json`).
-  - `keybindings.json`: adds the missing entries of `common/ai-harness/gemini/keybindings.json`.
-  - `hooks`: merges `gemini\hooks.json` (Windows only). `AfterAgent` and `Notification` (`ToolPermission`) run `~\.config\zellij\attention.ps1` for the zellij tab notifications. Needs `setup_zellij`. PDE hook groups (command with `zellij\attention.ps1`) are replaced, company hook groups stay.
+- `setup_gemini` (runs `gemini\apply.ps1`, `-DryRun` works). The gemini config files live in `gemini\`: `settings.json`, `keybindings.json`, `catppuccin-latte.json`, `hooks.json`. It merges into `~\.gemini` and never replaces company config:
+  - `settings.json`: only `ui.customThemes.CatppuccinLatte`, `ui.theme` and `general.preferredEditor` (values from `gemini\settings.json`).
+  - `keybindings.json`: adds the missing entries of `gemini\keybindings.json`.
+  - `hooks`: merges `gemini\hooks.json`. `AfterAgent` and `Notification` (`ToolPermission`) run `~\.config\zellij\attention.ps1` for the zellij tab notifications. Needs `setup_zellij`. PDE hook groups (command with `zellij\attention.ps1`) are replaced, company hook groups stay.
+  - `GEMINI.md` (from `AGENTS.md`) and `skills/`: copied from `common/ai-harness` (shared with NixOS). Each skill folder is installed on its own so company or other skills in `~\.gemini\skills` stay.
 - Run it again after a company update resets the files.
 - Keys:
   - `ctrl+y`: accept completion (the default YOLO toggle on `ctrl+y` is removed).
