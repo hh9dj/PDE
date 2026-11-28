@@ -31,7 +31,6 @@
       packages = with pkgs; [
         # TODO: package : shuck / zshcs
         bluetui
-        hyperfine
         impala
         libnotify
         playerctl
